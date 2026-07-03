@@ -1,0 +1,177 @@
+{
+  "ok": true,
+  "run_id": "run_2026_07_03",
+  "generated_at": "2026-07-03T09:21:27.043Z",
+  "backtest": true,
+  "meta": {
+    "params": {
+      "now": "2026-07-03",
+      "since": null,
+      "lookback_weeks": 8,
+      "event": null,
+      "backtest": "evt_2025_amazon_mwf",
+      "cutoff": "2026-05-08"
+    },
+    "pair_count": 1,
+    "target_events": [
+      "evt_2025_amazon_mwf"
+    ],
+    "excluded": []
+  },
+  "counts": {
+    "events_total": 1,
+    "external_reviewed": 1,
+    "internal": 0,
+    "excluded_unreviewed": 0,
+    "new_events": null
+  },
+  "personas": [
+    {
+      "id": "p06_global_kbeauty_discoverer",
+      "name": "해외 플랫폼에서 K-뷰티 효능과 신뢰를 함께 확인하는 글로벌 탐색 고객",
+      "status": "confirmed",
+      "market": "US",
+      "concerns": [
+        "pigmentation",
+        "sensitive_soothing",
+        "home_device"
+      ],
+      "demographics": {
+        "age_band": "25-44",
+        "price_band": "mid"
+      },
+      "channels": [
+        "amazon",
+        "tiktok",
+        "instagram"
+      ],
+      "bmap_baseline": {
+        "motivation": "K-뷰티 고효능 제품에 관심이 있지만 성분, 사용법, 배송/환불 신뢰를 함께 확인한다",
+        "ability": "현지어 숏폼, 인플루언서 사용법, Amazon 리뷰가 있으면 구매 장벽이 낮아진다",
+        "prompt": "TikTok 시딩 콘텐츠와 Amazon 랭킹/위시리스트 성과가 탐색을 촉발한다"
+      },
+      "evidence": [
+        {
+          "source": "docs/research.md#7.3",
+          "quote": "북미 인플루언서 발굴, 제품별 북미 타깃 메시지 및 숏폼 기획",
+          "type": "internal"
+        },
+        {
+          "source": "docs/research.md#8",
+          "quote": "해외 소비자에게는 K-뷰티 제품 정보와 신뢰 검증이 어렵다",
+          "type": "internal"
+        }
+      ],
+      "confidence": "medium",
+      "notes": "북미 TikTok/Amazon 확장 메시지 평가용"
+    }
+  ],
+  "events": [
+    {
+      "id": "evt_2025_amazon_mwf",
+      "kind": "external",
+      "type": "platform_event",
+      "title": "Meditherapy neck cream Amazon Most Wished For signal",
+      "date_occurred": "2025-06-30",
+      "date_collected": "2026-07-03",
+      "market": "US",
+      "affected_concerns": [
+        "pigmentation",
+        "sensitive_soothing"
+      ],
+      "affected_channels": [
+        "amazon"
+      ],
+      "summary": "Public press signal about Meditherapy neck cream demand on Amazon beauty-related rankings.",
+      "sources": [
+        {
+          "url": "https://m.segyebiz.com/newsView/20250630512900",
+          "tier": "press",
+          "title": "Global sales growth report"
+        }
+      ],
+      "status": "reviewed",
+      "priority": 1.8,
+      "rank": 1
+    }
+  ],
+  "reactions": [
+    {
+      "persona_id": "p06_global_kbeauty_discoverer",
+      "event_id": "evt_2025_amazon_mwf",
+      "deltas": {
+        "motivation": 1,
+        "ability": 0,
+        "prompt": 2
+      },
+      "direction": "opportunity",
+      "predicted_behaviors": [
+        "Amazon 위시리스트/랭킹 신호를 발견하면 넥크림 제품 페이지의 리뷰 수와 평점을 먼저 확인한다",
+        "TikTok에서 해당 제품 사용법 숏폼을 검색해 현지 사용자의 실사용 여부를 교차 확인한다"
+      ],
+      "suggested_actions": [
+        "Amazon Most Wished For 랭킹 성과를 제품 상세와 TikTok 시딩 콘텐츠 상단 배지로 노출한다",
+        "북미 리뷰가 아직 얇은 만큼 현지 인플루언서 사용법 숏폼으로 신뢰 근거를 우선 보강한다"
+      ],
+      "confidence": "medium",
+      "rationale": "랭킹/위시리스트 성과가 탐색을 촉발한다는 페르소나 prompt 특성과 직접 맞물려 시도 계기를 크게 높이지만, ability(성분·사용법·배송 신뢰 확인)는 이 신호만으로는 아직 충분히 낮아지지 않아 0으로 둔다",
+      "evidence_refs": [
+        "persona.bmap_baseline.prompt",
+        "persona.evidence[0]",
+        "event.summary",
+        "event.sources[0]"
+      ],
+      "sum_mp": 3
+    }
+  ],
+  "heatmap": {
+    "personas": [
+      "p06_global_kbeauty_discoverer"
+    ],
+    "events": [
+      "evt_2025_amazon_mwf"
+    ],
+    "cells": [
+      {
+        "persona_id": "p06_global_kbeauty_discoverer",
+        "event_id": "evt_2025_amazon_mwf",
+        "value": 3,
+        "direction": "opportunity",
+        "confidence": "medium"
+      }
+    ]
+  },
+  "timeline": [
+    {
+      "id": "evt_2025_amazon_mwf",
+      "title": "Meditherapy neck cream Amazon Most Wished For signal",
+      "date_occurred": "2025-06-30",
+      "kind": "external",
+      "type": "platform_event",
+      "status": "reviewed"
+    }
+  ],
+  "concern_matrix": [
+    {
+      "concern": "pigmentation",
+      "label": "잡티/미백/흔적",
+      "opportunity": 1,
+      "risk": 0,
+      "neutral": 0
+    },
+    {
+      "concern": "sensitive_soothing",
+      "label": "민감/진정",
+      "opportunity": 1,
+      "risk": 0,
+      "neutral": 0
+    }
+  ],
+  "diff": null,
+  "limitations": [
+    "합성 페르소나 기반 추론이므로 실제 고객 반응과 다를 수 있다. 방향성 참고 자료로만 사용한다.",
+    "일부 외부 근거는 홍보성/커머셜 기사일 수 있어 절대 수치보다 성장 추세 근거로만 사용한다.",
+    "이번 회차에서 리뷰되지 않아 제외된 외부 이벤트 0건은 시뮬레이션에 포함되지 않았다(V6).",
+    "델타는 확실한 근거가 있을 때만 부여하는 보수적 기준이며 confidence=low 반응은 흐리게 렌더된다."
+  ]
+}

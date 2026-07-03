@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>메디테라피 시장 반응 리포트 · run_2026_07_03</title>
+<style>
+  :root {
+    --surface-1: #fcfcfb;
+    --page: #f9f9f7;
+    --text-primary: #0b0b0b;
+    --text-secondary: #52514e;
+    --muted: #898781;
+    --grid: #e1e0d9;
+    --baseline: #c3c2b7;
+    --border: rgba(11, 11, 11, 0.10);
+    --opportunity: #2a78d6;
+    --risk: #e34948;
+    --neutral: #898781;
+    --internal: #2a78d6;
+    --external: #1baf7a;
+    --good: #0ca30c;
+    --warning: #fab219;
+    --serious: #ec835a;
+    --critical: #d03b3b;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --surface-1: #1a1a19;
+      --page: #0d0d0d;
+      --text-primary: #ffffff;
+      --text-secondary: #c3c2b7;
+      --muted: #898781;
+      --grid: #2c2c2a;
+      --baseline: #383835;
+      --border: rgba(255, 255, 255, 0.10);
+      --opportunity: #3987e5;
+      --risk: #e66767;
+      --internal: #3987e5;
+      --external: #199e70;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--page);
+    color: var(--text-primary);
+    font-family: system-ui, -apple-system, "Segoe UI", "Malgun Gothic", sans-serif;
+    line-height: 1.5;
+  }
+  main { max-width: 1080px; margin: 0 auto; padding: 24px 20px 64px; }
+  header.report-head { padding-bottom: 8px; border-bottom: 1px solid var(--border); margin-bottom: 8px; }
+  header.report-head h1 { font-size: 22px; margin: 0 0 4px; }
+  .subtle { color: var(--text-secondary); font-size: 13px; }
+  section { background: var(--surface-1); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-top: 20px; }
+  section > h2 { font-size: 16px; margin: 0 0 14px; }
+  .backtest-banner { background: rgba(42, 120, 214, 0.12); border: 1px solid var(--opportunity); border-radius: 10px; padding: 10px 14px; margin-top: 14px; font-size: 13px; }
+  .kpis { display: flex; flex-wrap: wrap; gap: 12px; margin: 4px 0 16px; }
+  .kpi { flex: 1 1 130px; border: 1px solid var(--border); border-radius: 10px; padding: 12px; }
+  .kpi .num { font-size: 26px; font-weight: 650; font-variant-numeric: tabular-nums; }
+  .kpi .lbl { color: var(--text-secondary); font-size: 12px; }
+  ol.priority { margin: 0; padding-left: 20px; }
+  ol.priority li { margin-bottom: 6px; }
+  .lede { margin: 0 0 12px; }
+  .lede li { margin-bottom: 4px; }
+  .badge { display: inline-block; font-size: 11px; font-weight: 600; padding: 1px 7px; border-radius: 999px; border: 1px solid var(--border); vertical-align: middle; }
+  .badge.planned { color: var(--serious); border-color: var(--serious); }
+  .badge.opportunity { color: var(--opportunity); border-color: var(--opportunity); }
+  .badge.risk { color: var(--risk); border-color: var(--risk); }
+  .badge.neutral { color: var(--neutral); }
+  .badge.tier { color: var(--text-secondary); }
+  .badge.conf-high { color: var(--good); border-color: var(--good); }
+  .badge.conf-medium { color: var(--warning); border-color: var(--warning); }
+  .badge.conf-low { color: var(--muted); }
+  .viz { margin-bottom: 26px; }
+  .viz h3 { font-size: 13px; color: var(--text-secondary); margin: 0 0 8px; font-weight: 600; }
+  .viz svg { max-width: 100%; height: auto; display: block; }
+  .chart-scroll { overflow-x: auto; }
+  .legend { display: flex; gap: 16px; flex-wrap: wrap; font-size: 12px; color: var(--text-secondary); margin-top: 8px; }
+  .legend .swatch { display: inline-block; width: 11px; height: 11px; border-radius: 3px; margin-right: 5px; vertical-align: middle; }
+  .card { border: 1px solid var(--border); border-radius: 10px; padding: 14px; margin-top: 12px; }
+  .card h3 { margin: 0 0 6px; font-size: 15px; }
+  .card .meta { color: var(--text-secondary); font-size: 12px; margin-bottom: 8px; }
+  .reaction { border-top: 1px dashed var(--border); padding-top: 10px; margin-top: 10px; }
+  .reaction.low-conf { opacity: 0.55; filter: saturate(0.6); }
+  .deltas { font-variant-numeric: tabular-nums; font-size: 13px; color: var(--text-secondary); }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media (max-width: 640px) { .cols { grid-template-columns: 1fr; } }
+  ul.tight { margin: 6px 0; padding-left: 18px; }
+  ul.tight li { margin-bottom: 3px; }
+  details { margin-top: 8px; }
+  summary { cursor: pointer; color: var(--text-secondary); font-size: 12px; }
+  a { color: var(--opportunity); }
+  .evref { font-size: 11px; color: var(--muted); }
+  .changes-empty, .limitations li { color: var(--text-secondary); font-size: 13px; }
+  table.diff { width: 100%; border-collapse: collapse; font-size: 13px; }
+  table.diff th, table.diff td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--border); }
+  .actual-col { border-left: 2px solid var(--baseline); padding-left: 12px; }
+  .actual-col em { color: var(--muted); }
+</style>
+</head>
+<body>
+<main>
+  <header class="report-head">
+    <h1>메디테라피 시장 반응 리포트 · run_2026_07_03</h1>
+    <div class="subtle">run: run_2026_07_03 · 생성 2026-07-03T09:21:27.043Z</div>
+    <div class="backtest-banner"><strong>백테스트 모드</strong> — 이벤트 발생일 이후의 정보를 근거로 사용하지 않고 추론했습니다. 상세 섹션은 추론 대 실제 비교 레이아웃으로 표시됩니다.</div>
+  </header>
+
+  <section id="summary" aria-label="요약">
+    <h2>요약</h2>
+    <div class="kpis">
+    <div class="kpi"><div class="num">1</div><div class="lbl">대상 이벤트</div></div>
+    <div class="kpi"><div class="num">1</div><div class="lbl">추론된 반응 쌍</div></div>
+    <div class="kpi"><div class="num">1</div><div class="lbl">승인된 외부 이벤트</div></div>
+    <div class="kpi"><div class="num">0</div><div class="lbl">미승인 제외(V6)</div></div>
+  </div><ul class="lede">
+    <li>이번 회차는 1개 이벤트에 대해 1건의 페르소나 반응을 추론했습니다.</li>
+    <li>최우선 대응 이벤트는 <strong>Meditherapy neck cream Amazon Most Wished For signal</strong> 입니다.</li>
+    <li>미승인·제외 외부 이벤트 0건은 시뮬레이션에서 제외되었습니다.</li>
+  </ul><h3 style="font-size:13px;color:var(--text-secondary);margin:8px 0 6px;">대응 우선순위 Top 1</h3><ol class="priority"><li><strong>Meditherapy neck cream Amazon Most Wished For signal</strong>  <span class="subtle">(우선순위 1.8)</span></li></ol>
+  </section>
+
+  <section id="visualizations" aria-label="시각화">
+    <h2>시각화</h2>
+    <div class="viz"><h3>페르소나 × 이벤트 히트맵</h3><div class="chart-scroll"><svg viewBox="0 0 294 136" role="img" aria-label="페르소나 × 이벤트 히트맵"><text x="238" y="76" text-anchor="middle" font-size="11" fill="var(--muted)"><title>Meditherapy neck cream Amazon Most Wished For signal</title>Meditherapy n…</text><text x="180" y="110" text-anchor="end" font-size="12" fill="var(--text-secondary)"><title>해외 플랫폼에서 K-뷰티 효능과 신뢰를 함께 확인하는 글로벌 탐색 고객</title>해외 플랫폼에서 K-뷰티 효능과 신뢰를…</text><rect x="192" y="86" width="92" height="40" rx="4" fill="var(--opportunity)" opacity="0.75"><title>해외 플랫폼에서 K-뷰티 효능과 신뢰를 함께 확인하는 글로벌 탐색 고객 × Meditherapy neck cream Amazon Most Wished For signal
+동기+계기 델타 +3 · opportunity · medium</title></rect><text x="238" y="110" text-anchor="middle" font-size="12" font-weight="600" fill="var(--text-primary)" opacity="1">+3</text></svg></div><div class="legend"><span><span class="swatch" style="background:var(--opportunity)"></span>기회</span><span><span class="swatch" style="background:var(--risk)"></span>리스크</span><span><span class="swatch" style="background:var(--neutral)"></span>중립</span><span>셀 = 동기+계기 델타 합 · 흐린 셀 = 확신 낮음</span></div></div>
+    <div class="viz"><h3>이벤트 타임라인</h3><div class="chart-scroll"><svg viewBox="0 0 960 120" role="img" aria-label="이벤트 타임라인"><line x1="40" y1="54" x2="920" y2="54" stroke="var(--baseline)" stroke-width="2"/><circle cx="480" cy="54" r="7" fill="var(--external)" stroke="var(--surface-1)" stroke-width="2"><title>Meditherapy neck cream Amazon Most Wished For signal (2025-06-30)</title></circle><text x="480" y="38" text-anchor="middle" font-size="11" fill="var(--text-secondary)">Meditherapy neck …</text><text x="480" y="50" text-anchor="middle" font-size="10" fill="var(--muted)" font-variant-numeric="tabular-nums">2025-06-30</text></svg></div><div class="legend"><span><span class="swatch" style="background:var(--internal)"></span>내부 이벤트</span><span><span class="swatch" style="background:var(--external)"></span>외부 이벤트</span></div></div>
+    <div class="viz"><h3>고민별 기회-리스크 매트릭스</h3><div class="chart-scroll"><svg viewBox="0 0 610 98" role="img" aria-label="고민별 기회-리스크 매트릭스"><line x1="370" y1="10" x2="370" y2="78" stroke="var(--grid)" stroke-width="1"/><text x="140" y="30" text-anchor="end" font-size="12" fill="var(--text-secondary)">잡티/미백/흔적</text><rect x="372" y="16" width="200" height="20" rx="4" fill="var(--opportunity)"><title>잡티/미백/흔적 기회 반응 1건</title></rect><text x="578" y="30" font-size="11" fill="var(--muted)">1</text><text x="140" y="64" text-anchor="end" font-size="12" fill="var(--text-secondary)">민감/진정</text><rect x="372" y="50" width="200" height="20" rx="4" fill="var(--opportunity)"><title>민감/진정 기회 반응 1건</title></rect><text x="578" y="64" font-size="11" fill="var(--muted)">1</text></svg></div><div class="legend"><span><span class="swatch" style="background:var(--risk)"></span>리스크(좌)</span><span><span class="swatch" style="background:var(--opportunity)"></span>기회(우)</span></div></div>
+  </section>
+
+  <section id="details" aria-label="상세">
+    <h2>상세</h2>
+    <h3 style="font-size:14px;margin:4px 0;">페르소나</h3><div class="card">
+    <h3>해외 플랫폼에서 K-뷰티 효능과 신뢰를 함께 확인하는 글로벌 탐색 고객</h3>
+    <div class="meta">p06_global_kbeauty_discoverer · US · 고민: pigmentation, sensitive_soothing, home_device · <span class="badge conf-medium">확신 중간</span></div>
+    <div class="deltas">M: K-뷰티 고효능 제품에 관심이 있지만 성분, 사용법, 배송/환불 신뢰를 함께 확인한다<br/>A: 현지어 숏폼, 인플루언서 사용법, Amazon 리뷰가 있으면 구매 장벽이 낮아진다<br/>P: TikTok 시딩 콘텐츠와 Amazon 랭킹/위시리스트 성과가 탐색을 촉발한다</div>
+    <details><summary>근거 2건</summary><ul class="tight"><li><span class="badge tier">internal</span> “북미 인플루언서 발굴, 제품별 북미 타깃 메시지 및 숏폼 기획” <span class="evref">— docs/research.md#7.3</span></li><li><span class="badge tier">internal</span> “해외 소비자에게는 K-뷰티 제품 정보와 신뢰 검증이 어렵다” <span class="evref">— docs/research.md#8</span></li></ul></details>
+  </div><h3 style="font-size:14px;margin:18px 0 4px;">이벤트 · 반응</h3><div class="card">
+        <h3>Meditherapy neck cream Amazon Most Wished For signal  <span class="badge tier">external</span></h3>
+        <div class="meta">evt_2025_amazon_mwf · platform_event · US · 2025-06-30 · 우선순위 1.8</div>
+        <p style="margin:6px 0;">Public press signal about Meditherapy neck cream demand on Amazon beauty-related rankings.</p>
+        <ul class="tight"><li><span class="badge tier">press</span> <a href="https://m.segyebiz.com/newsView/20250630512900" rel="noreferrer noopener">Global sales growth report</a></li></ul>
+        <div class="cols"><div><div class="reaction">
+    <div><strong>해외 플랫폼에서 K-뷰티 효능과 신뢰를 함께 확인하는 글로벌 탐색 고객</strong> <span class="badge opportunity">기회</span> <span class="badge conf-medium">확신 중간</span></div>
+    <div class="deltas">Δ 동기 +1 · 능력 +0 · 계기 +2</div>
+    <p style="margin:6px 0;">랭킹/위시리스트 성과가 탐색을 촉발한다는 페르소나 prompt 특성과 직접 맞물려 시도 계기를 크게 높이지만, ability(성분·사용법·배송 신뢰 확인)는 이 신호만으로는 아직 충분히 낮아지지 않아 0으로 둔다</p>
+    <div class="subtle">예상 행동</div><ul class="tight"><li>Amazon 위시리스트/랭킹 신호를 발견하면 넥크림 제품 페이지의 리뷰 수와 평점을 먼저 확인한다</li><li>TikTok에서 해당 제품 사용법 숏폼을 검색해 현지 사용자의 실사용 여부를 교차 확인한다</li></ul>
+    <div class="subtle">제안 액션</div><ul class="tight"><li>Amazon Most Wished For 랭킹 성과를 제품 상세와 TikTok 시딩 콘텐츠 상단 배지로 노출한다</li><li>북미 리뷰가 아직 얇은 만큼 현지 인플루언서 사용법 숏폼으로 신뢰 근거를 우선 보강한다</li></ul>
+    <div class="evref">근거: persona.bmap_baseline.prompt, persona.evidence[0], event.summary, event.sources[0]</div>
+  </div></div><div class="actual-col"><div class="subtle">실제 관찰(백테스트)</div><p><em>발생 후 실제 반응·후속 보도를 여기에 대조 기록합니다.</em></p></div></div>
+      </div>
+  </section>
+
+  <section id="changes" aria-label="변화 추적">
+    <h2>변화 추적</h2>
+    <p class="changes-empty">직전 보고서가 지정되지 않았습니다(<code>--prev</code>). 두 번째 회차부터 신규 이벤트·델타 변경·우선순위 변동이 여기에 표시됩니다.</p>
+  </section>
+
+  <section id="limitations" aria-label="한계 고지">
+    <h2>한계 고지</h2>
+    <ul><li>합성 페르소나 기반 추론이므로 실제 고객 반응과 다를 수 있다. 방향성 참고 자료로만 사용한다.</li><li>일부 외부 근거는 홍보성/커머셜 기사일 수 있어 절대 수치보다 성장 추세 근거로만 사용한다.</li><li>이번 회차에서 리뷰되지 않아 제외된 외부 이벤트 0건은 시뮬레이션에 포함되지 않았다(V6).</li><li>델타는 확실한 근거가 있을 때만 부여하는 보수적 기준이며 confidence=low 반응은 흐리게 렌더된다.</li></ul>
+  </section>
+</main>
+</body>
+</html>

@@ -134,7 +134,7 @@ def main() -> int:
     # Save only conversation lines; fall back to a verbatim copy on any doubt.
     try:
         os.makedirs(dest_dir, exist_ok=True)
-        with open(transcript_path, encoding="utf-8-sig", errors="replace") as fh:
+        with open(transcript_path, encoding="utf-8", errors="replace") as fh:
             raw = fh.read()
         slim = slim_transcript(raw, args.tool)
         if slim is None:

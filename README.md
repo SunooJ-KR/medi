@@ -148,3 +148,18 @@ docs/
 - 입력 방식·사용 시나리오 → [`docs/inputs-and-scenarios.md`](docs/inputs-and-scenarios.md)
 - 개발 프로세스·테스트 전략 → [`docs/dev-process.md`](docs/dev-process.md)
 - 사례 브랜드 공개 자료 근거 → [`docs/research.md`](docs/research.md)
+- 데모 리허설 스크립트 → [`docs/demo-script.md`](docs/demo-script.md)
+
+## 로컬 CLI 스모크 테스트
+
+Codex 스킬 없이도 같은 파이프라인을 검증할 수 있다.
+
+```powershell
+cd src
+npm install
+npm test
+node scripts/validate.mjs ..\data
+npm run brief -- --run run_2026_07_03 --now 2026-07-03 --date 2026-07-03
+```
+
+`brief` 실행 결과가 `stage: "complete"`이고 `report.path`가 출력되면 보고서 생성 경로가 정상이다. 검토 큐가 남아 있으면 `stage: "review_required"`에서 멈추는 것이 정상이며, `--approve <index-or-id>` 또는 `--reject <index-or-id>`로 검토를 끝낸 뒤 다시 실행한다.
