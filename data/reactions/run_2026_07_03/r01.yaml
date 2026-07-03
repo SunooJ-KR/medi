@@ -1,0 +1,17 @@
+persona_id: p06_global_kbeauty_discoverer
+event_id: evt_2025_amazon_mwf
+deltas: { motivation: 1, ability: 0, prompt: 2 }
+direction: opportunity
+predicted_behaviors:
+  - "Amazon 위시리스트/랭킹 신호를 발견하면 넥크림 제품 페이지의 리뷰 수와 평점을 먼저 확인한다"
+  - "TikTok에서 해당 제품 사용법 숏폼을 검색해 현지 사용자의 실사용 여부를 교차 확인한다"
+suggested_actions:
+  - "Amazon Most Wished For 랭킹 성과를 제품 상세와 TikTok 시딩 콘텐츠 상단 배지로 노출한다"
+  - "북미 리뷰가 아직 얇은 만큼 현지 인플루언서 사용법 숏폼으로 신뢰 근거를 우선 보강한다"
+confidence: medium
+rationale: "랭킹/위시리스트 성과가 탐색을 촉발한다는 페르소나 prompt 특성과 직접 맞물려 시도 계기를 크게 높이지만, ability(성분·사용법·배송 신뢰 확인)는 이 신호만으로는 아직 충분히 낮아지지 않아 0으로 둔다"
+evidence_refs:
+  - "persona.bmap_baseline.prompt"
+  - "persona.evidence[0]"
+  - "event.summary"
+  - "event.sources[0]"

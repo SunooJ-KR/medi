@@ -5,8 +5,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 .codex/hooks/progress_hook.py session_start",
-            "commandWindows": "py -3 .codex\\hooks\\progress_hook.py session_start",
+            "command": "python3 C:/Users/sunoo/Documents/ax/medi/.codex/hooks/progress_hook.py session_start --tool codex",
+            "commandWindows": "py -3 C:\\Users\\sunoo\\Documents\\ax\\medi\\.codex\\hooks\\progress_hook.py session_start --tool codex",
             "timeout": 30
           }
         ]
@@ -17,8 +17,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 .codex/hooks/progress_hook.py user_prompt_submit",
-            "commandWindows": "py -3 .codex\\hooks\\progress_hook.py user_prompt_submit",
+            "command": "python3 C:/Users/sunoo/Documents/ax/medi/.codex/hooks/progress_hook.py user_prompt_submit --tool codex",
+            "commandWindows": "py -3 C:\\Users\\sunoo\\Documents\\ax\\medi\\.codex\\hooks\\progress_hook.py user_prompt_submit --tool codex",
             "timeout": 30
           }
         ]
@@ -29,13 +29,15 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 .codex/hooks/progress_hook.py stop",
-            "commandWindows": "py -3 .codex\\hooks\\progress_hook.py stop",
+            "command": "python3 C:/Users/sunoo/Documents/ax/medi/.codex/hooks/progress_hook.py stop --tool codex",
+            "commandWindows": "py -3 C:\\Users\\sunoo\\Documents\\ax\\medi\\.codex\\hooks\\progress_hook.py stop --tool codex",
             "timeout": 30
           },
           {
             "type": "command",
-            "command": "python tools/save_log.py --tool codex"
+            "command": "python C:/Users/sunoo/Documents/ax/medi/tools/save_log.py --tool codex",
+            "commandWindows": "python C:\\Users\\sunoo\\Documents\\ax\\medi\\tools\\save_log.py --tool codex",
+            "timeout": 30
           }
         ]
       }

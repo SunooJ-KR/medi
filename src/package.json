@@ -10,8 +10,13 @@
     "event-add": "node scripts/event-add.mjs",
     "event-scan": "node scripts/event-scan.mjs",
     "dedupe": "node scripts/dedupe.mjs",
+    "match": "node scripts/match.mjs",
+    "simulate": "node scripts/simulate.mjs",
+    "aggregate": "node scripts/aggregate.mjs",
+    "render": "node scripts/render.mjs",
     "validate": "node scripts/validate.mjs",
-    "validate:fixtures": "node scripts/validate.mjs fixtures/valid"
+    "validate:fixtures": "node scripts/validate.mjs fixtures/valid",
+    "test": "node --test"
   },
   "dependencies": {
     "ajv": "^8.17.1",

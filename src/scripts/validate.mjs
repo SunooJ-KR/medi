@@ -52,6 +52,7 @@ function classify(file, data) {
   const base = path.basename(file).toLowerCase();
   if (base === "config.yaml" || base === "config.yml" || base === "config.json") return "config";
   if (base === "taxonomy.yaml" || base === "taxonomy.yml" || base === "taxonomy.json") return "taxonomy";
+  if (base === "run.yaml" || base === "run.yml" || base === "run.json") return "run";
   if (normalized.includes("/personas/") || data?.bmap_baseline) return "persona";
   if (normalized.includes("/events/") || data?.kind) return "event";
   if (normalized.includes("/reactions/") || (data?.persona_id && data?.event_id)) return "reaction";
@@ -112,6 +113,7 @@ function collect(files) {
       const kind = classify(item, data);
       records.push({ file: item, kind, data });
       if (kind === "taxonomy") validateTaxonomy(item, data, errors);
+      else if (kind === "run") { /* run.yaml is a reproducibility record, not schema-validated here */ }
       else if (validators[kind]) validateWithSchema(item, kind, data, errors);
       else addError(errors, item, "(file)", "input", "Cannot classify file as config, taxonomy, persona, event, or reaction.");
     } catch (error) {
