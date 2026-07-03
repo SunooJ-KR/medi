@@ -1,0 +1,15 @@
+id: p01_sensitive_retinal_curious
+name: "고효능은 원하지만 자극이 무서운 20대 후반 민감성"
+status: confirmed
+market: KR
+concerns: [pigmentation, sensitive_soothing]
+demographics: { age_band: "25-34", price_band: mid }
+channels: [olive_young, own_mall, instagram]
+bmap_baseline:
+  motivation: "흔적과 톤 개선 욕구가 높지만 자극 경험 때문에 손실 회피 성향이 강함"
+  ability: "성분 지식은 중간이며 단순한 루틴일수록 지속 가능성이 높음"
+  prompt: "실사용 후기, 전후 사진, 환불 보장 문구에 반응"
+evidence:
+  - { source: "docs/research.md#8", quote: "고효능 성분은 쓰고 싶지만 자극이 걱정됨", type: internal }
+confidence: medium
+notes: "research.md 문제 1과 문제 2에 직접 대응"

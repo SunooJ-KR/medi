@@ -1,0 +1,44 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 .codex/hooks/progress_hook.py session_start",
+            "commandWindows": "py -3 .codex\\hooks\\progress_hook.py session_start",
+            "timeout": 30
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 .codex/hooks/progress_hook.py user_prompt_submit",
+            "commandWindows": "py -3 .codex\\hooks\\progress_hook.py user_prompt_submit",
+            "timeout": 30
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 .codex/hooks/progress_hook.py stop",
+            "commandWindows": "py -3 .codex\\hooks\\progress_hook.py stop",
+            "timeout": 30
+          },
+          {
+            "type": "command",
+            "command": "python tools/save_log.py --tool codex"
+          }
+        ]
+      }
+    ]
+  }
+}

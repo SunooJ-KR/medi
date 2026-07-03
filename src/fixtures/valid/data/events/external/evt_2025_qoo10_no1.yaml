@@ -1,0 +1,13 @@
+id: evt_2025_qoo10_no1
+kind: external
+type: platform_event
+title: "레티날 세럼 일본 Qoo10 랭킹 성과"
+date_occurred: 2025-06-30
+date_collected: 2026-07-03
+market: JP
+affected_concerns: [pigmentation, sensitive_soothing]
+affected_channels: [qoo10]
+summary: "레티날 스킨부스터 세럼이 일본 Qoo10 랭킹 성과를 보였다는 보도"
+sources:
+  - { url: "https://www.epnc.co.kr/news/articleView.html?idxno=320648", tier: press, title: "Qoo10/Amazon 레티날 세럼 성과 보도" }
+status: reviewed

@@ -1,0 +1,11 @@
+persona_id: p01_sensitive_retinal_curious
+event_id: evt_2026_summer_bundle
+deltas: { motivation: 1, ability: 0, prompt: 1 }
+direction: opportunity
+predicted_behaviors:
+  - "흔적 리페어 루틴 구성의 가격 혜택과 성분 자극 가능성을 함께 확인한다"
+suggested_actions:
+  - "루틴별 사용 순서와 민감 피부 사용 빈도를 기획전 페이지에 명확히 표시한다"
+confidence: medium
+rationale: "루틴형 기획전은 선택 부담을 낮추지만 레티날 포함 루틴은 사용법 설명이 필요하다"
+evidence_refs: ["persona.evidence[0]", "event.summary"]

@@ -1,0 +1,11 @@
+persona_id: p02_home_device_seeker
+event_id: evt_2026_retinal_renewal
+deltas: { motivation: 0, ability: 1, prompt: 0 }
+direction: neutral
+predicted_behaviors:
+  - "리뉴얼 자체보다 디바이스 사용 후 함께 바를 수 있는지 확인한다"
+suggested_actions:
+  - "디바이스 사용 후 적용 가능한 세럼인지 FAQ와 상세 페이지에 표시한다"
+confidence: low
+rationale: "탄력 디바이스 관심 페르소나에게 레티날 리뉴얼은 직접 계기보다 사용 가능성 정보로 작동한다"
+evidence_refs: ["persona.evidence[0]", "event.summary"]

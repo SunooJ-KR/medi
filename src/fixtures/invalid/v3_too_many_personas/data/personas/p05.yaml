@@ -1,0 +1,10 @@
+id: p05_test
+name: "검증용 페르소나 5"
+status: confirmed
+market: KR
+concerns: [pigmentation]
+demographics: { age_band: "25-34", price_band: mid }
+channels: [own_mall]
+bmap_baseline: { motivation: "높음", ability: "중간", prompt: "후기" }
+evidence: [{ source: "docs/research.md", quote: "근거", type: internal }]
+confidence: medium

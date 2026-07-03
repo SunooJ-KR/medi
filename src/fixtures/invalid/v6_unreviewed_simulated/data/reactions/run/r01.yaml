@@ -1,0 +1,11 @@
+persona_id: p01_valid
+event_id: evt_2026_unreviewed
+deltas: { motivation: 1, ability: 0, prompt: 1 }
+direction: risk
+predicted_behaviors:
+  - "경쟁 제품과 비교한다"
+suggested_actions:
+  - "검토 승인 전에는 시뮬레이션에 사용하지 않는다"
+confidence: medium
+rationale: "승인 전 이벤트를 사용한 잘못된 반응"
+evidence_refs: ["persona.evidence[0]", "event.sources[0]"]

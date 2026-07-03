@@ -1,0 +1,29 @@
+id: p04_review_rank_follower
+name: 랭킹과 리뷰를 보고 구매 타이밍을 정하는 플랫폼 신뢰 고객
+status: confirmed
+market: KR
+concerns:
+  - pigmentation
+  - trouble
+  - sensitive_soothing
+demographics:
+  age_band: 25-44
+  price_band: mid
+channels:
+  - olive_young
+  - qoo10
+  - amazon
+  - instagram
+bmap_baseline:
+  motivation: 효능 주장이 많아도 플랫폼 랭킹과 다수 리뷰가 있어야 구매 확신을 얻는다
+  ability: 리뷰 수, 별점, 자극 언급 비율, 환불 정책을 비교해 구매 가능성을 판단한다
+  prompt: Qoo10/Amazon 성과, 올리브영 리뷰, 인플루언서 픽 문구가 즉시 탐색 계기가 된다
+evidence:
+  - source: docs/research.md#7.6
+    quote: Qoo10, Amazon 등 플랫폼 성과가 반복 보도된다
+    type: internal
+  - source: docs/research.md#7.4
+    quote: 공식몰은 리뷰 이벤트, 신규 회원 쿠폰, 100% 환불 보장제를 노출한다
+    type: internal
+confidence: medium
+notes: 플랫폼 랭킹/UGC 메시지 반응 평가용

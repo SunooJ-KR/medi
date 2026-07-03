@@ -1,0 +1,120 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "event.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "kind",
+    "type",
+    "title",
+    "date_occurred",
+    "market",
+    "affected_concerns",
+    "summary",
+    "status"
+  ],
+  "properties": {
+    "id": { "type": "string", "pattern": "^evt_[0-9]{4}_[a-z0-9_]+$" },
+    "kind": { "type": "string", "enum": ["internal", "external"] },
+    "type": {
+      "type": "string",
+      "enum": [
+        "product_launch",
+        "reformulation",
+        "price_change",
+        "promotion",
+        "campaign",
+        "stockout",
+        "pr_issue",
+        "channel_entry",
+        "competitor_launch",
+        "competitor_promotion",
+        "platform_policy",
+        "platform_event",
+        "regulation",
+        "ingredient_trend",
+        "influencer_issue",
+        "seasonal",
+        "macro"
+      ]
+    },
+    "title": { "type": "string", "minLength": 1 },
+    "date_occurred": { "type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$" },
+    "date_collected": { "type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$" },
+    "active_until": { "type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$" },
+    "market": { "type": "string", "enum": ["KR", "US", "JP", "SEA"] },
+    "affected_concerns": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "type": "string" }
+    },
+    "affected_channels": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "type": "string" }
+    },
+    "summary": { "type": "string", "minLength": 1 },
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["url", "tier"],
+        "properties": {
+          "url": { "type": "string", "minLength": 1 },
+          "tier": { "type": "string", "enum": ["official", "press", "community", "db"] },
+          "title": { "type": "string" }
+        }
+      }
+    },
+    "status": { "type": "string" }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "kind": { "const": "internal" } }, "required": ["kind"] },
+      "then": {
+        "properties": {
+          "type": {
+            "enum": [
+              "product_launch",
+              "reformulation",
+              "price_change",
+              "promotion",
+              "campaign",
+              "stockout",
+              "pr_issue",
+              "channel_entry"
+            ]
+          },
+          "status": { "enum": ["planned", "occurred"] }
+        },
+        "not": { "required": ["sources"] }
+      }
+    },
+    {
+      "if": { "properties": { "kind": { "const": "external" } }, "required": ["kind"] },
+      "then": {
+        "required": ["date_collected", "sources"],
+        "properties": {
+          "type": {
+            "enum": [
+              "competitor_launch",
+              "competitor_promotion",
+              "platform_policy",
+              "platform_event",
+              "regulation",
+              "ingredient_trend",
+              "influencer_issue",
+              "seasonal",
+              "macro"
+            ]
+          },
+          "sources": { "minItems": 1 },
+          "status": { "enum": ["unreviewed", "reviewed", "rejected"] }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+id: evt_2026_phase2_internal_occurred
+kind: internal
+type: campaign
+title: Retinal serum sensitive skin review campaign
+date_occurred: '2026-07-03'
+market: KR
+affected_concerns:
+  - pigmentation
+  - sensitive_soothing
+summary: Campaign emphasizing real sensitive-skin user reviews.
+status: occurred
+affected_channels:
+  - own_mall
+  - olive_young

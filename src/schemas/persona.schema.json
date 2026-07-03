@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "persona.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "name",
+    "market",
+    "concerns",
+    "demographics",
+    "channels",
+    "bmap_baseline",
+    "evidence",
+    "confidence"
+  ],
+  "properties": {
+    "id": { "type": "string", "pattern": "^p[0-9]{2}_[a-z0-9_]+$" },
+    "name": { "type": "string", "minLength": 1 },
+    "status": { "type": "string", "enum": ["draft", "confirmed"] },
+    "market": { "type": "string", "enum": ["KR", "US", "JP", "SEA"] },
+    "concerns": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "type": "string" }
+    },
+    "demographics": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["age_band", "price_band"],
+      "properties": {
+        "age_band": { "type": "string", "minLength": 1 },
+        "price_band": { "type": "string", "enum": ["low", "mid", "premium"] }
+      }
+    },
+    "channels": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "type": "string" }
+    },
+    "bmap_baseline": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["motivation", "ability", "prompt"],
+      "properties": {
+        "motivation": { "type": "string", "minLength": 1 },
+        "ability": { "type": "string", "minLength": 1 },
+        "prompt": { "type": "string", "minLength": 1 }
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["source", "quote", "type"],
+        "properties": {
+          "source": { "type": "string", "minLength": 1 },
+          "quote": { "type": "string", "minLength": 1 },
+          "type": { "type": "string", "enum": ["official", "press", "community", "db", "internal"] }
+        }
+      }
+    },
+    "confidence": { "type": "string", "enum": ["low", "medium", "high"] },
+    "notes": { "type": "string" }
+  }
+}

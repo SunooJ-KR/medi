@@ -1,0 +1,13 @@
+id: evt_2026_phase2_internal_planned_followup
+kind: internal
+type: promotion
+title: September pore routine promotion
+date_occurred: '2026-09-01'
+market: KR
+affected_concerns:
+  - pores
+  - dryness
+summary: Planned September pore and dryness routine promotion.
+status: planned
+affected_channels:
+  - own_mall

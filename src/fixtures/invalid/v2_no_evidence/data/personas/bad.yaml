@@ -1,0 +1,13 @@
+id: p01_no_evidence
+name: "근거 없는 페르소나"
+status: confirmed
+market: KR
+concerns: [pigmentation]
+demographics: { age_band: "25-34", price_band: mid }
+channels: [own_mall]
+bmap_baseline:
+  motivation: "근거 없음"
+  ability: "근거 없음"
+  prompt: "근거 없음"
+evidence: []
+confidence: low

@@ -1,0 +1,8 @@
+persona_id: p01_valid
+event_id: evt_2026_valid
+deltas: { motivation: 3, ability: 0, prompt: 1 }
+direction: opportunity
+predicted_behaviors:
+  - "비교한다"
+confidence: medium
+rationale: "델타가 범위를 벗어나고 suggested_actions와 evidence_refs가 없다"

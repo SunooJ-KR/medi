@@ -1,0 +1,11 @@
+persona_id: p01_sensitive_retinal_curious
+event_id: evt_2026_retinal_renewal
+deltas: { motivation: 1, ability: 1, prompt: 1 }
+direction: opportunity
+predicted_behaviors:
+  - "저자극 리뉴얼 메시지를 확인한 뒤 올리브영 리뷰와 공식몰 후기를 비교한다"
+suggested_actions:
+  - "민감 피부 실사용 후기와 환불 보장 메시지를 리뉴얼 상세 페이지 상단에 배치한다"
+confidence: medium
+rationale: "자극 우려가 핵심 장벽인 페르소나에게 저자극 리뉴얼은 능력과 시도 계기를 동시에 높인다"
+evidence_refs: ["persona.evidence[0]", "event.summary"]

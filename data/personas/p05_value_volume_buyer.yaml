@@ -1,0 +1,28 @@
+id: p05_value_volume_buyer
+name: 대용량과 세트 할인으로 재구매를 판단하는 가성비 루틴 고객
+status: confirmed
+market: KR
+concerns:
+  - dryness
+  - pores
+  - pigmentation
+demographics:
+  age_band: 30-44
+  price_band: low
+channels:
+  - own_mall
+  - naver
+  - olive_young
+bmap_baseline:
+  motivation: 효능 제품을 꾸준히 쓰고 싶지만 가격 부담이 크면 재구매를 미룬다
+  ability: 대용량, 세트 할인, 쿠폰, 명확한 사용량 안내가 있으면 루틴 유지가 쉬워진다
+  prompt: 기간 한정 행사와 장바구니 세트 제안에 반응한다
+evidence:
+  - source: docs/research.md#6
+    quote: 루틴 세트 구성은 객단가와 재구매율을 높이는 방식
+    type: internal
+  - source: docs/research.md#7.5
+    quote: 단품보다 루틴 단위로 구매를 유도한다
+    type: internal
+confidence: medium
+notes: 프로모션/세트 가격 반응 평가용

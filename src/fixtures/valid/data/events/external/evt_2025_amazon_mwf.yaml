@@ -1,0 +1,13 @@
+id: evt_2025_amazon_mwf
+kind: external
+type: platform_event
+title: "레티날 세럼 Amazon Most Wished For 성과"
+date_occurred: 2025-06-30
+date_collected: 2026-07-03
+market: US
+affected_concerns: [pigmentation, sensitive_soothing]
+affected_channels: [amazon]
+summary: "레티날 스킨부스터 세럼이 Amazon 페이셜 세럼 관련 랭킹에서 성과를 보였다는 보도"
+sources:
+  - { url: "https://m.segyebiz.com/newsView/20250630512900", tier: press, title: "글로벌 판매량 증가 보도" }
+status: reviewed

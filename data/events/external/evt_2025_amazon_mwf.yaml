@@ -1,0 +1,18 @@
+id: evt_2025_amazon_mwf
+kind: external
+type: platform_event
+title: Meditherapy neck cream Amazon Most Wished For signal
+date_occurred: '2025-06-30'
+date_collected: '2026-07-03'
+market: US
+affected_concerns:
+  - pigmentation
+  - sensitive_soothing
+affected_channels:
+  - amazon
+summary: Public press signal about Meditherapy neck cream demand on Amazon beauty-related rankings.
+sources:
+  - url: https://m.segyebiz.com/newsView/20250630512900
+    tier: press
+    title: Global sales growth report
+status: reviewed

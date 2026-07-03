@@ -1,0 +1,14 @@
+id: evt_2026_phase2_internal_planned
+kind: internal
+type: promotion
+title: August trace repair routine promotion
+date_occurred: '2026-08-01'
+market: KR
+affected_concerns:
+  - pigmentation
+  - pores
+  - dryness
+summary: August trace repair routine promotion completed.
+status: occurred
+affected_channels:
+  - own_mall
