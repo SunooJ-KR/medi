@@ -19,13 +19,11 @@ Active LLM: Claude Code
 
 ## 현재 진행 중
 
-_(없음 — Phase 2 완료, Phase 3 착수 가능)_
+- [ ] **3-2** SKILL.md STAGE 1 (시장 스캔)
 
 ## 다음 단계
 
-### Phase 3 — 파이프라인 통합 _(Phase 1·2 완료 후 착수)_
-- [ ] **3-1** SKILL.md STAGE 0 (국가 리졸브)
-- [ ] **3-2** SKILL.md STAGE 1 (시장 스캔)
+### Phase 3 — 파이프라인 통합
 - [ ] **3-3** SKILL.md STAGE 2 (규제 검증)
 - [ ] **3-4** SKILL.md STAGE 3 (파생 + 자가 루프)
 - [ ] **3-5** SKILL.md STAGE 4 (리포트 생성)
@@ -56,10 +54,21 @@ _(없음 — Phase 2 완료, Phase 3 착수 가능)_
 - [x] **2-3** 출력 JSON 포맷 구현 — 2026-07-07
 - [x] **2-4** 신선도 체크 구현 — 2026-07-07
 - [x] **2-5** 단위 테스트 — 2026-07-07 **(Phase 2 완료)**
+- [x] **3-1** SKILL.md STAGE 0 (국가 리졸브) — 2026-07-07
 
 ---
 
 ## Task Log
+
+### 2026-07-07 — [3-1] SKILL.md STAGE 0 (국가 리졸브)
+
+- **Task**: STAGE 0 정련 + 입력 계약 명시 (dev-plan 3-1)
+- **LLM**: Claude Code
+- **Summary**: SKILL.md에 `## 입력` 섹션(product_name/product_desc/target_country 필수, ko_copy 선택) 추가. STAGE 0을 정련 — 국가 모호/미지정 시 되묻기, 부트스트랩은 사람 승인·승격 후에만 STAGE 1 진행(승인 전 중단) 명시, 신선도 판정은 STAGE 2의 validate_copy.py freshness로 위임하고 헤더 경고로 옮김, 리졸브 결과(국가코드·파일경로·버전) 확정 단계 추가. 1-5의 "STAGE 1~4는 Phase 3에서" placeholder 제거
+- **Files changed**: `src/skills/launchpass/SKILL.md`, `progress.md`
+- **Checks run**: 없음 (절차 문서). 완료 기준(국가 변환·파일 확인·부트스트랩 분기·미지정 시 질문) 충족
+- **Result**: 완료
+- **Next**: 3-2 SKILL.md STAGE 1 (시장 스캔)
 
 ### 2026-07-07 — [2-5] 단위 테스트 (Phase 2 완료)
 
