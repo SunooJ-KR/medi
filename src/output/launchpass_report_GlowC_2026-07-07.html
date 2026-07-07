@@ -30,7 +30,7 @@
   }
   body::before, body::after {
     content: ""; position: fixed; z-index: 0; pointer-events: none;
-    border-radius: 9999px; filter: blur(60px); opacity: 0.55;
+    border-radius: 9999px; filter: blur(70px); opacity: 0.35;
   }
   body::before {
     width: 460px; height: 460px; top: -140px; right: -120px;
@@ -46,33 +46,37 @@
   .eyebrow { font-size: 12px; font-weight: 600; letter-spacing: 0.96px;
              text-transform: uppercase; color: var(--muted); }
 
-  .hero { text-align: center; padding: 8px 0 56px; position: relative; }
-  .hero .brand { display: inline-block; margin-bottom: 24px; }
+  .hero { text-align: center; padding: 8px 0 48px; position: relative; }
+  .hero .brand { display: inline-block; margin-bottom: 22px; }
   .hero h1 {
     font-family: var(--serif); font-weight: 300; color: var(--ink);
     font-size: 44px; line-height: 1.1; letter-spacing: -0.8px;
-    margin: 14px auto 10px; max-width: 780px;
+    margin: 12px auto 14px; max-width: 780px;
   }
-  .hero-meta { font-size: 15px; color: var(--muted); margin: 0 0 34px; }
+  .hero .subtitle { font-size: 18px; line-height: 1.4; color: var(--body-strong);
+    font-weight: 500; margin: 0 auto 6px; max-width: 720px; }
+  .hero-meta { font-size: 14px; color: var(--muted); margin: 0 0 30px; }
 
-  .verdict { display: inline-flex; align-items: center; gap: 22px;
-             text-align: left; margin: 0 auto; }
-  .verdict .orb { width: 108px; height: 108px; border-radius: 9999px;
-                  flex: 0 0 auto; filter: blur(2px); }
-  .verdict.ready .orb {
-    background: radial-gradient(circle at 35% 30%, #d3f4e8, var(--g-mint) 60%, #7fceb6 100%); }
-  .verdict.conditional .orb {
-    background: radial-gradient(circle at 35% 30%, #fbe3d0, var(--g-peach) 60%, #e6a074 100%); }
-  .verdict.notready .orb {
-    background: radial-gradient(circle at 35% 30%, #f6dbe2, var(--g-rose) 60%, #d68ba0 100%); }
-  .verdict-label { display: block; font-family: var(--serif); font-weight: 300;
-                   font-size: 34px; line-height: 1.1; letter-spacing: -0.4px; }
+  .verdict { display: inline-flex; align-items: center; gap: 14px;
+    text-align: left; margin: 0 auto; padding: 16px 24px;
+    background: var(--card); border: 1px solid var(--hairline);
+    border-left-width: 4px; border-radius: 12px; box-shadow: var(--shadow); }
+  .verdict.ready { border-left-color: var(--success); }
+  .verdict.conditional { border-left-color: var(--warning); }
+  .verdict.notready { border-left-color: var(--error); }
+  .verdict .dot { width: 11px; height: 11px; border-radius: 9999px; flex: 0 0 auto; }
+  .verdict.ready .dot { background: var(--success); }
+  .verdict.conditional .dot { background: var(--warning); }
+  .verdict.notready .dot { background: var(--error); }
+  .verdict-label { display: block; font-weight: 600; font-size: 17px;
+    letter-spacing: 0.5px; text-transform: uppercase; }
   .verdict.ready .verdict-label { color: var(--success); }
   .verdict.conditional .verdict-label { color: var(--warning); }
   .verdict.notready .verdict-label { color: var(--error); }
-  .verdict-counts { display: block; margin-top: 6px; font-size: 14px; color: var(--muted); }
+  .verdict-counts { display: block; margin-top: 3px; font-size: 13px; color: var(--muted);
+    text-transform: none; letter-spacing: 0.15px; }
 
-  .data-line { margin: 34px 0 0; font-size: 13px; color: var(--muted-soft);
+  .data-line { margin: 26px 0 0; font-size: 13px; color: var(--muted-soft);
                letter-spacing: 0.2px; }
   .freshness { display: inline-block; margin-top: 18px; padding: 10px 16px;
     border-radius: 9999px; background: rgba(180,83,9,0.08);
@@ -155,8 +159,6 @@
     .wrap { padding: 48px 18px 32px; }
     .hero h1 { font-size: 32px; }
     .panel { padding: 26px 20px; }
-    .verdict { flex-direction: column; text-align: center; gap: 14px; }
-    .verdict .orb { width: 84px; height: 84px; }
   }
 </style>
 </head>
@@ -164,13 +166,14 @@
 <div class="wrap">
 
   <header class="hero">
-    <span class="eyebrow brand">LaunchPass · Launch Readiness</span>
-    <h1>GlowC 세럼 (グロウCセラム / ビタミンC ブライトニング美容液)</h1>
+    <span class="eyebrow brand">LaunchPass · Launch Readiness Report</span>
+    <h1>런칭 레디니스 리포트</h1>
+    <p class="subtitle">GlowC 세럼 (グロウCセラム / ビタミンC ブライトニング美容液)</p>
     <p class="hero-meta">일본 (JP) · 2026-07-07</p>
     <div class="verdict ready">
-      <div class="orb" aria-hidden="true"></div>
+      <span class="dot" aria-hidden="true"></span>
       <div class="verdict-text">
-        <span class="verdict-label">🟢 READY</span>
+        <span class="verdict-label">READY</span>
         <span class="verdict-counts">즉시 조치 4건 · 조건부 1건</span>
       </div>
     </div>
@@ -183,7 +186,7 @@
     <div class="lead">
       <p>원본 한국어 카피는 薬機法·景表法 위반 5건(VIOLATION 4·WARNING 1)이 탐지되어 그대로는 런칭 불가였다.</p>
       <p>자가 검증 루프에서 3개 페르소나별 현지어 카피를 재생성해 validate_copy.py 전건 PASS를 확보했다.</p>
-      <p>승인 카피 기준 규제 리스크 해소 — 아래 액션 아이템 반영 시 런칭 준비 완료(🟢 READY).</p>
+      <p>승인 카피 기준 규제 리스크 해소 — 아래 액션 아이템 반영 시 런칭 준비 완료(READY).</p>
     </div>
     <div class="counts">즉시 조치 필요 <strong>4</strong>건 · 조건부 <strong>1</strong>건</div>
   </section>

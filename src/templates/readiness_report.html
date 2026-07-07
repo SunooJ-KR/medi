@@ -43,7 +43,7 @@
   /* atmospheric gradient orbs — pure decoration */
   body::before, body::after {
     content: ""; position: fixed; z-index: 0; pointer-events: none;
-    border-radius: 9999px; filter: blur(60px); opacity: 0.55;
+    border-radius: 9999px; filter: blur(70px); opacity: 0.35;
   }
   body::before {
     width: 460px; height: 460px; top: -140px; right: -120px;
@@ -61,33 +61,38 @@
   .display { font-family: var(--serif); font-weight: 300; color: var(--ink); }
 
   /* ---- hero ---- */
-  .hero { text-align: center; padding: 8px 0 56px; position: relative; }
-  .hero .brand { display: inline-block; margin-bottom: 24px; }
+  .hero { text-align: center; padding: 8px 0 48px; position: relative; }
+  .hero .brand { display: inline-block; margin-bottom: 22px; }
   .hero h1 {
     font-family: var(--serif); font-weight: 300; color: var(--ink);
     font-size: 44px; line-height: 1.1; letter-spacing: -0.8px;
-    margin: 14px auto 10px; max-width: 780px;
+    margin: 12px auto 14px; max-width: 780px;
   }
-  .hero-meta { font-size: 15px; color: var(--muted); margin: 0 0 34px; }
+  .hero .subtitle { font-size: 18px; line-height: 1.4; color: var(--body-strong);
+    font-weight: 500; margin: 0 auto 6px; max-width: 720px; }
+  .hero-meta { font-size: 14px; color: var(--muted); margin: 0 0 30px; }
 
-  .verdict { display: inline-flex; align-items: center; gap: 22px;
-             text-align: left; margin: 0 auto; }
-  .verdict .orb { width: 108px; height: 108px; border-radius: 9999px;
-                  flex: 0 0 auto; filter: blur(2px); }
-  .verdict.ready .orb {
-    background: radial-gradient(circle at 35% 30%, #d3f4e8, var(--g-mint) 60%, #7fceb6 100%); }
-  .verdict.conditional .orb {
-    background: radial-gradient(circle at 35% 30%, #fbe3d0, var(--g-peach) 60%, #e6a074 100%); }
-  .verdict.notready .orb {
-    background: radial-gradient(circle at 35% 30%, #f6dbe2, var(--g-rose) 60%, #d68ba0 100%); }
-  .verdict-label { display: block; font-family: var(--serif); font-weight: 300;
-                   font-size: 34px; line-height: 1.1; letter-spacing: -0.4px; }
+  /* verdict — clear status banner, minimal decoration */
+  .verdict { display: inline-flex; align-items: center; gap: 14px;
+    text-align: left; margin: 0 auto; padding: 16px 24px;
+    background: var(--card); border: 1px solid var(--hairline);
+    border-left-width: 4px; border-radius: 12px; box-shadow: var(--shadow); }
+  .verdict.ready { border-left-color: var(--success); }
+  .verdict.conditional { border-left-color: var(--warning); }
+  .verdict.notready { border-left-color: var(--error); }
+  .verdict .dot { width: 11px; height: 11px; border-radius: 9999px; flex: 0 0 auto; }
+  .verdict.ready .dot { background: var(--success); }
+  .verdict.conditional .dot { background: var(--warning); }
+  .verdict.notready .dot { background: var(--error); }
+  .verdict-label { display: block; font-weight: 600; font-size: 17px;
+    letter-spacing: 0.5px; text-transform: uppercase; }
   .verdict.ready .verdict-label { color: var(--success); }
   .verdict.conditional .verdict-label { color: var(--warning); }
   .verdict.notready .verdict-label { color: var(--error); }
-  .verdict-counts { display: block; margin-top: 6px; font-size: 14px; color: var(--muted); }
+  .verdict-counts { display: block; margin-top: 3px; font-size: 13px; color: var(--muted);
+    text-transform: none; letter-spacing: 0.15px; }
 
-  .data-line { margin: 34px 0 0; font-size: 13px; color: var(--muted-soft);
+  .data-line { margin: 26px 0 0; font-size: 13px; color: var(--muted-soft);
                letter-spacing: 0.2px; }
   .freshness { display: inline-block; margin-top: 18px; padding: 10px 16px;
     border-radius: 9999px; background: rgba(180,83,9,0.08);
@@ -176,8 +181,6 @@
     .wrap { padding: 48px 18px 32px; }
     .hero h1 { font-size: 32px; }
     .panel { padding: 26px 20px; }
-    .verdict { flex-direction: column; text-align: center; gap: 14px; }
-    .verdict .orb { width: 84px; height: 84px; }
   }
 </style>
 </head>
@@ -185,11 +188,15 @@
 <div class="wrap">
 
   <header class="hero">
-    <span class="eyebrow brand">LaunchPass · Launch Readiness</span>
-    <h1>{{PRODUCT_NAME}}</h1>
+    <span class="eyebrow brand">LaunchPass · Launch Readiness Report</span>
+    <h1>런칭 레디니스 리포트</h1>
+    <!-- 자세한 소제목: 제품명 -->
+    <p class="subtitle">{{PRODUCT_NAME}}</p>
     <p class="hero-meta">{{MARKET}} · {{ANALYZED_AT}}</p>
+    <!-- 신호등 판정: VERDICT_LABEL 은 이모지 없는 순수 텍스트(READY / CONDITIONAL / NOT READY)로 채운다.
+         색상은 VERDICT_CLASS(ready|conditional|notready)가 좌측 바·점·라벨에 자동 적용한다. -->
     <div class="verdict {{VERDICT_CLASS}}">
-      <div class="orb" aria-hidden="true"></div>
+      <span class="dot" aria-hidden="true"></span>
       <div class="verdict-text">
         <span class="verdict-label">{{VERDICT_LABEL}}</span>
         <span class="verdict-counts">즉시 조치 {{VIOLATION_COUNT}}건 · 조건부 {{WARNING_COUNT}}건</span>

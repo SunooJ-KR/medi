@@ -59,6 +59,17 @@ Active LLM: Claude Code
 
 ## Task Log
 
+### 2026-07-08 — 리포트 hero 레이아웃 재구성 (범용 제목·직관적 verdict·이모지 최소화)
+
+- **Task**: hero 제목을 범용화하고 제품명을 소제목으로 내리고, 어색한 `verdict` 블록을 직관적으로 재배치, 이모지·디자인 요소 최소화 (사용자 요청)
+- **LLM**: Claude Code
+- **Summary**: hero h1을 범용 `런칭 레디니스 리포트`로 고정, 제품명은 `.subtitle`(소제목)로 하단 배치. 신호등을 blurry 그라디언트 오브 → **좌측 컬러바+점+텍스트 라벨의 상태 배너**로 재구성(직관·미니멀). 신호등 이모지(🟢🟡🔴) 전면 제거 — 색상은 `VERDICT_CLASS`(ready/conditional/notready)가 CSS로 자동 적용, `VERDICT_LABEL`은 순수 텍스트(READY/CONDITIONAL/NOT READY). 배경 그라디언트 오브 opacity 0.55→0.35로 톤다운. SKILL.md STAGE 4를 이모지 없는 라벨 규칙으로 갱신, 샘플(`src/output/…GlowC…html`) 동일 반영(요약 문구 🟢 제거 포함)
+- **Files changed**: `src/templates/readiness_report.html`, `src/output/launchpass_report_GlowC_2026-07-07.html`, `src/skills/launchpass/SKILL.md`, `progress.md`
+- **Checks run**: HTMLParser 태그 균형(unclosed 0/stray 0) · 신호등 이모지 0 · 토큰 41·블록 9 보존 · `python build_submission.py` → 35 files OK
+- **Result**: 완료
+- **Open issues**: 없음
+- **Next**: (선택) 5-1 리포트 다국어 표기
+
 ### 2026-07-08 — README.md를 trip-persona 샘플 구조로 재작성
 
 - **Task**: `strategies/README-sample.md`(trip-persona) 포맷 참고해 루트 `README.md` 재구성 (사용자 요청)

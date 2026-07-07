@@ -131,17 +131,18 @@ market_scan:
 
 목적: STAGE 1~3 산출물을 신호등 판정이 포함된 HTML 보고서로 출력한다.
 
-1. **신호등 판정 로직** (STAGE 2·3의 검증 결과 종합):
-   - 미해결 `VIOLATION`이 하나라도 있으면 → 🔴 **NOT READY**
-   - VIOLATION은 없고 `WARNING`만 있으면 → 🟡 **CONDITIONAL**
-   - 전체 카피가 PASS면 → 🟢 **READY**
+1. **신호등 판정 로직** (STAGE 2·3의 검증 결과 종합) — `VERDICT_CLASS`/`VERDICT_LABEL`로 채운다. 라벨은 **이모지 없이 순수 텍스트**:
+   - 미해결 `VIOLATION`이 하나라도 있으면 → class `notready`, label `NOT READY`
+   - VIOLATION은 없고 `WARNING`만 있으면 → class `conditional`, label `CONDITIONAL`
+   - 전체 카피가 PASS면 → class `ready`, label `READY`
+   - 색상(빨강/노랑/초록)은 `VERDICT_CLASS`가 CSS로 자동 적용하므로 라벨·본문에 신호등 이모지를 넣지 않는다.
 2. `templates/readiness_report.html`을 기반으로 다음 섹션을 채운다:
-   - 헤더: 제품명 · 타겟 시장 · 분석일시 · 신호등 판정(대형) · 데이터 버전·기준일 · (stale 시)⚠️ 경고
+   - 헤더: 범용 제목(런칭 레디니스 리포트) 고정 + 제품명(소제목) · 타겟 시장 · 분석일시 · 신호등 판정 배너 · 데이터 버전·기준일 · (stale 시) freshness 경고
    - Section 1 요약: 판정 근거 3줄 + 즉시 조치/조건부 항목 수
    - Section 2 시장 스캔: 트렌드·경쟁 제품표 + concerns 격자 + 이 제품이 매칭된 셀 하이라이트
    - Section 3 규제 검증(★): 원본 카피 vs 위반 하이라이트 + 위반 룰 ID·근거·심각도·대체표현 표 + 통과율 게이지
    - Section 4 페르소나별 승인 카피: 파생 페르소나 카드(N개) + 검증 PASS 배지 + 파생 근거(어느 셀) + 추천 채널
-   - Section 5 액션 아이템: 🔴 필수 / 🟡 권장 + 참고 공개 자료 링크
+   - Section 5 액션 아이템: 필수 / 권장 (이모지 없이 pill 라벨) + 참고 공개 자료 링크
 3. **저장**: `output/launchpass_report_{제품명}_{YYYY-MM-DD}.html` (플러그인 루트 `src/` 기준 → 실제 경로 `src/output/`). 폴더가 없으면 생성한다.
 
 산출물: `src/output/`에 저장된 완성 HTML 보고서 파일 1건.
