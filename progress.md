@@ -19,12 +19,9 @@ Active LLM: Claude Code
 
 ## 현재 진행 중
 
-- [ ] **2-4** 신선도 체크 구현
+- [ ] **2-5** 단위 테스트
 
 ## 다음 단계
-
-### Phase 2 — 규제 검증 엔진
-- [ ] **2-5** 단위 테스트 _(2-2~2-4 후)_
 
 ### Phase 3 — 파이프라인 통합 _(Phase 1·2 완료 후 착수)_
 - [ ] **3-1** SKILL.md STAGE 0 (국가 리졸브)
@@ -57,10 +54,22 @@ Active LLM: Claude Code
 - [x] **2-1** `validate_copy.py` 코어 구현 — 2026-07-07
 - [x] **2-2** 한국어 개념 매핑 탐지 — 2026-07-07
 - [x] **2-3** 출력 JSON 포맷 구현 — 2026-07-07
+- [x] **2-4** 신선도 체크 구현 — 2026-07-07
 
 ---
 
 ## Task Log
+
+### 2026-07-07 — [2-4] 신선도 체크 구현
+
+- **Task**: 룰셋 last_verified 90일 초과 경고 플래그 (기획서 §4-8 B, dev-plan 2-4)
+- **LLM**: Claude Code
+- **Summary**: `validate_copy.py`에 `FRESHNESS_THRESHOLD_DAYS=90`, `check_freshness`(오늘-last_verified 일수 계산, 임계 초과 시 stale=True+경고 문구, last_verified 누락/형식오류도 stale 처리) 추가. `build_result`에 `freshness` 필드 포함. 결정적 테스트·재현을 위해 CLI `--today` 기준일 주입 옵션 추가
+- **Files changed**: `src/scripts/validate_copy.py`, `progress.md`
+- **Checks run**: `--today`로 30일 경과→stale=False, 123일 경과→stale=True+경고 문구 확인 (완료 기준 충족)
+- **Result**: 완료
+- **Open issues**: 없음
+- **Next**: 2-5 단위 테스트 (Phase 2 마지막)
 
 ### 2026-07-07 — [2-3] 출력 JSON 포맷 구현
 

@@ -26,7 +26,11 @@ import os
 import re
 import sys
 from dataclasses import dataclass, field
+from datetime import date
 from typing import Any
+
+# 데이터 신선도 임계값(일). 초과 시 보고서에 "데이터 기준일 경과" 경고
+FRESHNESS_THRESHOLD_DAYS = 90
 
 # 개념 매핑 테이블 기본 경로 (스크립트와 동봉)
 _DEFAULT_CONCEPT_MAP = os.path.join(os.path.dirname(__file__), "ko_concept_map.json")
@@ -234,10 +238,49 @@ def compute_pass_rate(text: str, matches: list[Match]) -> dict[str, Any]:
     }
 
 
+# --- 신선도 체크 (2-4) -----------------------------------------------------
+
+def check_freshness(
+    ruleset: dict[str, Any],
+    today: date | None = None,
+    threshold_days: int = FRESHNESS_THRESHOLD_DAYS,
+) -> dict[str, Any]:
+    """룰셋 last_verified가 임계값(기본 90일)을 초과했는지 판정한다.
+
+    초과 시 stale=True와 경고 문구를 반환하여 보고서 헤더에 표시하게 한다.
+    last_verified가 없거나 형식이 잘못된 경우도 stale로 처리(검증 불가 = 신뢰 불가).
+    """
+    ref = today or date.today()
+    raw = ruleset.get("last_verified")
+    try:
+        verified = date.fromisoformat(raw)
+    except (TypeError, ValueError):
+        return {
+            "last_verified": raw,
+            "days_since": None,
+            "threshold_days": threshold_days,
+            "stale": True,
+            "warning": "⚠️ 데이터 기준일(last_verified)이 없거나 형식이 올바르지 않습니다.",
+        }
+    days_since = (ref - verified).days
+    stale = days_since > threshold_days
+    return {
+        "last_verified": raw,
+        "days_since": days_since,
+        "threshold_days": threshold_days,
+        "stale": stale,
+        "warning": (
+            f"⚠️ 데이터 기준일 경과: 마지막 검증 후 {days_since}일 (임계 {threshold_days}일)"
+            if stale else None
+        ),
+    }
+
+
 def build_result(
     text: str,
     ruleset: dict[str, Any],
     matches: list[Match],
+    today: date | None = None,
 ) -> dict[str, Any]:
     """기획서 §4-3 출력 계약으로 최종 결과 JSON을 조립한다."""
     violations = [
@@ -262,6 +305,7 @@ def build_result(
         "violation_count": sum(1 for m in matches if m.severity == "VIOLATION"),
         "warning_count": sum(1 for m in matches if m.severity == "WARNING"),
         "pass_rate": compute_pass_rate(text, matches),
+        "freshness": check_freshness(ruleset, today=today),
     }
 
 
@@ -288,6 +332,8 @@ def build_parser() -> argparse.ArgumentParser:
                    help="한국어 개념 매핑 JSON 경로 (기본: 스크립트 동봉 ko_concept_map.json)")
     p.add_argument("--no-concept", action="store_true",
                    help="한국어 개념 매핑 탐지를 비활성화한다")
+    p.add_argument("--today", default=None,
+                   help="신선도 체크 기준일(YYYY-MM-DD). 미지정 시 오늘. 테스트·재현용")
     return p
 
 
@@ -297,7 +343,8 @@ def main(argv: list[str] | None = None) -> int:
     ruleset = load_ruleset(args.rules)
     concept_map = {} if args.no_concept else load_concept_map(args.concept_map)
     matches = detect(text, ruleset, concept_map)
-    result = build_result(text, ruleset, matches)
+    today = date.fromisoformat(args.today) if args.today else None
+    result = build_result(text, ruleset, matches, today=today)
     json.dump(result, sys.stdout, ensure_ascii=False, indent=2)
     sys.stdout.write("\n")
     return 0
