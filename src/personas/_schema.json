@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "launchpass/personas/_schema.json",
+  "title": "LaunchPass Personas",
+  "description": "concerns 격자에서 파생된 국가별 타겟 페르소나. 각 페르소나는 어느 나이대·어느 고민에서 파생됐는지 추적 가능해야 한다. 저장소에는 이 스키마만 존재하고 {국가코드}.json은 실행 시 파생·부트스트랩된다.",
+  "type": "object",
+  "required": ["market", "version", "last_verified", "verified_by", "derived_from", "personas"],
+  "additionalProperties": false,
+  "properties": {
+    "market": {
+      "type": "string",
+      "description": "ISO 3166-1 alpha-2 국가코드 (대문자)",
+      "pattern": "^[A-Z]{2}$"
+    },
+    "version": {
+      "type": "string",
+      "description": "시맨틱 버전",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "last_verified": {
+      "type": "string",
+      "description": "마지막 검증일 (ISO 8601)",
+      "format": "date"
+    },
+    "verified_by": {
+      "type": "string",
+      "description": "검증 주체. 파생 초안은 'ai', 사람 승인 후 'human'",
+      "enum": ["ai", "human"]
+    },
+    "derived_from": {
+      "type": "string",
+      "description": "파생 원천 concerns 파일 및 버전 (예: concerns/jp.json v1.0.0). 재검토 추적용",
+      "minLength": 1
+    },
+    "personas": {
+      "type": "array",
+      "description": "concerns 격자의 나이대×고민 셀에서 파생된 페르소나. 개수는 매칭된 셀 수에 따라 가변",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "age_band", "linked_concerns", "label", "description", "evidence", "copy_direction"],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "페르소나 식별자 (예: JP-2030-pore)",
+            "minLength": 1
+          },
+          "age_band": {
+            "type": "string",
+            "description": "파생 원천 concerns 격자의 age_band",
+            "pattern": "^[0-9]{2}-[0-9]{2}$|^[0-9]{2}\\+$"
+          },
+          "linked_concerns": {
+            "type": "array",
+            "description": "이 페르소나가 파생된 concerns 셀의 top_concerns 부분집합. 파생 근거",
+            "minItems": 1,
+            "items": { "type": "string" }
+          },
+          "label": {
+            "type": "string",
+            "description": "페르소나 한 줄 라벨",
+            "minLength": 1
+          },
+          "description": {
+            "type": "string",
+            "description": "페르소나 특성 요약 (구매행동, K-뷰티 태도 등)",
+            "minLength": 1
+          },
+          "evidence": {
+            "type": "string",
+            "description": "공개 출처. 근거 없으면 페르소나 생성 금지 — 필수",
+            "minLength": 1
+          },
+          "copy_direction": {
+            "type": "string",
+            "description": "카피 생성 방향 지침. STAGE 3 카피 생성의 입력",
+            "minLength": 1
+          },
+          "channels": {
+            "type": "array",
+            "description": "추천 유통·마케팅 채널",
+            "items": { "type": "string" }
+          }
+        }
+      }
+    }
+  }
+}

@@ -19,12 +19,9 @@ Active LLM: Claude Code
 
 ## 현재 진행 중
 
-- [ ] **1-4** `personas/_schema.json` 설계
+- [ ] **1-5** 부트스트랩 절차 SKILL.md 초안 작성
 
 ## 다음 단계
-
-### Phase 1 — 스키마 + 프로젝트 골격
-- [ ] **1-5** 부트스트랩 절차 SKILL.md 초안 작성
 
 ### Phase 2 — 규제 검증 엔진 _(1-3 완료 후 착수)_
 - [ ] **2-1** `validate_copy.py` 코어 구현
@@ -59,10 +56,22 @@ Active LLM: Claude Code
 - [x] **1-1** 디렉토리 구조 및 `plugin.json` 셋업 — 2026-07-07
 - [x] **1-2** `concerns/_schema.json` 설계 — 2026-07-07
 - [x] **1-3** `rules/_schema.json` 설계 — 2026-07-07
+- [x] **1-4** `personas/_schema.json` 설계 — 2026-07-07
 
 ---
 
 ## Task Log
+
+### 2026-07-07 — [1-4] personas/_schema.json 설계
+
+- **Task**: concerns 격자에서 파생되는 페르소나 스키마 정의 (기획서 §4-5)
+- **LLM**: Claude Code
+- **Summary**: JSON Schema draft 2020-12로 `market`, `version`, `last_verified`, `verified_by`, `derived_from`(파생 원천 concerns 파일·버전 추적), `personas[]`(id, **age_band**, **linked_concerns**(파생 근거), label, description, **evidence 필수**, copy_direction, channels) 정의. evidence·linked_concerns 없으면 스키마 위반 → "근거 없는 페르소나 생성 금지" 강제. 페르소나 개수는 minItems만 두어 가변 허용
+- **Files changed**: `src/personas/_schema.json` (신규), `progress.md`
+- **Checks run**: `check_schema` 통과 / 유효 인스턴스 PASS / evidence 누락 거부 / linked_concerns 누락 거부 확인 (완료 기준 충족). 스키마 3종(concerns/rules/personas) 완비 확인
+- **Result**: 완료
+- **Open issues**: 없음
+- **Next**: 1-5 부트스트랩 절차 SKILL.md 초안 작성 (Phase 1 마지막)
 
 ### 2026-07-07 — [1-3] rules/_schema.json 설계
 
