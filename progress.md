@@ -19,12 +19,11 @@ Active LLM: Claude Code
 
 ## 현재 진행 중
 
-- [ ] **3-3** SKILL.md STAGE 2 (규제 검증)
+- [ ] **3-4** SKILL.md STAGE 3 (파생 + 자가 루프)
 
 ## 다음 단계
 
 ### Phase 3 — 파이프라인 통합
-- [ ] **3-4** SKILL.md STAGE 3 (파생 + 자가 루프)
 - [ ] **3-5** SKILL.md STAGE 4 (리포트 생성)
 - [ ] **3-6** 신선도 체크·업데이트 절차 SKILL.md 반영
 - [ ] **3-7** `readiness_report.html` 템플릿 구현 _(3-1~3-6과 병렬 가능)_
@@ -55,10 +54,21 @@ Active LLM: Claude Code
 - [x] **2-5** 단위 테스트 — 2026-07-07 **(Phase 2 완료)**
 - [x] **3-1** SKILL.md STAGE 0 (국가 리졸브) — 2026-07-07
 - [x] **3-2** SKILL.md STAGE 1 (시장 스캔) — 2026-07-07
+- [x] **3-3** SKILL.md STAGE 2 (규제 검증) — 2026-07-07
 
 ---
 
 ## Task Log
+
+### 2026-07-07 — [3-3] SKILL.md STAGE 2 (규제 검증)
+
+- **Task**: STAGE 2 규제 검증 절차 + 코드 실행 강제 조항 (dev-plan 3-3)
+- **LLM**: Claude Code
+- **Summary**: SKILL.md STAGE 1 뒤에 STAGE 2 삽입. 검증 대상 카피 결정(ko_copy 우선, 없으면 product_desc 추출), `validate_copy.py` 실행 커맨드, freshness.stale→헤더 경고, 결과 JSON(verdict/violations/pass_rate) 파싱. ⚠️ 스크립트 실행 필수·AI 자체 판단 금지, ⚠️ 룰셋 본문 컨텍스트 진입 금지(토큰 효율) 조항 명문화
+- **Files changed**: `src/skills/launchpass/SKILL.md`, `progress.md`
+- **Checks run**: 없음 (절차 문서). 완료 기준(스크립트 실행 강제·AI 대체 금지·룰셋 컨텍스트 금지) 충족
+- **Result**: 완료
+- **Next**: 3-4 SKILL.md STAGE 3 (파생 + 자가 루프)
 
 ### 2026-07-07 — [3-2] SKILL.md STAGE 1 (시장 스캔)
 

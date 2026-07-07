@@ -75,6 +75,28 @@ market_scan:
 
 ---
 
+## STAGE 2 — 규제 검증 (필수 코드 실행)
+
+목적: 카피의 규제 위반을 **코드**로 판정한다. 이 판정은 AI 환각이 개입해선 안 되는 지점이다.
+
+1. 검증 대상 카피를 정한다: 사용자의 `ko_copy`가 있으면 그대로, 없으면 `product_desc`에서 예상 카피를 추출한다.
+2. 검증 스크립트를 실행한다:
+
+   ```
+   python scripts/validate_copy.py --input "{카피}" --rules rules/{국가코드}.json
+   ```
+   - 여러 문장·여러 카피는 각각 실행하거나 줄바꿈으로 합쳐 한 번에 넘긴다.
+   - 결과 JSON의 `freshness.stale`이 true면 STAGE 4 보고서 헤더에 데이터 기준일 경과 경고를 표시한다.
+3. 결과 JSON을 파싱해 `verdict` / `violations[]`(rule_id·matched·severity·alternatives) / `pass_rate`를 정리한다.
+
+> ⚠️ **이 단계는 반드시 스크립트를 실행한다. AI 자체 판단으로 위반 여부를 대체하지 않는다.**
+> ⚠️ **룰셋(rules/{국가코드}.json) 본문을 컨텍스트로 읽지 않는다.** 검증은 스크립트에 위임하고
+> 반환된 결과(위반 항목)만 사용한다 — 룰이 수백 개여도 토큰이 컨텍스트에 진입하지 않게 한다.
+
+산출물: `validation` 결과 JSON. STAGE 3의 자가 검증 루프와 STAGE 4의 Section 3(규제 검증 결과)에 사용된다.
+
+---
+
 ## 부트스트랩 — 새 국가 데이터 생성 (concerns → rules → personas)
 
 트리거: STAGE 0에서 데이터 누락 감지, 또는 "{국가} 시장 추가" 직접 요청.
