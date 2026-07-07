@@ -19,12 +19,9 @@ Active LLM: Claude Code
 
 ## 현재 진행 중
 
-- [ ] **3-7** `readiness_report.html` 템플릿 구현
+- [ ] **3-8** `.mcp.json` web_search 설정
 
 ## 다음 단계
-
-### Phase 3 — 파이프라인 통합
-- [ ] **3-8** `.mcp.json` web_search 설정 _(병렬 가능)_
 
 ### Phase 4 — E2E 검증 및 제출 _(Phase 3 완료 후 착수)_
 - [ ] **4-1** E2E 실행 (부트스트랩→리포트, 로그 기록)
@@ -55,10 +52,21 @@ Active LLM: Claude Code
 - [x] **3-4** SKILL.md STAGE 3 (파생 + 자가 루프) — 2026-07-07
 - [x] **3-5** SKILL.md STAGE 4 (리포트 생성) — 2026-07-07
 - [x] **3-6** 신선도 체크·업데이트 절차 SKILL.md 반영 — 2026-07-07
+- [x] **3-7** `readiness_report.html` 템플릿 구현 — 2026-07-07
 
 ---
 
 ## Task Log
+
+### 2026-07-07 — [3-7] readiness_report.html 템플릿 구현
+
+- **Task**: 레디니스 보고서 HTML 템플릿 (기획서 §4-7, dev-plan 3-7)
+- **LLM**: Claude Code
+- **Summary**: `src/templates/readiness_report.html` 생성. 자립형(인라인 CSS, 라이트/다크 대응) 단일 HTML. 헤더(신호등 대형 표시 ready/conditional/notready + 데이터 버전·기준일 + freshness 경고 슬롯), 5개 섹션(요약, 시장스캔+경쟁제품표+concerns 격자 매칭 강조, 규제검증 위반 하이라이트 표+통과율 게이지, 페르소나 카드 그리드+PASS 배지+파생근거, 액션 아이템+참고 링크). `{{TOKEN}}` 단일 치환 43종과 `<!-- BEGIN/END xxx -->` 반복 블록 10쌍으로 STAGE 4가 채우도록 설계
+- **Files changed**: `src/templates/readiness_report.html` (신규), `progress.md`
+- **Checks run**: HTMLParser로 태그 균형 확인(unclosed 0), 5개 섹션 헤더·BEGIN/END 10쌍 일치·플레이스홀더 43종 확인 (완료 기준: 5개 섹션 + 데이터 버전·기준일 표기 충족)
+- **Result**: 완료
+- **Next**: 3-8 .mcp.json web_search 설정 (Phase 3 마지막)
 
 ### 2026-07-07 — [3-6] 신선도 체크·업데이트 절차 SKILL.md 반영
 

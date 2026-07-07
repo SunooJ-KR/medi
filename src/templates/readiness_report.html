@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LaunchPass 레디니스 리포트 — {{PRODUCT_NAME}}</title>
+<!--
+  LaunchPass 레디니스 보고서 템플릿 (기획서 §4-7).
+  STAGE 4가 이 파일을 기반으로 {{플레이스홀더}}를 채우고 반복 블록을 복제해
+  launchpass_report_{제품명}_{YYYY-MM-DD}.html 로 저장한다.
+
+  플레이스홀더 규칙:
+  - {{TOKEN}}          단일 치환
+  - <!-- BEGIN xxx --> ~ <!-- END xxx -->  반복/조건 블록 (필요 수만큼 복제 또는 제거)
+  - 신호등: VERDICT_CLASS 를 ready|conditional|notready 중 하나로 설정
+-->
+<style>
+  :root {
+    --green: #1a7f45; --amber: #b9770e; --red: #c02a2a;
+    --ink: #1c1e21; --muted: #5c6570; --line: #e2e5ea; --bg: #f6f7f9; --card: #ffffff;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: -apple-system, "Segoe UI", Roboto, "Malgun Gothic", sans-serif;
+         color: var(--ink); background: var(--bg); line-height: 1.6; }
+  .wrap { max-width: 960px; margin: 0 auto; padding: 24px; }
+  header.report { background: var(--card); border: 1px solid var(--line); border-radius: 12px;
+                  padding: 24px; margin-bottom: 20px; }
+  .verdict { display: flex; align-items: center; gap: 16px; margin: 8px 0 4px; }
+  .light { width: 56px; height: 56px; border-radius: 50%; flex: 0 0 auto; }
+  .verdict.ready    .light { background: var(--green); }
+  .verdict.conditional .light { background: var(--amber); }
+  .verdict.notready .light { background: var(--red); }
+  .verdict .label { font-size: 28px; font-weight: 800; }
+  .verdict.ready .label { color: var(--green); }
+  .verdict.conditional .label { color: var(--amber); }
+  .verdict.notready .label { color: var(--red); }
+  .meta { color: var(--muted); font-size: 14px; }
+  .meta strong { color: var(--ink); }
+  .freshness { margin-top: 12px; padding: 8px 12px; border-radius: 8px;
+               background: #fff6e5; border: 1px solid #f0d9a8; color: var(--amber); font-size: 14px; }
+  section { background: var(--card); border: 1px solid var(--line); border-radius: 12px;
+            padding: 20px 24px; margin-bottom: 20px; }
+  h1 { font-size: 22px; margin: 0 0 4px; }
+  h2 { font-size: 18px; margin: 0 0 12px; padding-bottom: 8px; border-bottom: 2px solid var(--line); }
+  h2 .star { color: var(--red); }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { color: var(--muted); font-weight: 600; }
+  .tag { display: inline-block; padding: 1px 8px; border-radius: 999px; font-size: 12px;
+         background: #eef1f5; color: var(--muted); margin: 0 4px 4px 0; }
+  .sev-VIOLATION { color: var(--red); font-weight: 700; }
+  .sev-WARNING { color: var(--amber); font-weight: 700; }
+  .hl { background: #ffe0e0; border-bottom: 2px solid var(--red); padding: 0 2px; }
+  .badge-pass { display: inline-block; padding: 2px 8px; border-radius: 6px; font-size: 12px;
+                background: #e4f5ea; color: var(--green); font-weight: 700; }
+  .gauge { height: 14px; border-radius: 999px; background: #eceff3; overflow: hidden; }
+  .gauge > span { display: block; height: 100%; background: var(--green); }
+  .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
+  .card { border: 1px solid var(--line); border-radius: 10px; padding: 14px; background: var(--card); }
+  .card .copy { font-size: 15px; margin: 8px 0; }
+  .action { padding-left: 20px; }
+  .action li { margin-bottom: 6px; }
+  .req { color: var(--red); font-weight: 700; }
+  .rec { color: var(--amber); font-weight: 700; }
+  a { color: #2554c7; }
+  @media (prefers-color-scheme: dark) {
+    :root { --ink: #e8eaed; --muted: #a0a8b2; --line: #333842; --bg: #16181c; --card: #1f2229; }
+    .freshness { background: #3a2e17; border-color: #6b551f; }
+    .tag { background: #2a2e36; }
+    .hl { background: #5c2323; }
+    .badge-pass { background: #1c3a28; }
+    .gauge { background: #2a2e36; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="report">
+    <h1>{{PRODUCT_NAME}}</h1>
+    <div class="meta"><strong>타겟 시장</strong> {{MARKET}} · <strong>분석일시</strong> {{ANALYZED_AT}}</div>
+    <div class="verdict {{VERDICT_CLASS}}">
+      <div class="light" aria-hidden="true"></div>
+      <div class="label">{{VERDICT_LABEL}}</div>
+    </div>
+    <div class="meta">데이터 버전 · 기준일 — rules {{RULES_VERSION}} ({{RULES_LAST_VERIFIED}}) ·
+      concerns {{CONCERNS_VERSION}} · personas {{PERSONAS_VERSION}}</div>
+    <!-- BEGIN freshness_warning -->
+    <div class="freshness">{{FRESHNESS_WARNING}}</div>
+    <!-- END freshness_warning -->
+  </header>
+
+  <section>
+    <h2>1 · 요약</h2>
+    <p>{{SUMMARY_LINE_1}}</p>
+    <p>{{SUMMARY_LINE_2}}</p>
+    <p>{{SUMMARY_LINE_3}}</p>
+    <div class="meta">즉시 조치 필요 <strong>{{VIOLATION_COUNT}}</strong>건 ·
+      조건부 <strong>{{WARNING_COUNT}}</strong>건</div>
+  </section>
+
+  <section>
+    <h2>2 · 현지 시장 스캔</h2>
+    <p><strong>트렌드 키워드</strong> {{TREND_KEYWORDS}}</p>
+    <table>
+      <thead><tr><th>경쟁 제품</th><th>가격대</th><th>핵심 소구점</th></tr></thead>
+      <tbody>
+        <!-- BEGIN competitor_row -->
+        <tr><td>{{COMP_NAME}}</td><td>{{COMP_PRICE}}</td><td>{{COMP_POINT}}</td></tr>
+        <!-- END competitor_row -->
+      </tbody>
+    </table>
+    <h3 style="font-size:15px;margin:16px 0 8px;">나이대별 피부 고민 격자 (매칭 셀 강조)</h3>
+    <table>
+      <thead><tr><th>나이대</th><th>상위 고민</th><th>매칭</th></tr></thead>
+      <tbody>
+        <!-- BEGIN concern_row -->
+        <tr><td>{{AGE_BAND}}</td><td>{{TOP_CONCERNS}}</td><td>{{MATCH_MARK}}</td></tr>
+        <!-- END concern_row -->
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>3 · 규제 검증 결과 <span class="star">★</span></h2>
+    <p><strong>원본 카피</strong> (위반 표현 강조)</p>
+    <p>{{HIGHLIGHTED_COPY}}</p>
+    <table>
+      <thead><tr><th>룰 ID</th><th>탐지</th><th>심각도</th><th>근거</th><th>대체 표현</th></tr></thead>
+      <tbody>
+        <!-- BEGIN violation_row -->
+        <tr>
+          <td>{{RULE_ID}}</td>
+          <td class="hl">{{MATCHED}}</td>
+          <td class="sev-{{SEVERITY}}">{{SEVERITY}}</td>
+          <td>{{REASON}}</td>
+          <td>{{ALTERNATIVES}}</td>
+        </tr>
+        <!-- END violation_row -->
+      </tbody>
+    </table>
+    <p style="margin-top:14px;"><strong>검증 통과율</strong> {{PASS_RATE_LABEL}}</p>
+    <div class="gauge"><span style="width: {{PASS_RATE_PCT}}%;"></span></div>
+  </section>
+
+  <section>
+    <h2>4 · 페르소나별 승인 카피</h2>
+    <div class="cards">
+      <!-- BEGIN persona_card -->
+      <div class="card">
+        <div>
+          <span class="tag">{{P_AGE_BAND}}</span>
+          <!-- BEGIN p_concern_tag --><span class="tag">{{P_CONCERN}}</span><!-- END p_concern_tag -->
+        </div>
+        <strong>{{P_LABEL}}</strong>
+        <div class="meta">{{P_DESCRIPTION}}</div>
+        <p class="copy">“{{P_COPY}}”</p>
+        <div><span class="badge-pass">validate_copy.py PASS</span></div>
+        <div class="meta" style="margin-top:6px;">파생 근거: {{P_DERIVED_FROM_CELL}}</div>
+        <div class="meta">추천 채널: {{P_CHANNELS}}</div>
+      </div>
+      <!-- END persona_card -->
+    </div>
+  </section>
+
+  <section>
+    <h2>5 · 액션 아이템</h2>
+    <ul class="action">
+      <!-- BEGIN action_required -->
+      <li><span class="req">🔴 필수</span> {{ACTION_REQUIRED}}</li>
+      <!-- END action_required -->
+      <!-- BEGIN action_recommended -->
+      <li><span class="rec">🟡 권장</span> {{ACTION_RECOMMENDED}}</li>
+      <!-- END action_recommended -->
+    </ul>
+    <p><strong>참고 공개 자료</strong></p>
+    <ul>
+      <!-- BEGIN source_link -->
+      <li><a href="{{SOURCE_URL}}">{{SOURCE_TITLE}}</a></li>
+      <!-- END source_link -->
+    </ul>
+  </section>
+
+  <footer class="meta" style="text-align:center;padding:8px 0 24px;">
+    LaunchPass · 규제 판정은 scripts/validate_copy.py(룰셋 기반 코드)가 수행합니다.
+  </footer>
+
+</div>
+</body>
+</html>
