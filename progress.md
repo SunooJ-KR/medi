@@ -19,13 +19,11 @@ Active LLM: Claude Code
 
 ## 현재 진행 중
 
-_(없음)_
+- [ ] **1-2** `concerns/_schema.json` 설계
 
 ## 다음 단계
 
 ### Phase 1 — 스키마 + 프로젝트 골격
-- [ ] **1-1** 디렉토리 구조 및 `plugin.json` 셋업
-- [ ] **1-2** `concerns/_schema.json` 설계
 - [ ] **1-3** `rules/_schema.json` 설계
 - [ ] **1-4** `personas/_schema.json` 설계 _(1-2 완료 후)_
 - [ ] **1-5** 부트스트랩 절차 SKILL.md 초안 작성
@@ -60,10 +58,22 @@ _(없음)_
 - [x] **P0-1** `strategies/plan.md` 기획서 확정 — 2026-07-07
 - [x] **P0-2** `strategies/dev-plan.md` 개발 계획서 작성 — 2026-07-07
 - [x] **P0-3** `progress.md` 작업 보드 구성 및 지침 문서 업데이트 — 2026-07-07
+- [x] **1-1** 디렉토리 구조 및 `plugin.json` 셋업 — 2026-07-07
 
 ---
 
 ## Task Log
+
+### 2026-07-07 — [1-1] 디렉토리 구조 및 plugin.json 셋업
+
+- **Task**: dev-plan.md §2 산출물 구조에 맞춘 `src/` 디렉토리 골격과 `plugin.json` 생성
+- **LLM**: Claude Code
+- **Summary**: `src/` 하위에 `.codex-plugin`, `skills/launchpass`, `rules`, `concerns`, `personas`, `scripts`, `templates`, `examples` 생성. 기획서 §4-1 메타데이터 그대로 `plugin.json` 작성. 빈 디렉토리는 `.gitkeep`으로 보존
+- **Files changed**: `src/.codex-plugin/plugin.json` (신규), `src/**/.gitkeep` (신규), `progress.md`
+- **Checks run**: `python -c json.load` — plugin.json 유효 JSON 확인 / `find src/{rules,concerns,personas} -name *.json` — 국가별 데이터 파일 부재 확인 (완료 기준 충족)
+- **Result**: 완료
+- **Open issues**: 없음
+- **Next**: 1-2 concerns/_schema.json 설계
 
 ### 2026-07-07 — dev-plan.md 개발 계획서 작성
 
