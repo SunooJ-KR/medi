@@ -24,9 +24,6 @@ Active LLM: Claude Code
 ## 다음 단계
 
 ### Phase 4 — E2E 검증 및 제출 _(Phase 3 완료 후 착수)_
-- [ ] **4-3** 자가 루프 검증 _(4-2 후)_
-- [ ] **4-4** 예제 입력 작성 _(병렬 가능)_
-- [ ] **4-5** README.md 작성 _(병렬 가능)_
 - [ ] **4-6** 로그 정리 + submission.zip 패키징 _(최종)_
 
 ## 완료사항
@@ -54,10 +51,43 @@ Active LLM: Claude Code
 - [x] **3-8** `.mcp.json` web_search 설정 — 2026-07-07 **(Phase 3 완료)**
 - [x] **4-1** E2E 실행 (부트스트랩→리포트, 로그 기록) — 2026-07-07
 - [x] **4-2** 실제 사례 검증 (링클핏) — 2026-07-07
+- [x] **4-3** 자가 루프 검증 — 2026-07-07
+- [x] **4-4** 예제 입력 작성 — 2026-07-07
+- [x] **4-5** README.md 작성 — 2026-07-07
 
 ---
 
 ## Task Log
+
+### 2026-07-07 — [4-5] README.md 작성
+
+- **Task**: 설치·실행·아키텍처·질문지 5문항 README 작성 (dev-plan 4-5)
+- **LLM**: Claude Code
+- **Summary**: 루트 `README.md` 신규. 핵심 원칙(판정=코드/국가무종속/생성-검증-재생성), 설치(`codex plugin marketplace add ./` + `codex plugin add launchpass@launchpass-marketplace`), 사용(입력 계약 표), 5단계 파이프라인 아키텍처, 디렉토리, 검증(unittest+로그), 질문지 5문항(기획서 §5) 포함. 설치가 실제 동작하도록 `.agents/plugins/marketplace.json`(launchpass-marketplace, source ./src, authentication ON_USE) 생성
+- **Files changed**: `README.md`(신규), `.agents/plugins/marketplace.json`(신규), `progress.md`
+- **Checks run**: marketplace.json JSON 파싱 확인. (설치 CLI는 로컬 Codex 환경 필요 — 문서화)
+- **Result**: 완료
+- **Next**: 4-6 로그 정리 + 패키징
+
+### 2026-07-07 — [4-4] 예제 입력 작성
+
+- **Task**: 제품 예제 입력 작성 (dev-plan 4-4)
+- **LLM**: Claude Code
+- **Summary**: `src/examples/sample_input_wrinklefit.md` 신규. 입력 계약(product_name/desc/target_country 필수, ko_copy 선택) 기반 링클핏 예제. **국가는 실행 시 지정** 형태 명시, 자연어 트리거 예시·부트스트랩 분기 설명 포함
+- **Files changed**: `src/examples/sample_input_wrinklefit.md`(신규), `progress.md`
+- **Checks run**: 없음(예제 문서)
+- **Result**: 완료
+- **Next**: 4-5 README.md 작성
+
+### 2026-07-07 — [4-3] 자가 루프 검증
+
+- **Task**: AI 생성 카피가 엔진 100% 통과까지 재생성되는지 검증 (dev-plan 4-3)
+- **LLM**: Claude Code
+- **Summary**: `src/examples/sample_selfloop_log.md` 신규. 생성→검증→재생성 루프 실증 — 1차 생성 카피(`美白`+`シミを消す`) 🔴 VIOLATION 0/1 → alternatives 참조 재생성 → 2차 🟢 PASS 2/2. 실제 엔진 출력 기록. 판정은 전적으로 코드(`validate_copy.py`)가 수행, AI는 생성·재생성만 담당함을 명시
+- **Files changed**: `src/examples/sample_selfloop_log.md`(신규), `progress.md`
+- **Checks run**: iter1 → VIOLATION 0/1(JP-002/JP-001), iter2 → PASS 2/2 엔진 실행 확인 (완료 기준: 100% PASS까지 재생성 확인 충족)
+- **Result**: 완료
+- **Next**: 4-4 예제 입력 작성
 
 ### 2026-07-07 — [4-2] 실제 사례 검증 (링클핏)
 
