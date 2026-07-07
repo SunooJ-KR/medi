@@ -19,12 +19,11 @@ Active LLM: Claude Code
 
 ## 현재 진행 중
 
-- [ ] **3-2** SKILL.md STAGE 1 (시장 스캔)
+- [ ] **3-3** SKILL.md STAGE 2 (규제 검증)
 
 ## 다음 단계
 
 ### Phase 3 — 파이프라인 통합
-- [ ] **3-3** SKILL.md STAGE 2 (규제 검증)
 - [ ] **3-4** SKILL.md STAGE 3 (파생 + 자가 루프)
 - [ ] **3-5** SKILL.md STAGE 4 (리포트 생성)
 - [ ] **3-6** 신선도 체크·업데이트 절차 SKILL.md 반영
@@ -55,10 +54,21 @@ Active LLM: Claude Code
 - [x] **2-4** 신선도 체크 구현 — 2026-07-07
 - [x] **2-5** 단위 테스트 — 2026-07-07 **(Phase 2 완료)**
 - [x] **3-1** SKILL.md STAGE 0 (국가 리졸브) — 2026-07-07
+- [x] **3-2** SKILL.md STAGE 1 (시장 스캔) — 2026-07-07
 
 ---
 
 ## Task Log
+
+### 2026-07-07 — [3-2] SKILL.md STAGE 1 (시장 스캔)
+
+- **Task**: STAGE 1 시장 스캔 절차 작성 (dev-plan 3-2)
+- **LLM**: Claude Code
+- **Summary**: SKILL.md STAGE 0 뒤에 STAGE 1 삽입. 국가 무관 고정 절차 + 지역·언어만 치환하는 web_search 쿼리 3종(트렌드/경쟁제품 가격/소비자 고민), 현지어 병행 검색, 출처 URL 병기 원칙. `market_scan` 요약 형식(trend_keywords/competitors/consumer_concerns/sources) 정의. 시장 스캔은 STAGE 3 페르소나 매칭의 배경 신호일 뿐 규제 판정은 STAGE 2 코드 전담임을 명시
+- **Files changed**: `src/skills/launchpass/SKILL.md`, `progress.md`
+- **Checks run**: 없음 (절차 문서). 완료 기준(쿼리 템플릿·절차 고정·요약 형식) 충족
+- **Result**: 완료
+- **Next**: 3-3 SKILL.md STAGE 2 (규제 검증)
 
 ### 2026-07-07 — [3-1] SKILL.md STAGE 0 (국가 리졸브)
 
