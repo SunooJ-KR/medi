@@ -19,7 +19,7 @@ Active LLM: Claude Code
 
 ## 현재 진행 중
 
-- [ ] **2-5** 단위 테스트
+_(없음 — Phase 2 완료, Phase 3 착수 가능)_
 
 ## 다음 단계
 
@@ -55,10 +55,22 @@ Active LLM: Claude Code
 - [x] **2-2** 한국어 개념 매핑 탐지 — 2026-07-07
 - [x] **2-3** 출력 JSON 포맷 구현 — 2026-07-07
 - [x] **2-4** 신선도 체크 구현 — 2026-07-07
+- [x] **2-5** 단위 테스트 — 2026-07-07 **(Phase 2 완료)**
 
 ---
 
 ## Task Log
+
+### 2026-07-07 — [2-5] 단위 테스트 (Phase 2 완료)
+
+- **Task**: validate_copy.py 단위 테스트 + 테스트 전용 룰셋 픽스처 (dev-plan 2-5)
+- **LLM**: Claude Code
+- **Summary**: `src/tests/fixtures/rules_zz.json`(가상 코드 **ZZ** — 실제 국가 비내장 원칙 준수, 리터럴/정규식/현지어 룰 포함), `src/tests/test_validate_copy.py`(unittest, 14 케이스: 리터럴·정규식 탐지, 위치 기록, 개념 매핑 교차언어 탐지, dedupe 직접 우선, verdict VIOLATION/WARNING/PASS, pass_rate 문장 카운트, 신선도 fresh/stale/누락, build_result 계약 키) 작성. `src/requirements.txt` 추가 — 엔진·테스트는 stdlib만, jsonschema는 스키마 검증용 선택 의존성으로 명시(1-2 open issue 해소)
+- **Files changed**: `src/tests/fixtures/rules_zz.json` (신규), `src/tests/test_validate_copy.py` (신규), `src/requirements.txt` (신규), `progress.md`
+- **Checks run**: `python -m unittest discover -s src/tests` → 14 tests OK (완료 기준: 알려진 위반 샘플 탐지 + 테스트 전용 픽스처 경로 충족)
+- **Result**: 완료 — **Phase 2 전체 완료 (2-1~2-5)**
+- **Open issues**: 없음
+- **Next**: Phase 3 착수 — 3-1 SKILL.md STAGE 0(국가 리졸브) *(주: STAGE 0 골격은 1-5에서 작성됨, 3-1은 리졸브 절차 상세화·정련)*
 
 ### 2026-07-07 — [2-4] 신선도 체크 구현
 

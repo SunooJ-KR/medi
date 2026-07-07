@@ -1,0 +1,8 @@
+# LaunchPass — Python 의존성
+#
+# 런타임 검증 엔진(scripts/validate_copy.py)과 단위 테스트(tests/)는
+# 표준 라이브러리만 사용한다 — 별도 설치 없이 동작한다.
+#
+# 아래는 선택(dev) 의존성: 부트스트랩으로 생성한 데이터 파일을
+# {rules,concerns,personas}/_schema.json으로 검증할 때만 필요하다.
+jsonschema>=4.0

@@ -1,0 +1,34 @@
+{
+  "market": "ZZ",
+  "version": "1.0.0",
+  "last_verified": "2026-01-01",
+  "verified_by": "human",
+  "legal_basis": "테스트 전용 가상 규제 (실제 국가 아님)",
+  "source_urls": ["https://example.test/ruleset"],
+  "rules": [
+    {
+      "id": "ZZ-001",
+      "category": "치료적 효능 표현 금지",
+      "ng_patterns": ["재생", "再生", "治療"],
+      "severity": "VIOLATION",
+      "reason": "테스트: 치료·재생 표현 금지",
+      "alternatives": ["수분을 공급한다"]
+    },
+    {
+      "id": "ZZ-002",
+      "category": "미백 조건부",
+      "ng_patterns": ["美白"],
+      "severity": "VIOLATION",
+      "reason": "테스트: 미백은 현지어 표기만 룰에 존재 (개념 매핑 검증용)",
+      "alternatives": ["투명감 있는 피부로"]
+    },
+    {
+      "id": "ZZ-003",
+      "category": "최상급 표현 주의",
+      "ng_patterns": ["No\\.?1", "최고"],
+      "severity": "WARNING",
+      "reason": "테스트: 근거 없는 최상급 표현",
+      "alternatives": ["근거 자료 병기 시 조건부 허용"]
+    }
+  ]
+}
