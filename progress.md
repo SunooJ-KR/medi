@@ -23,7 +23,7 @@ Active LLM: Claude Code
 
 ## 다음 단계
 
-- (없음)
+- [ ] **5-1** 리포트 다국어 표기 — 리포트 내용은 전부 한국어로 표기하고, 원문은 별도 탭으로 분리해 타겟 국가 언어로 표시
 
 ## 완료사항
 
@@ -58,6 +58,28 @@ Active LLM: Claude Code
 ---
 
 ## Task Log
+
+### 2026-07-08 — 리포트 디자인 전면 개편 (editorial-voice 적용)
+
+- **Task**: `strategies/DESIGN.md`(editorial-voice) 기반으로 최종 결과물 디자인 전면 수정 + 기존 output 샘플 재적용 (사용자 요청)
+- **LLM**: Claude Code
+- **Summary**: `src/templates/readiness_report.html` 전면 재작성 — 오프화이트 캔버스(#f5f5f5)+웜 니어블랙 잉크, Editorial Serif Light(EB Garamond/Times 폴백) 디스플레이 + Inter 본문(+0.15px 트래킹), 파스텔 그라디언트 오브(peach/lavender 배경 + 신호등 오브 mint/peach/rose), pill 배지·rounded-xl 카드·96px 리듬. 신호등을 그라디언트 오브+세리프 라벨로 표현(ready=mint/green, conditional=peach/amber, notready=rose/red). 다크모드 제거(에디토리얼 라이트 단일). **모든 `{{TOKEN}}`(41종)·BEGIN/END 블록(9쌍) 보존** → 스킬 STAGE 4 무변경. `src/output/launchpass_report_GlowC_2026-07-07.html` 샘플을 동일 디자인으로 재생성(데이터 동일)
+- **Files changed**: `src/templates/readiness_report.html`, `src/output/launchpass_report_GlowC_2026-07-07.html`, `progress.md`
+- **Checks run**: HTMLParser 태그 균형(unclosed 0/stray 0) · 토큰 41종·블록 9쌍 보존 확인 · `python build_submission.py` → 35 files OK
+- **Result**: 완료
+- **Open issues**: 없음. (라이선스 세리프 미포함 — EB Garamond/Times 폴백. 별도 폰트 임베드는 범위 외)
+- **Next**: (선택) 5-1 리포트 다국어 표기
+
+### 2026-07-08 — 다음 단계에 5-1 리포트 다국어 표기 작업 등재
+
+- **Task**: 할일 목록(다음 단계)에 리포트 다국어 표기 작업 추가 (사용자 요청)
+- **LLM**: Claude Code
+- **Summary**: 다음 단계에 **5-1** 등재 — 리포트 내용은 전부 한국어로 표기, 원문은 별도 탭으로 분리해 타겟 국가 언어로 표시. 상태만 기재(계획 상세·완료 기준은 착수 시 `strategies/dev-plan.md`에 정의 필요)
+- **Files changed**: `progress.md`
+- **Checks run**: 없음 (보드 갱신)
+- **Result**: 완료 — 등재만. 착수 전 dev-plan.md에 산출물·완료 기준 정의 필요
+- **Open issues**: 없음
+- **Next**: 5-1 착수 시 dev-plan.md 단위 작업 정의 후 진행
 
 ### 2026-07-08 — 최종 결과물 저장 위치를 src/output/로 변경
 

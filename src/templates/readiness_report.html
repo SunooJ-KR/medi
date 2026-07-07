@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LaunchPass 레디니스 리포트 — {{PRODUCT_NAME}}</title>
 <!--
-  LaunchPass 레디니스 보고서 템플릿 (기획서 §4-7).
+  LaunchPass 레디니스 보고서 템플릿 — editorial-voice 디자인 시스템 적용 (strategies/DESIGN.md).
   STAGE 4가 이 파일을 기반으로 {{플레이스홀더}}를 채우고 반복 블록을 복제해
   output/launchpass_report_{제품명}_{YYYY-MM-DD}.html (실제 경로 src/output/) 로 저장한다.
 
@@ -13,138 +13,261 @@
   - {{TOKEN}}          단일 치환
   - <!-- BEGIN xxx --> ~ <!-- END xxx -->  반복/조건 블록 (필요 수만큼 복제 또는 제거)
   - 신호등: VERDICT_CLASS 를 ready|conditional|notready 중 하나로 설정
+    (ready→mint orb·green label / conditional→peach orb·amber / notready→rose orb·red)
 -->
 <style>
   :root {
-    --green: #1a7f45; --amber: #b9770e; --red: #c02a2a;
-    --ink: #1c1e21; --muted: #5c6570; --line: #e2e5ea; --bg: #f6f7f9; --card: #ffffff;
+    /* editorial palette (DESIGN.md) */
+    --canvas: #f5f5f5; --canvas-soft: #fafafa; --card: #ffffff;
+    --surface-strong: #f0efed;
+    --ink: #0c0a09; --body: #4e4e4e; --body-strong: #292524;
+    --muted: #777169; --muted-soft: #a8a29e;
+    --hairline: #e7e5e4; --hairline-soft: #f0efed; --hairline-strong: #d6d3d1;
+    --primary: #292524;
+    --g-mint: #a7e5d3; --g-peach: #f4c5a8; --g-lavender: #c8b8e0;
+    --g-sky: #a8c8e8; --g-rose: #e8b8c4;
+    --success: #16a34a; --error: #dc2626; --warning: #b45309;
+    --serif: 'EB Garamond', 'GT Sectra', 'Times New Roman', Georgia, serif;
+    --sans: 'Inter', -apple-system, 'Segoe UI', Roboto, 'Malgun Gothic',
+            'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
+    --shadow: 0 4px 16px rgba(0,0,0,0.04);
+    --maxw: 940px;
   }
   * { box-sizing: border-box; }
-  body { margin: 0; font-family: -apple-system, "Segoe UI", Roboto, "Malgun Gothic", sans-serif;
-         color: var(--ink); background: var(--bg); line-height: 1.6; }
-  .wrap { max-width: 960px; margin: 0 auto; padding: 24px; }
-  header.report { background: var(--card); border: 1px solid var(--line); border-radius: 12px;
-                  padding: 24px; margin-bottom: 20px; }
-  .verdict { display: flex; align-items: center; gap: 16px; margin: 8px 0 4px; }
-  .light { width: 56px; height: 56px; border-radius: 50%; flex: 0 0 auto; }
-  .verdict.ready    .light { background: var(--green); }
-  .verdict.conditional .light { background: var(--amber); }
-  .verdict.notready .light { background: var(--red); }
-  .verdict .label { font-size: 28px; font-weight: 800; }
-  .verdict.ready .label { color: var(--green); }
-  .verdict.conditional .label { color: var(--amber); }
-  .verdict.notready .label { color: var(--red); }
-  .meta { color: var(--muted); font-size: 14px; }
-  .meta strong { color: var(--ink); }
-  .freshness { margin-top: 12px; padding: 8px 12px; border-radius: 8px;
-               background: #fff6e5; border: 1px solid #f0d9a8; color: var(--amber); font-size: 14px; }
-  section { background: var(--card); border: 1px solid var(--line); border-radius: 12px;
-            padding: 20px 24px; margin-bottom: 20px; }
-  h1 { font-size: 22px; margin: 0 0 4px; }
-  h2 { font-size: 18px; margin: 0 0 12px; padding-bottom: 8px; border-bottom: 2px solid var(--line); }
-  h2 .star { color: var(--red); }
-  table { width: 100%; border-collapse: collapse; font-size: 14px; }
-  th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
-  th { color: var(--muted); font-weight: 600; }
-  .tag { display: inline-block; padding: 1px 8px; border-radius: 999px; font-size: 12px;
-         background: #eef1f5; color: var(--muted); margin: 0 4px 4px 0; }
-  .sev-VIOLATION { color: var(--red); font-weight: 700; }
-  .sev-WARNING { color: var(--amber); font-weight: 700; }
-  .hl { background: #ffe0e0; border-bottom: 2px solid var(--red); padding: 0 2px; }
-  .badge-pass { display: inline-block; padding: 2px 8px; border-radius: 6px; font-size: 12px;
-                background: #e4f5ea; color: var(--green); font-weight: 700; }
-  .gauge { height: 14px; border-radius: 999px; background: #eceff3; overflow: hidden; }
-  .gauge > span { display: block; height: 100%; background: var(--green); }
-  .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
-  .card { border: 1px solid var(--line); border-radius: 10px; padding: 14px; background: var(--card); }
-  .card .copy { font-size: 15px; margin: 8px 0; }
-  .action { padding-left: 20px; }
-  .action li { margin-bottom: 6px; }
-  .req { color: var(--red); font-weight: 700; }
-  .rec { color: var(--amber); font-weight: 700; }
-  a { color: #2554c7; }
-  @media (prefers-color-scheme: dark) {
-    :root { --ink: #e8eaed; --muted: #a0a8b2; --line: #333842; --bg: #16181c; --card: #1f2229; }
-    .freshness { background: #3a2e17; border-color: #6b551f; }
-    .tag { background: #2a2e36; }
-    .hl { background: #5c2323; }
-    .badge-pass { background: #1c3a28; }
-    .gauge { background: #2a2e36; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0; background: var(--canvas); color: var(--body);
+    font-family: var(--sans); font-size: 16px; line-height: 1.5;
+    letter-spacing: 0.15px; position: relative; overflow-x: hidden;
+  }
+  /* atmospheric gradient orbs — pure decoration */
+  body::before, body::after {
+    content: ""; position: fixed; z-index: 0; pointer-events: none;
+    border-radius: 9999px; filter: blur(60px); opacity: 0.55;
+  }
+  body::before {
+    width: 460px; height: 460px; top: -140px; right: -120px;
+    background: radial-gradient(circle at 30% 30%, var(--g-peach), transparent 70%);
+  }
+  body::after {
+    width: 520px; height: 520px; bottom: -160px; left: -160px;
+    background: radial-gradient(circle at 50% 50%, var(--g-lavender), transparent 70%);
+  }
+  .wrap { position: relative; z-index: 1; max-width: var(--maxw);
+          margin: 0 auto; padding: 72px 28px 40px; }
+
+  .eyebrow { font-size: 12px; font-weight: 600; letter-spacing: 0.96px;
+             text-transform: uppercase; color: var(--muted); }
+  .display { font-family: var(--serif); font-weight: 300; color: var(--ink); }
+
+  /* ---- hero ---- */
+  .hero { text-align: center; padding: 8px 0 56px; position: relative; }
+  .hero .brand { display: inline-block; margin-bottom: 24px; }
+  .hero h1 {
+    font-family: var(--serif); font-weight: 300; color: var(--ink);
+    font-size: 44px; line-height: 1.1; letter-spacing: -0.8px;
+    margin: 14px auto 10px; max-width: 780px;
+  }
+  .hero-meta { font-size: 15px; color: var(--muted); margin: 0 0 34px; }
+
+  .verdict { display: inline-flex; align-items: center; gap: 22px;
+             text-align: left; margin: 0 auto; }
+  .verdict .orb { width: 108px; height: 108px; border-radius: 9999px;
+                  flex: 0 0 auto; filter: blur(2px); }
+  .verdict.ready .orb {
+    background: radial-gradient(circle at 35% 30%, #d3f4e8, var(--g-mint) 60%, #7fceb6 100%); }
+  .verdict.conditional .orb {
+    background: radial-gradient(circle at 35% 30%, #fbe3d0, var(--g-peach) 60%, #e6a074 100%); }
+  .verdict.notready .orb {
+    background: radial-gradient(circle at 35% 30%, #f6dbe2, var(--g-rose) 60%, #d68ba0 100%); }
+  .verdict-label { display: block; font-family: var(--serif); font-weight: 300;
+                   font-size: 34px; line-height: 1.1; letter-spacing: -0.4px; }
+  .verdict.ready .verdict-label { color: var(--success); }
+  .verdict.conditional .verdict-label { color: var(--warning); }
+  .verdict.notready .verdict-label { color: var(--error); }
+  .verdict-counts { display: block; margin-top: 6px; font-size: 14px; color: var(--muted); }
+
+  .data-line { margin: 34px 0 0; font-size: 13px; color: var(--muted-soft);
+               letter-spacing: 0.2px; }
+  .freshness { display: inline-block; margin-top: 18px; padding: 10px 16px;
+    border-radius: 9999px; background: rgba(180,83,9,0.08);
+    border: 1px solid rgba(180,83,9,0.2); color: var(--warning); font-size: 13px; }
+
+  /* ---- panels ---- */
+  .panel { background: var(--card); border: 1px solid var(--hairline);
+           border-radius: 16px; box-shadow: var(--shadow);
+           padding: 36px 40px; margin-bottom: 24px; }
+  .panel > .eyebrow { display: block; margin-bottom: 8px; }
+  .section-title { font-family: var(--serif); font-weight: 300; color: var(--ink);
+    font-size: 28px; line-height: 1.15; letter-spacing: -0.3px; margin: 0 0 22px; }
+  .section-title .star { color: var(--error); font-size: 20px; vertical-align: super; }
+  .panel p { margin: 0 0 12px; color: var(--body); }
+  .panel p:last-of-type { margin-bottom: 0; }
+  .lead strong, .panel strong { color: var(--body-strong); font-weight: 600; }
+  .subhead { font-family: var(--sans); font-weight: 600; font-size: 13px;
+             text-transform: uppercase; letter-spacing: 0.8px; color: var(--muted);
+             margin: 26px 0 12px; }
+  .counts { margin-top: 16px; font-size: 14px; color: var(--muted); }
+  .counts strong { color: var(--ink); }
+
+  /* ---- tables ---- */
+  table { width: 100%; border-collapse: collapse; font-size: 14.5px; }
+  .scroll { overflow-x: auto; }
+  th { text-align: left; padding: 10px 12px; color: var(--muted);
+       font-size: 12px; font-weight: 600; letter-spacing: 0.7px;
+       text-transform: uppercase; border-bottom: 1px solid var(--hairline-strong); }
+  td { text-align: left; padding: 12px; color: var(--body);
+       border-bottom: 1px solid var(--hairline); vertical-align: top; }
+  tbody tr:last-child td { border-bottom: none; }
+
+  /* ---- inline marks ---- */
+  .tag { display: inline-block; padding: 4px 10px; border-radius: 9999px;
+    font-size: 11px; font-weight: 600; letter-spacing: 0.6px; text-transform: uppercase;
+    background: var(--surface-strong); color: var(--body-strong); margin: 0 5px 5px 0; }
+  .hl { background: rgba(220,38,38,0.09); border-bottom: 1.5px solid var(--error);
+        color: var(--ink); padding: 0 3px; border-radius: 2px; }
+  .sev-VIOLATION { color: var(--error); font-weight: 600; }
+  .sev-WARNING { color: var(--warning); font-weight: 600; }
+  .badge-pass { display: inline-block; padding: 4px 11px; border-radius: 9999px;
+    font-size: 11px; font-weight: 600; letter-spacing: 0.6px; text-transform: uppercase;
+    background: rgba(22,163,74,0.1); color: var(--success); }
+
+  .copy-orig { font-size: 17px; line-height: 1.7; color: var(--ink);
+    font-family: var(--serif); font-weight: 300; letter-spacing: 0;
+    padding: 18px 20px; background: var(--canvas-soft);
+    border: 1px solid var(--hairline); border-radius: 12px; }
+
+  /* ---- gauge ---- */
+  .gauge-label { margin: 22px 0 8px; font-size: 14px; }
+  .gauge { height: 8px; border-radius: 9999px; background: var(--surface-strong); overflow: hidden; }
+  .gauge > span { display: block; height: 100%; border-radius: 9999px;
+    background: linear-gradient(90deg, var(--g-mint), var(--success)); }
+
+  /* ---- persona cards ---- */
+  .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 18px; }
+  .card { border: 1px solid var(--hairline); border-radius: 16px; padding: 22px;
+          background: var(--card); }
+  .card .p-label { display: block; font-family: var(--serif); font-weight: 300;
+    font-size: 20px; line-height: 1.3; color: var(--ink); margin: 10px 0 4px; }
+  .card .p-desc { font-size: 13.5px; color: var(--muted); margin: 0 0 12px; }
+  .card .copy { font-size: 15.5px; line-height: 1.6; color: var(--body-strong);
+    font-family: var(--serif); font-weight: 300; margin: 0 0 14px; }
+  .card .p-foot { font-size: 12.5px; color: var(--muted); margin-top: 8px; }
+
+  /* ---- action list ---- */
+  .action { list-style: none; padding: 0; margin: 0; }
+  .action li { display: flex; gap: 12px; align-items: baseline;
+    padding: 12px 0; border-bottom: 1px solid var(--hairline-soft); color: var(--body); }
+  .action li:last-child { border-bottom: none; }
+  .pill-req, .pill-rec { flex: 0 0 auto; padding: 3px 11px; border-radius: 9999px;
+    font-size: 11px; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; }
+  .pill-req { background: rgba(220,38,38,0.1); color: var(--error); }
+  .pill-rec { background: rgba(180,83,9,0.1); color: var(--warning); }
+  .sources { list-style: none; padding: 0; margin: 8px 0 0; }
+  .sources li { padding: 8px 0; border-bottom: 1px solid var(--hairline-soft); }
+  .sources li:last-child { border-bottom: none; }
+  a { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--hairline-strong); }
+  a:hover { border-bottom-color: var(--ink); }
+
+  footer.report-foot { text-align: center; color: var(--muted-soft);
+    font-size: 13px; padding: 40px 0 8px; }
+
+  @media (max-width: 640px) {
+    .wrap { padding: 48px 18px 32px; }
+    .hero h1 { font-size: 32px; }
+    .panel { padding: 26px 20px; }
+    .verdict { flex-direction: column; text-align: center; gap: 14px; }
+    .verdict .orb { width: 84px; height: 84px; }
   }
 </style>
 </head>
 <body>
 <div class="wrap">
 
-  <header class="report">
+  <header class="hero">
+    <span class="eyebrow brand">LaunchPass · Launch Readiness</span>
     <h1>{{PRODUCT_NAME}}</h1>
-    <div class="meta"><strong>타겟 시장</strong> {{MARKET}} · <strong>분석일시</strong> {{ANALYZED_AT}}</div>
+    <p class="hero-meta">{{MARKET}} · {{ANALYZED_AT}}</p>
     <div class="verdict {{VERDICT_CLASS}}">
-      <div class="light" aria-hidden="true"></div>
-      <div class="label">{{VERDICT_LABEL}}</div>
+      <div class="orb" aria-hidden="true"></div>
+      <div class="verdict-text">
+        <span class="verdict-label">{{VERDICT_LABEL}}</span>
+        <span class="verdict-counts">즉시 조치 {{VIOLATION_COUNT}}건 · 조건부 {{WARNING_COUNT}}건</span>
+      </div>
     </div>
-    <div class="meta">데이터 버전 · 기준일 — rules {{RULES_VERSION}} ({{RULES_LAST_VERIFIED}}) ·
-      concerns {{CONCERNS_VERSION}} · personas {{PERSONAS_VERSION}}</div>
+    <p class="data-line">rules {{RULES_VERSION}} ({{RULES_LAST_VERIFIED}}) · concerns {{CONCERNS_VERSION}} · personas {{PERSONAS_VERSION}}</p>
     <!-- BEGIN freshness_warning -->
     <div class="freshness">{{FRESHNESS_WARNING}}</div>
     <!-- END freshness_warning -->
   </header>
 
-  <section>
-    <h2>1 · 요약</h2>
-    <p>{{SUMMARY_LINE_1}}</p>
-    <p>{{SUMMARY_LINE_2}}</p>
-    <p>{{SUMMARY_LINE_3}}</p>
-    <div class="meta">즉시 조치 필요 <strong>{{VIOLATION_COUNT}}</strong>건 ·
+  <section class="panel">
+    <span class="eyebrow">01 — Summary</span>
+    <h2 class="section-title">요약</h2>
+    <div class="lead">
+      <p>{{SUMMARY_LINE_1}}</p>
+      <p>{{SUMMARY_LINE_2}}</p>
+      <p>{{SUMMARY_LINE_3}}</p>
+    </div>
+    <div class="counts">즉시 조치 필요 <strong>{{VIOLATION_COUNT}}</strong>건 ·
       조건부 <strong>{{WARNING_COUNT}}</strong>건</div>
   </section>
 
-  <section>
-    <h2>2 · 현지 시장 스캔</h2>
+  <section class="panel">
+    <span class="eyebrow">02 — Market Scan</span>
+    <h2 class="section-title">현지 시장 스캔</h2>
     <p><strong>트렌드 키워드</strong> {{TREND_KEYWORDS}}</p>
-    <table>
-      <thead><tr><th>경쟁 제품</th><th>가격대</th><th>핵심 소구점</th></tr></thead>
-      <tbody>
-        <!-- BEGIN competitor_row -->
-        <tr><td>{{COMP_NAME}}</td><td>{{COMP_PRICE}}</td><td>{{COMP_POINT}}</td></tr>
-        <!-- END competitor_row -->
-      </tbody>
-    </table>
-    <h3 style="font-size:15px;margin:16px 0 8px;">나이대별 피부 고민 격자 (매칭 셀 강조)</h3>
-    <table>
-      <thead><tr><th>나이대</th><th>상위 고민</th><th>매칭</th></tr></thead>
-      <tbody>
-        <!-- BEGIN concern_row -->
-        <tr><td>{{AGE_BAND}}</td><td>{{TOP_CONCERNS}}</td><td>{{MATCH_MARK}}</td></tr>
-        <!-- END concern_row -->
-      </tbody>
-    </table>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>경쟁 제품</th><th>가격대</th><th>핵심 소구점</th></tr></thead>
+        <tbody>
+          <!-- BEGIN competitor_row -->
+          <tr><td>{{COMP_NAME}}</td><td>{{COMP_PRICE}}</td><td>{{COMP_POINT}}</td></tr>
+          <!-- END competitor_row -->
+        </tbody>
+      </table>
+    </div>
+    <div class="subhead">나이대별 피부 고민 격자 · 매칭 셀 강조</div>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>나이대</th><th>상위 고민</th><th>매칭</th></tr></thead>
+        <tbody>
+          <!-- BEGIN concern_row -->
+          <tr><td>{{AGE_BAND}}</td><td>{{TOP_CONCERNS}}</td><td>{{MATCH_MARK}}</td></tr>
+          <!-- END concern_row -->
+        </tbody>
+      </table>
+    </div>
   </section>
 
-  <section>
-    <h2>3 · 규제 검증 결과 <span class="star">★</span></h2>
-    <p><strong>원본 카피</strong> (위반 표현 강조)</p>
-    <p>{{HIGHLIGHTED_COPY}}</p>
-    <table>
-      <thead><tr><th>룰 ID</th><th>탐지</th><th>심각도</th><th>근거</th><th>대체 표현</th></tr></thead>
-      <tbody>
-        <!-- BEGIN violation_row -->
-        <tr>
-          <td>{{RULE_ID}}</td>
-          <td class="hl">{{MATCHED}}</td>
-          <td class="sev-{{SEVERITY}}">{{SEVERITY}}</td>
-          <td>{{REASON}}</td>
-          <td>{{ALTERNATIVES}}</td>
-        </tr>
-        <!-- END violation_row -->
-      </tbody>
-    </table>
-    <p style="margin-top:14px;"><strong>검증 통과율</strong> {{PASS_RATE_LABEL}}</p>
+  <section class="panel">
+    <span class="eyebrow">03 — Regulatory Check</span>
+    <h2 class="section-title">규제 검증 결과 <span class="star">★</span></h2>
+    <div class="subhead">원본 카피 · 위반 표현 강조</div>
+    <p class="copy-orig">{{HIGHLIGHTED_COPY}}</p>
+    <div class="scroll" style="margin-top:20px;">
+      <table>
+        <thead><tr><th>룰 ID</th><th>탐지</th><th>심각도</th><th>근거</th><th>대체 표현</th></tr></thead>
+        <tbody>
+          <!-- BEGIN violation_row -->
+          <tr>
+            <td>{{RULE_ID}}</td>
+            <td><span class="hl">{{MATCHED}}</span></td>
+            <td class="sev-{{SEVERITY}}">{{SEVERITY}}</td>
+            <td>{{REASON}}</td>
+            <td>{{ALTERNATIVES}}</td>
+          </tr>
+          <!-- END violation_row -->
+        </tbody>
+      </table>
+    </div>
+    <p class="gauge-label"><strong>검증 통과율</strong> {{PASS_RATE_LABEL}}</p>
     <div class="gauge"><span style="width: {{PASS_RATE_PCT}}%;"></span></div>
   </section>
 
-  <section>
-    <h2>4 · 페르소나별 승인 카피</h2>
+  <section class="panel">
+    <span class="eyebrow">04 — Approved Copy</span>
+    <h2 class="section-title">페르소나별 승인 카피</h2>
     <div class="cards">
       <!-- BEGIN persona_card -->
       <div class="card">
@@ -152,36 +275,37 @@
           <span class="tag">{{P_AGE_BAND}}</span>
           <!-- BEGIN p_concern_tag --><span class="tag">{{P_CONCERN}}</span><!-- END p_concern_tag -->
         </div>
-        <strong>{{P_LABEL}}</strong>
-        <div class="meta">{{P_DESCRIPTION}}</div>
+        <span class="p-label">{{P_LABEL}}</span>
+        <div class="p-desc">{{P_DESCRIPTION}}</div>
         <p class="copy">“{{P_COPY}}”</p>
         <div><span class="badge-pass">validate_copy.py PASS</span></div>
-        <div class="meta" style="margin-top:6px;">파생 근거: {{P_DERIVED_FROM_CELL}}</div>
-        <div class="meta">추천 채널: {{P_CHANNELS}}</div>
+        <div class="p-foot">파생 근거 · {{P_DERIVED_FROM_CELL}}</div>
+        <div class="p-foot">추천 채널 · {{P_CHANNELS}}</div>
       </div>
       <!-- END persona_card -->
     </div>
   </section>
 
-  <section>
-    <h2>5 · 액션 아이템</h2>
+  <section class="panel">
+    <span class="eyebrow">05 — Action Items</span>
+    <h2 class="section-title">액션 아이템</h2>
     <ul class="action">
       <!-- BEGIN action_required -->
-      <li><span class="req">🔴 필수</span> {{ACTION_REQUIRED}}</li>
+      <li><span class="pill-req">필수</span><span>{{ACTION_REQUIRED}}</span></li>
       <!-- END action_required -->
       <!-- BEGIN action_recommended -->
-      <li><span class="rec">🟡 권장</span> {{ACTION_RECOMMENDED}}</li>
+      <li><span class="pill-rec">권장</span><span>{{ACTION_RECOMMENDED}}</span></li>
       <!-- END action_recommended -->
     </ul>
-    <p><strong>참고 공개 자료</strong></p>
-    <ul>
+    <div class="subhead">참고 공개 자료</div>
+    <ul class="sources">
       <!-- BEGIN source_link -->
       <li><a href="{{SOURCE_URL}}">{{SOURCE_TITLE}}</a></li>
       <!-- END source_link -->
     </ul>
   </section>
 
-  <footer class="meta" style="text-align:center;padding:8px 0 24px;">
+  <footer class="report-foot">
     LaunchPass · 규제 판정은 scripts/validate_copy.py(룰셋 기반 코드)가 수행합니다.
   </footer>
 
