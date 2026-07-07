@@ -19,12 +19,11 @@ Active LLM: Claude Code
 
 ## 현재 진행 중
 
-- [ ] **3-5** SKILL.md STAGE 4 (리포트 생성)
+- [ ] **3-6** 신선도 체크·업데이트 절차 SKILL.md 반영
 
 ## 다음 단계
 
 ### Phase 3 — 파이프라인 통합
-- [ ] **3-6** 신선도 체크·업데이트 절차 SKILL.md 반영
 - [ ] **3-7** `readiness_report.html` 템플릿 구현 _(3-1~3-6과 병렬 가능)_
 - [ ] **3-8** `.mcp.json` web_search 설정 _(병렬 가능)_
 
@@ -55,10 +54,21 @@ Active LLM: Claude Code
 - [x] **3-2** SKILL.md STAGE 1 (시장 스캔) — 2026-07-07
 - [x] **3-3** SKILL.md STAGE 2 (규제 검증) — 2026-07-07
 - [x] **3-4** SKILL.md STAGE 3 (파생 + 자가 루프) — 2026-07-07
+- [x] **3-5** SKILL.md STAGE 4 (리포트 생성) — 2026-07-07
 
 ---
 
 ## Task Log
+
+### 2026-07-07 — [3-5] SKILL.md STAGE 4 (리포트 생성)
+
+- **Task**: STAGE 4 레디니스 리포트 생성 절차 (dev-plan 3-5)
+- **LLM**: Claude Code
+- **Summary**: SKILL.md STAGE 3 뒤에 STAGE 4 삽입. 신호등 판정 로직(미해결 VIOLATION→🔴 NOT READY / WARNING만→🟡 CONDITIONAL / 전체 PASS→🟢 READY), templates/readiness_report.html 기반 5개 섹션 채우기(헤더+신호등+데이터 버전·기준일, 요약, 시장스캔+격자, 규제검증 표+통과율, 페르소나 카드+PASS 배지, 액션 아이템), 저장 규칙 `launchpass_report_{제품명}_{YYYY-MM-DD}.html`
+- **Files changed**: `src/skills/launchpass/SKILL.md`, `progress.md`
+- **Checks run**: 없음 (절차 문서). 완료 기준(판정 로직·저장 규칙) 충족
+- **Result**: 완료
+- **Next**: 3-6 신선도 체크·업데이트 절차 SKILL.md 반영
 
 ### 2026-07-07 — [3-4] SKILL.md STAGE 3 (파생 + 자가 루프)
 

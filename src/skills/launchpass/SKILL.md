@@ -127,6 +127,27 @@ market_scan:
 
 ---
 
+## STAGE 4 — 레디니스 리포트 생성 (HTML)
+
+목적: STAGE 1~3 산출물을 신호등 판정이 포함된 HTML 보고서로 출력한다.
+
+1. **신호등 판정 로직** (STAGE 2·3의 검증 결과 종합):
+   - 미해결 `VIOLATION`이 하나라도 있으면 → 🔴 **NOT READY**
+   - VIOLATION은 없고 `WARNING`만 있으면 → 🟡 **CONDITIONAL**
+   - 전체 카피가 PASS면 → 🟢 **READY**
+2. `templates/readiness_report.html`을 기반으로 다음 섹션을 채운다:
+   - 헤더: 제품명 · 타겟 시장 · 분석일시 · 신호등 판정(대형) · 데이터 버전·기준일 · (stale 시)⚠️ 경고
+   - Section 1 요약: 판정 근거 3줄 + 즉시 조치/조건부 항목 수
+   - Section 2 시장 스캔: 트렌드·경쟁 제품표 + concerns 격자 + 이 제품이 매칭된 셀 하이라이트
+   - Section 3 규제 검증(★): 원본 카피 vs 위반 하이라이트 + 위반 룰 ID·근거·심각도·대체표현 표 + 통과율 게이지
+   - Section 4 페르소나별 승인 카피: 파생 페르소나 카드(N개) + 검증 PASS 배지 + 파생 근거(어느 셀) + 추천 채널
+   - Section 5 액션 아이템: 🔴 필수 / 🟡 권장 + 참고 공개 자료 링크
+3. **저장**: `launchpass_report_{제품명}_{YYYY-MM-DD}.html`
+
+산출물: 완성된 HTML 보고서 파일 1건.
+
+---
+
 ## 부트스트랩 — 새 국가 데이터 생성 (concerns → rules → personas)
 
 트리거: STAGE 0에서 데이터 누락 감지, 또는 "{국가} 시장 추가" 직접 요청.
