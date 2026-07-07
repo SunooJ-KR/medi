@@ -19,12 +19,11 @@ Active LLM: Claude Code
 
 ## 현재 진행 중
 
-- (없음)
+- (없음) — **전 Phase 완료. 제출 직전 `python build_submission.py` 재실행으로 최신 로그 반영.**
 
 ## 다음 단계
 
-### Phase 4 — E2E 검증 및 제출 _(Phase 3 완료 후 착수)_
-- [ ] **4-6** 로그 정리 + submission.zip 패키징 _(최종)_
+- (없음)
 
 ## 완료사항
 
@@ -54,10 +53,22 @@ Active LLM: Claude Code
 - [x] **4-3** 자가 루프 검증 — 2026-07-07
 - [x] **4-4** 예제 입력 작성 — 2026-07-07
 - [x] **4-5** README.md 작성 — 2026-07-07
+- [x] **4-6** 로그 정리 + submission.zip 패키징 — 2026-07-07 **(Phase 4 완료 · 전체 개발 완료)**
 
 ---
 
 ## Task Log
+
+### 2026-07-07 — [4-6] 로그 정리 + submission.zip 패키징 (Phase 4 완료)
+
+- **Task**: 로그 무편집 포함 + 기획서 §3 구조 submission.zip 패키징 (dev-plan 4-6)
+- **LLM**: Claude Code
+- **Summary**: `build_submission.py`(재현 가능 패키징 + 필수 산출물 자가 점검 assert) 신규. `submission.zip` 생성 — 33파일/111KB, `src/`+`logs/`(AI 대화 로그 2건 무편집)+`README.md`, 기획서 §3 구조 일치. `strategies/`·progress.md·CLAUDE.md·AGENTS.md·.codex/·tools/·.agents/·__pycache__ 제외. 데모 산출물로 GlowC 렌더 리포트를 `src/examples/`에 포함(sample_run_log가 참조). submission.zip은 빌드 산출물이므로 .gitignore 처리 — 제출 직전 스크립트 재실행으로 최신 로그 반영
+- **Files changed**: `build_submission.py`(신규), `src/examples/launchpass_report_GlowC_2026-07-07.html`(신규), `.gitignore`, `progress.md`
+- **Checks run**: `python build_submission.py` → 33 files 자가 점검 통과(README/validate_copy.py/SKILL.md/logs 존재 assert)
+- **Result**: 완료 — **Phase 4 전체 완료. 전 개발 단계(P0~4) 완료**
+- **Open issues**: 없음. (제출 직전 build_submission.py 재실행 권장 — 이번 세션 로그 최신화)
+- **Next**: 없음 — 제출 준비 완료
 
 ### 2026-07-07 — [4-5] README.md 작성
 
