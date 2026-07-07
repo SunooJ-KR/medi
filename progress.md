@@ -19,12 +19,11 @@ Active LLM: Claude Code
 
 ## 현재 진행 중
 
-- [ ] **2-3** 출력 JSON 포맷 구현
+- [ ] **2-4** 신선도 체크 구현
 
 ## 다음 단계
 
 ### Phase 2 — 규제 검증 엔진
-- [ ] **2-4** 신선도 체크 구현 _(2-1 후)_
 - [ ] **2-5** 단위 테스트 _(2-2~2-4 후)_
 
 ### Phase 3 — 파이프라인 통합 _(Phase 1·2 완료 후 착수)_
@@ -57,10 +56,22 @@ Active LLM: Claude Code
 - [x] **1-5** 부트스트랩 절차 SKILL.md 초안 작성 — 2026-07-07 **(Phase 1 완료)**
 - [x] **2-1** `validate_copy.py` 코어 구현 — 2026-07-07
 - [x] **2-2** 한국어 개념 매핑 탐지 — 2026-07-07
+- [x] **2-3** 출력 JSON 포맷 구현 — 2026-07-07
 
 ---
 
 ## Task Log
+
+### 2026-07-07 — [2-3] 출력 JSON 포맷 구현
+
+- **Task**: 검증 결과 JSON 계약 확정 (기획서 §4-3, dev-plan 2-3)
+- **LLM**: Claude Code
+- **Summary**: `validate_copy.py`에 `sentence_spans`(문장별 문자 스팬), `compute_verdict`(VIOLATION>WARNING>PASS), `compute_pass_rate`(위반 매칭이 걸린 문장 제외한 통과율 "N/M 문장 통과"), `build_result`(verdict/violations[rule_id·matched·position·severity·alternatives 등]/violation_count/warning_count/pass_rate) 추가. main을 최종 계약 출력으로 교체(2-1의 임시 matches 출력 제거)
+- **Files changed**: `src/scripts/validate_copy.py`, `progress.md`
+- **Checks run**: 3문장 중 2문장 위반 카피 → verdict=VIOLATION, violation_count=2, pass_rate="1/3 문장 통과" 확인 / 위반 없는 카피 → verdict=PASS, "1/1 문장 통과" 확인 (완료 기준 충족)
+- **Result**: 완료
+- **Open issues**: 없음
+- **Next**: 2-4 신선도 체크 구현 (last_verified 90일 초과 경고 플래그)
 
 ### 2026-07-07 — [2-2] 한국어 개념 매핑 탐지
 

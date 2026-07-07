@@ -66,9 +66,25 @@ _SENTENCE_SPLIT = re.compile(r"[.!?。！？\n]+")
 
 
 def split_sentences(text: str) -> list[str]:
-    """카피를 문장 단위로 분리한다. pass_rate 계산(2-3)의 분모가 된다."""
+    """카피를 문장 단위로 분리한다. pass_rate 계산의 분모가 된다."""
     parts = [s.strip() for s in _SENTENCE_SPLIT.split(text)]
     return [s for s in parts if s]
+
+
+def sentence_spans(text: str) -> list[tuple[int, int]]:
+    """비어있지 않은 각 문장의 (start, end) 문자 스팬을 반환한다.
+
+    위반 매칭의 position을 문장에 귀속시켜 pass_rate를 계산하는 데 쓴다.
+    """
+    spans: list[tuple[int, int]] = []
+    cursor = 0
+    for chunk in _SENTENCE_SPLIT.split(text):
+        start = text.find(chunk, cursor) if chunk else cursor
+        end = start + len(chunk)
+        if chunk.strip():
+            spans.append((start, end))
+        cursor = end
+    return spans
 
 
 # --- 패턴 매칭 -------------------------------------------------------------
@@ -191,6 +207,64 @@ def detect(
     return _dedupe(matches)
 
 
+# --- 결과 조립 (2-3) -------------------------------------------------------
+
+def compute_verdict(matches: list[Match]) -> str:
+    """매칭 심각도로 종합 판정을 낸다: VIOLATION > WARNING > PASS."""
+    if any(m.severity == "VIOLATION" for m in matches):
+        return "VIOLATION"
+    if any(m.severity == "WARNING" for m in matches):
+        return "WARNING"
+    return "PASS"
+
+
+def compute_pass_rate(text: str, matches: list[Match]) -> dict[str, Any]:
+    """문장 단위 통과율을 계산한다. 위반 매칭이 걸린 문장은 실패로 센다."""
+    spans = sentence_spans(text)
+    total = len(spans)
+    violated = 0
+    for start, end in spans:
+        if any(start <= m.position < end for m in matches):
+            violated += 1
+    passed = total - violated
+    return {
+        "passed": passed,
+        "total": total,
+        "label": f"{passed}/{total} 문장 통과",
+    }
+
+
+def build_result(
+    text: str,
+    ruleset: dict[str, Any],
+    matches: list[Match],
+) -> dict[str, Any]:
+    """기획서 §4-3 출력 계약으로 최종 결과 JSON을 조립한다."""
+    violations = [
+        {
+            "rule_id": m.rule_id,
+            "category": m.category,
+            "matched": m.matched,
+            "pattern": m.pattern,
+            "position": m.position,
+            "severity": m.severity,
+            "reason": m.reason,
+            "alternatives": m.alternatives,
+            "source": m.source,
+        }
+        for m in matches
+    ]
+    return {
+        "market": ruleset.get("market"),
+        "ruleset_version": ruleset.get("version"),
+        "verdict": compute_verdict(matches),
+        "violations": violations,
+        "violation_count": sum(1 for m in matches if m.severity == "VIOLATION"),
+        "warning_count": sum(1 for m in matches if m.severity == "WARNING"),
+        "pass_rate": compute_pass_rate(text, matches),
+    }
+
+
 # --- CLI -------------------------------------------------------------------
 
 def _read_input(args: argparse.Namespace) -> str:
@@ -223,15 +297,8 @@ def main(argv: list[str] | None = None) -> int:
     ruleset = load_ruleset(args.rules)
     concept_map = {} if args.no_concept else load_concept_map(args.concept_map)
     matches = detect(text, ruleset, concept_map)
-
-    # 2-3에서 verdict/pass_rate를 포함한 최종 JSON 포맷으로 확정한다.
-    # 현재(2-1)는 코어 매칭 결과를 확인 가능한 형태로 출력한다.
-    payload = {
-        "market": ruleset.get("market"),
-        "matches": [vars(m) for m in matches],
-        "sentence_count": len(split_sentences(text)),
-    }
-    json.dump(payload, sys.stdout, ensure_ascii=False, indent=2)
+    result = build_result(text, ruleset, matches)
+    json.dump(result, sys.stdout, ensure_ascii=False, indent=2)
     sys.stdout.write("\n")
     return 0
 
