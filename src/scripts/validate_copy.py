@@ -345,6 +345,9 @@ def main(argv: list[str] | None = None) -> int:
     matches = detect(text, ruleset, concept_map)
     today = date.fromisoformat(args.today) if args.today else None
     result = build_result(text, ruleset, matches, today=today)
+    # 현지어(일본어 등) 출력이 Windows 콘솔(cp949) 등에서 깨지지 않도록 stdout을 UTF-8로 고정
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8")
     json.dump(result, sys.stdout, ensure_ascii=False, indent=2)
     sys.stdout.write("\n")
     return 0

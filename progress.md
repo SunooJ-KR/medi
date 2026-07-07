@@ -60,6 +60,28 @@ Active LLM: Claude Code
 
 ## Task Log
 
+### 2026-07-08 — src/ 런타임 정리(불필요 요소 삭제) + 엔진 UTF-8 출력 수정
+
+- **Task**: `src/` 폴더만으로 플러그인이 실행되도록 불필요 요소 삭제·필요 코드 포함, 이후 README 검토 (사용자 요청)
+- **LLM**: Claude Code
+- **Summary**: 런타임 의존성 실측 — `plugin.json`·`.mcp.json`·`SKILL.md`·`validate_copy.py`·데이터(`rules`/`concerns`/`personas`)·`readiness_report.html` 전부 `src/` 상대경로, 엔진 stdlib 전용 → src 단독 실행 이미 성립 확인. **삭제**: `scripts/__pycache__`·`tests/__pycache__`(gitignore 캐시), 내용이 채워진 디렉토리의 사문화된 `.gitkeep` 7개(concerns/personas/rules/scripts/skills/launchpass/templates/examples). **유지**: `output/.gitkeep`(런타임 저장 대상 빈 디렉토리 보존). **수정**: `validate_copy.py` main에서 stdout `reconfigure(encoding=utf-8)` 추가 — Windows 콘솔(cp949)에서 일본어 등 현지어 출력 `UnicodeEncodeError` 크래시 해결. README 디렉토리 트리·참조 경로 실측 대조 → 모두 유효, 수정 불요. tests/examples/drafts/requirements.txt는 제출 산출물이라 유지(순수 런타임만 원하면 추가 삭제 가능 — 사용자 확인 대기)
+- **Files changed**: `src/scripts/validate_copy.py`, `.gitkeep` 7개 삭제, `progress.md`
+- **Checks run**: `python -m unittest discover -s src/tests` → 14 OK · 일본어 입력 엔진 실행 UTF-8 정상 출력(크래시 해소) · README 참조 경로 5종 존재 확인
+- **Result**: 완료
+- **Open issues**: tests/examples/*.draft.json은 런타임 불요 산출물 — 순수 런타임 src 원하면 삭제 여부 확인 필요
+- **Next**: 없음
+
+### 2026-07-08 — README 하단에 상세 동작(절차·지식·판단 기준) 섹션 추가
+
+- **Task**: `submit.md` 3번 문항(플러그인 동작) 기반으로 `README.md` 하단에 절차·지식 원천·판단 기준 상세 섹션 작성 (사용자 요청)
+- **LLM**: Claude Code
+- **Summary**: README 끝에 `## 상세 동작 — 절차·지식·판단 기준` 추가. 5단계 파이프라인 STAGE 0~4 절차 서술(부트스트랩 사람 승인 게이트·자가 루프 3회 포함), 지식 원천 표(rules/concerns/personas/ko_concept_map/web_search + 컨텍스트 진입 여부), 판단 기준(코드 전담·severity 2단계·pass_rate·자가 루프 게이트·evidence 강제), 정보 부족/예외 동작(국가 미지정 되묻기·미승인 데이터 비사용·90일 신선도 경고·BRAVE_API_KEY 없을 때·3회 미통과 🔴 강등) 정리. submit.md·SKILL 실제 동작만 반영
+- **Files changed**: `README.md`, `progress.md`
+- **Checks run**: 없음 (문서). submit.md Q3·기존 README 동작표와 정합 확인
+- **Result**: 완료
+- **Open issues**: 없음
+- **Next**: (선택) 5-1 리포트 다국어 표기
+
 ### 2026-07-08 — [5-1] 리포트 다국어 표기 (한국어/타겟국가어 2탭 완전 병행)
 
 - **Task**: 리포트를 한국어/타겟국가어 두 탭으로 완전 병행 표기 (dev-plan 5-1, 사용자 선택=완전 병행)
@@ -411,3 +433,12 @@ Active LLM: Claude Code
 - **Result**: 완료
 - **Open issues**: 없음
 - **Next**: Phase 1 착수 (1-1 디렉토리 구조 및 plugin.json 셋업부터)
+### 2026-07-08 ??GlowC 비타민 세럼 일본 런칭 문구 검증
+
+- **Task**: GlowC 비타민 세럼의 일본 런칭용 성분/카피 문구 검증
+- **LLM**: Codex CLI
+- **Files changed**: `progress.md`
+- **Checks run**: `python src/scripts/validate_copy.py --input "칙칙함 없이 투명감 있는 피부로. 매일의 수분 케어." --rules src/rules/jp.json --today 2026-07-08` / 일본화장품공업연합회 `化粧品等の適正広告ガイドライン 2020` 확인
+- **Result**: 내부 검증기는 PASS(2/2 문장 통과). 다만 일반 화장품 기준에서 `투명감`은 허용 효능 문구 목록에 직접 있지 않아 보수적으로는 수정 권장, `수분 케어` 축은 사용 가능 판단
+- **Open issues**: 실제 일본 판매 품목이 일반 화장품인지 의약부외품인지 미확정. 의약부외품이 아니면 미백/기미 개선 뉘앙스 확장 금지
+- **Next**: 일본어 현지화 문구는 `보습`, `피부를 정돈`, `윤기/인상` 중심으로 재작성 권장

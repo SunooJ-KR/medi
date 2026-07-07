@@ -1,5 +1,7 @@
 # Repository Instructions (Claude Code)
 
+If the prompt ends with `>N` (e.g., >1, >2, >3), answer within N lines.
+
 ## Shared Progress Tracking
 
 This project keeps a single shared progress log at the project root: `progress.md`.
