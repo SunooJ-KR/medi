@@ -1,0 +1,33 @@
+{
+  "market": "JP",
+  "version": "1.0.0",
+  "last_verified": "2026-07-07",
+  "verified_by": "ai",
+  "age_bands": ["20-29", "30-39", "40-49", "50-59"],
+  "grid": [
+    {
+      "age_band": "20-29",
+      "top_concerns": ["ニキビ (여드름)", "毛穴 (모공)", "皮脂・テカリ (피지)"],
+      "evidence": "エクスクリエ「スキンケアに関する調査」2025 (調査期間 2025-02-06〜02-19): 20代最多の肌悩みは「ニキビ」 https://www.excrie.co.jp/report/skincare-2025",
+      "kbeauty_affinity": "high"
+    },
+    {
+      "age_band": "30-39",
+      "top_concerns": ["毛穴 (모공)", "乾燥・インナードライ (건조)", "くすみ (칙칙함)"],
+      "evidence": "エクスクリエ「スキンケアに関する調査」2025: 30代最多は「毛穴」、混合肌(インナードライ)が増加 https://www.excrie.co.jp/report/skincare-2025",
+      "kbeauty_affinity": "high"
+    },
+    {
+      "age_band": "40-49",
+      "top_concerns": ["シミ (기미)", "ハリ・弾力 (탄력)", "乾燥による小じわ (잔주름)"],
+      "evidence": "エクスクリエ「スキンケアに関する調査」2025: 40代最多は「シミ」、保湿・エイジングケア関心が高い https://www.excrie.co.jp/report/skincare-2025",
+      "kbeauty_affinity": "medium"
+    },
+    {
+      "age_band": "50-59",
+      "top_concerns": ["たるみ (처짐)", "シワ (주름)", "乾燥 (건조)"],
+      "evidence": "エクスクリエ「スキンケアに関する調査」2025: 50代最多は「たるみ」 https://www.excrie.co.jp/report/skincare-2025",
+      "kbeauty_affinity": "low"
+    }
+  ]
+}
