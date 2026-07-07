@@ -46,7 +46,7 @@
   .eyebrow { font-size: 12px; font-weight: 600; letter-spacing: 0.96px;
              text-transform: uppercase; color: var(--muted); }
 
-  .hero { text-align: center; padding: 8px 0 48px; position: relative; }
+  .hero { text-align: center; padding: 8px 0 40px; position: relative; }
   .hero .brand { display: inline-block; margin-bottom: 22px; }
   .hero h1 {
     font-family: var(--serif); font-weight: 300; color: var(--ink);
@@ -81,6 +81,19 @@
   .freshness { display: inline-block; margin-top: 18px; padding: 10px 16px;
     border-radius: 9999px; background: rgba(180,83,9,0.08);
     border: 1px solid rgba(180,83,9,0.2); color: var(--warning); font-size: 13px; }
+
+  .tabs { position: relative; }
+  .tabs > input[type=radio] { position: absolute; opacity: 0; pointer-events: none; }
+  .tablabels { display: flex; gap: 8px; justify-content: center; margin-bottom: 26px; }
+  .tablabels label { cursor: pointer; padding: 9px 22px; border-radius: 9999px;
+    font-size: 14px; font-weight: 600; letter-spacing: 0.3px; color: var(--muted);
+    background: var(--surface-strong); border: 1px solid var(--hairline); user-select: none; }
+  #tab-ko:checked ~ .tablabels label[for="tab-ko"],
+  #tab-orig:checked ~ .tablabels label[for="tab-orig"] {
+    background: var(--ink); color: #fff; border-color: var(--ink); }
+  .panel-ko, .panel-orig { display: none; }
+  #tab-ko:checked ~ .panel-ko { display: block; }
+  #tab-orig:checked ~ .panel-orig { display: block; }
 
   .panel { background: var(--card); border: 1px solid var(--hairline);
            border-radius: 16px; box-shadow: var(--shadow);
@@ -180,155 +193,325 @@
     <p class="data-line">rules 1.0.0 (2026-07-07) · concerns 1.0.0 · personas 1.0.0</p>
   </header>
 
-  <section class="panel">
-    <span class="eyebrow">01 — Summary</span>
-    <h2 class="section-title">요약</h2>
-    <div class="lead">
-      <p>원본 한국어 카피는 薬機法·景表法 위반 5건(VIOLATION 4·WARNING 1)이 탐지되어 그대로는 런칭 불가였다.</p>
-      <p>자가 검증 루프에서 3개 페르소나별 현지어 카피를 재생성해 validate_copy.py 전건 PASS를 확보했다.</p>
-      <p>승인 카피 기준 규제 리스크 해소 — 아래 액션 아이템 반영 시 런칭 준비 완료(READY).</p>
+  <div class="tabs">
+    <input type="radio" name="lang" id="tab-ko" checked>
+    <input type="radio" name="lang" id="tab-orig">
+    <div class="tablabels">
+      <label for="tab-ko">한국어</label>
+      <label for="tab-orig">日本語</label>
     </div>
-    <div class="counts">즉시 조치 필요 <strong>4</strong>건 · 조건부 <strong>1</strong>건</div>
-  </section>
 
-  <section class="panel">
-    <span class="eyebrow">02 — Market Scan</span>
-    <h2 class="section-title">현지 시장 스캔</h2>
-    <p><strong>트렌드 키워드</strong> ビタミンC美容液 · 高濃度 · プチプラ韓国コスメ · 毛穴/くすみケア · グルタチオン</p>
-    <div class="scroll">
-      <table>
-        <thead><tr><th>경쟁 제품</th><th>가격대</th><th>핵심 소구점</th></tr></thead>
-        <tbody>
-          <tr><td>COSRX ザ・ビタミンC23セラム</td><td>約2,000〜2,800円</td><td>高濃度ピュアビタミンC23%</td></tr>
-          <tr><td>numbuzin 5番 白玉グルタチオンC美容液</td><td>約1,950円(30ml)</td><td>透明感・トーンケア</td></tr>
-          <tr><td>Anua VCセラム10</td><td>約2,000〜3,000円</td><td>ビタミンC誘導体6種配合</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="subhead">나이대별 피부 고민 격자 · 매칭 셀 강조</div>
-    <div class="scroll">
-      <table>
-        <thead><tr><th>나이대</th><th>상위 고민</th><th>매칭</th></tr></thead>
-        <tbody>
-          <tr><td>20-29</td><td>ニキビ / 毛穴 / 皮脂</td><td>● 매칭 (毛穴・皮脂)</td></tr>
-          <tr><td>30-39</td><td>毛穴 / 乾燥 / くすみ</td><td>● 매칭 (くすみ)</td></tr>
-          <tr><td>40-49</td><td>シミ / ハリ / 小じわ</td><td>● 매칭 (シミ予防)</td></tr>
-          <tr><td>50-59</td><td>たるみ / シワ / 乾燥</td><td>—</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
+    <!-- ================= 한국어 패널 ================= -->
+    <div class="panel-ko">
 
-  <section class="panel">
-    <span class="eyebrow">03 — Regulatory Check</span>
-    <h2 class="section-title">규제 검증 결과 <span class="star">★</span></h2>
-    <div class="subhead">원본 카피 · 위반 표현 강조</div>
-    <p class="copy-orig"><span class="hl">기미를 완벽하게 지워</span>주는 <span class="hl">미백</span> 세럼입니다. <span class="hl">재생</span> 성분이 피부를 <span class="hl">되살</span>립니다. 일본 판매 <span class="hl">1위</span> 제품!</p>
-    <div class="scroll" style="margin-top:20px;">
-      <table>
-        <thead><tr><th>룰 ID</th><th>탐지</th><th>심각도</th><th>근거</th><th>대체 표현</th></tr></thead>
-        <tbody>
-          <tr>
-            <td>JP-001</td>
-            <td><span class="hl">기미를 완벽하게 지워</span></td>
-            <td class="sev-VIOLATION">VIOLATION</td>
-            <td>既にできたシミを消す治療的表現。薬機法66条違反。</td>
-            <td>日焼けによるシミ・そばかすを防ぐ</td>
-          </tr>
-          <tr>
-            <td>JP-002</td>
-            <td><span class="hl">미백</span></td>
-            <td class="sev-VIOLATION">VIOLATION</td>
-            <td>一般化粧品で肌が白くなる「美白」表現は不可。</td>
-            <td>透明感のある印象へ / うるおいで肌を整える</td>
-          </tr>
-          <tr>
-            <td>JP-003</td>
-            <td><span class="hl">재생</span></td>
-            <td class="sev-VIOLATION">VIOLATION</td>
-            <td>肌の再生は化粧品の効能範囲を逸脱する治療的表現。</td>
-            <td>キメを整える / ハリのある肌印象へ</td>
-          </tr>
-          <tr>
-            <td>JP-003</td>
-            <td><span class="hl">되살</span></td>
-            <td class="sev-VIOLATION">VIOLATION</td>
-            <td>肌を蘇らせる表現は効能範囲逸脱。</td>
-            <td>うるおいのあるすこやかな肌へ</td>
-          </tr>
-          <tr>
-            <td>JP-004</td>
-            <td><span class="hl">1위</span></td>
-            <td class="sev-WARNING">WARNING</td>
-            <td>「販売1位」は客観的根拠・出典の明記が必須(景表法)。</td>
-            <td>満足度調査で高評価(出典明記)</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <p class="gauge-label"><strong>검증 통과율</strong> 원본 0/3 문장 통과 → 승인 카피 6/6 문장 통과</p>
-    <div class="gauge"><span style="width: 100%;"></span></div>
-  </section>
-
-  <section class="panel">
-    <span class="eyebrow">04 — Approved Copy</span>
-    <h2 class="section-title">페르소나별 승인 카피</h2>
-    <div class="cards">
-      <div class="card">
-        <div>
-          <span class="tag">20-29</span>
-          <span class="tag">毛穴</span><span class="tag">皮脂</span>
+      <section class="panel">
+        <span class="eyebrow">01 — 요약</span>
+        <h2 class="section-title">요약</h2>
+        <div class="lead">
+          <p>원본 한국어 카피는 일본 약기법·경품표시법 위반 5건(위반 4·경고 1)이 탐지되어 그대로는 런칭 불가였다.</p>
+          <p>자가 검증 루프에서 3개 페르소나별 현지어 카피를 재생성해 validate_copy.py 전건 통과를 확보했다.</p>
+          <p>승인 카피 기준 규제 리스크 해소 — 아래 액션 아이템 반영 시 런칭 준비 완료(READY).</p>
         </div>
-        <span class="p-label">毛穴・皮脂が気になる20代Kビューティー好き</span>
-        <div class="p-desc">SNSで韓国コスメ収集・プチプラ志向・リピート型</div>
-        <p class="copy">“毛穴の目立たないなめらかな肌印象へ。ビタミンCでキメを整えるうるおい美容液。”</p>
-        <div><span class="badge-pass">validate_copy.py PASS</span></div>
-        <div class="p-foot">파생 근거 · concerns/jp.json 20-29 × 毛穴・皮脂</div>
-        <div class="p-foot">추천 채널 · Instagram / Qoo10 / 楽天市場 / ドラッグストア</div>
-      </div>
-      <div class="card">
-        <div>
-          <span class="tag">30-39</span>
-          <span class="tag">くすみ</span><span class="tag">乾燥</span>
-        </div>
-        <span class="p-label">くすみ・インナードライが気になる30代</span>
-        <div class="p-desc">混合肌・成分重視・口コミ比較検討</div>
-        <p class="copy">“うるおいで肌を整え、透明感のある印象へ。ビタミンC配合のなめらか美容液。”</p>
-        <div><span class="badge-pass">validate_copy.py PASS</span></div>
-        <div class="p-foot">파생 근거 · concerns/jp.json 30-39 × くすみ</div>
-        <div class="p-foot">추천 채널 · Instagram / @cosme / 楽天市場</div>
-      </div>
-      <div class="card">
-        <div>
-          <span class="tag">40-49</span>
-          <span class="tag">シミ予防</span><span class="tag">小じわ</span>
-        </div>
-        <span class="p-label">シミ予防・エイジングケア志向の40代</span>
-        <div class="p-desc">根拠重視・薬機法に沿った信頼訴求を好む</div>
-        <p class="copy">“日焼けによるシミ・そばかすを防ぎ、乾燥による小じわを目立たなくする。うるおいでハリのある肌印象へ。”</p>
-        <div><span class="badge-pass">validate_copy.py PASS</span></div>
-        <div class="p-foot">파생 근거 · concerns/jp.json 40-49 × シミ</div>
-        <div class="p-foot">추천 채널 · @cosme / 百貨店 / 楽天市場 / ドラッグストア</div>
-      </div>
-    </div>
-  </section>
+        <div class="counts">즉시 조치 필요 <strong>4</strong>건 · 조건부 <strong>1</strong>건</div>
+      </section>
 
-  <section class="panel">
-    <span class="eyebrow">05 — Action Items</span>
-    <h2 class="section-title">액션 아이템</h2>
-    <ul class="action">
-      <li><span class="pill-req">필수</span><span>원본 카피의 「기미를 완벽하게 지워」(JP-001)·「미백」(JP-002)·「재생/되살」(JP-003)은 그대로 사용 불가 — 승인 카피로 교체.</span></li>
-      <li><span class="pill-rec">권장</span><span>「판매 1위」(JP-004) 사용 시 제3자 조사 출처·기간·대상을 명기하거나 삭제.</span></li>
-      <li><span class="pill-rec">권장</span><span>医薬部外品 승인이 있으면 작용기전 병기로 「美白」 사용 여지 검토.</span></li>
-    </ul>
-    <div class="subhead">참고 공개 자료</div>
-    <ul class="sources">
-      <li><a href="https://www.jcia.org/user/common/download/business/advertising/JCIA20200615_ADguide.pdf">化粧品等の適正広告ガイドライン 2020(日本化粧品工業会)</a></li>
-      <li><a href="https://www.89ji.com/guide/cosmetic-p2.html">薬機法 標ぼう可能/禁止表現 解説(薬事法広告研究所)</a></li>
-      <li><a href="https://www.yakujihou.com/rule/bihaku/">薬用化粧品(医薬部外品)における美白表現の範囲</a></li>
-      <li><a href="https://www.excrie.co.jp/report/skincare-2025">「スキンケア」に関する調査 2025(エクスクリエ)</a></li>
-    </ul>
-  </section>
+      <section class="panel">
+        <span class="eyebrow">02 — 현지 시장 스캔</span>
+        <h2 class="section-title">현지 시장 스캔</h2>
+        <p><strong>트렌드 키워드</strong> 비타민C 세럼 · 고농도 · 저가 한국 코스메 · 모공/칙칙함 케어 · 글루타치온</p>
+        <div class="scroll">
+          <table>
+            <thead><tr><th>경쟁 제품</th><th>가격대</th><th>핵심 소구점</th></tr></thead>
+            <tbody>
+              <tr><td>COSRX 더 비타민C23 세럼</td><td>약 2,000~2,800엔</td><td>고농도 퓨어 비타민C 23%</td></tr>
+              <tr><td>numbuzin 5번 백옥 글루타치온C 세럼</td><td>약 1,950엔(30ml)</td><td>투명감·톤 케어</td></tr>
+              <tr><td>Anua VC세럼10</td><td>약 2,000~3,000엔</td><td>비타민C 유도체 6종 배합</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="subhead">나이대별 피부 고민 격자 · 매칭 셀 강조</div>
+        <div class="scroll">
+          <table>
+            <thead><tr><th>나이대</th><th>상위 고민</th><th>매칭</th></tr></thead>
+            <tbody>
+              <tr><td>20-29</td><td>여드름 / 모공 / 피지</td><td>● 매칭 (모공·피지)</td></tr>
+              <tr><td>30-39</td><td>모공 / 건조 / 칙칙함</td><td>● 매칭 (칙칙함)</td></tr>
+              <tr><td>40-49</td><td>기미 / 탄력 / 잔주름</td><td>● 매칭 (기미 예방)</td></tr>
+              <tr><td>50-59</td><td>처짐 / 주름 / 건조</td><td>—</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="panel">
+        <span class="eyebrow">03 — 규제 검증 결과</span>
+        <h2 class="section-title">규제 검증 결과 <span class="star">★</span></h2>
+        <div class="subhead">원본 카피 · 위반 표현 강조</div>
+        <p class="copy-orig"><span class="hl">기미를 완벽하게 지워</span>주는 <span class="hl">미백</span> 세럼입니다. <span class="hl">재생</span> 성분이 피부를 <span class="hl">되살</span>립니다. 일본 판매 <span class="hl">1위</span> 제품!</p>
+        <div class="scroll" style="margin-top:20px;">
+          <table>
+            <thead><tr><th>룰 ID</th><th>탐지</th><th>심각도</th><th>근거</th><th>대체 표현</th></tr></thead>
+            <tbody>
+              <tr>
+                <td>JP-001</td>
+                <td><span class="hl">기미를 완벽하게 지워</span></td>
+                <td class="sev-VIOLATION">VIOLATION</td>
+                <td>이미 생긴 기미를 지우는 치료적 표현. 약기법 66조 위반.</td>
+                <td>햇볕에 의한 기미·주근깨를 방지</td>
+              </tr>
+              <tr>
+                <td>JP-002</td>
+                <td><span class="hl">미백</span></td>
+                <td class="sev-VIOLATION">VIOLATION</td>
+                <td>일반 화장품에서 피부가 하얘지는 '미백' 표현 불가.</td>
+                <td>투명감 있는 인상으로 / 보습으로 피부결 정돈</td>
+              </tr>
+              <tr>
+                <td>JP-003</td>
+                <td><span class="hl">재생</span></td>
+                <td class="sev-VIOLATION">VIOLATION</td>
+                <td>피부 재생은 화장품 효능 범위를 벗어난 치료적 표현.</td>
+                <td>피부결을 정돈 / 탄력 있는 피부 인상으로</td>
+              </tr>
+              <tr>
+                <td>JP-003</td>
+                <td><span class="hl">되살</span></td>
+                <td class="sev-VIOLATION">VIOLATION</td>
+                <td>피부를 되살린다는 표현은 효능 범위 일탈.</td>
+                <td>촉촉하고 건강한 피부로</td>
+              </tr>
+              <tr>
+                <td>JP-004</td>
+                <td><span class="hl">1위</span></td>
+                <td class="sev-WARNING">WARNING</td>
+                <td>'판매 1위'는 객관적 근거·출처 명기 필수(경품표시법).</td>
+                <td>만족도 조사에서 높은 평가(출처 명기)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="gauge-label"><strong>검증 통과율</strong> 원본 0/3 문장 통과 → 승인 카피 6/6 문장 통과</p>
+        <div class="gauge"><span style="width: 100%;"></span></div>
+      </section>
+
+      <section class="panel">
+        <span class="eyebrow">04 — 페르소나별 승인 카피</span>
+        <h2 class="section-title">페르소나별 승인 카피</h2>
+        <div class="cards">
+          <div class="card">
+            <div>
+              <span class="tag">20-29</span>
+              <span class="tag">모공</span><span class="tag">피지</span>
+            </div>
+            <span class="p-label">모공·피지가 신경 쓰이는 20대 K뷰티 애호가</span>
+            <div class="p-desc">SNS로 한국 코스메 수집 · 저가 지향 · 재구매형</div>
+            <p class="copy">“모공이 도드라지지 않는 매끈한 피부 인상으로. 비타민C로 피부결을 정돈하는 보습 세럼.”</p>
+            <div><span class="badge-pass">validate_copy.py PASS</span></div>
+            <div class="p-foot">파생 근거 · concerns/jp.json 20-29 × 모공·피지</div>
+            <div class="p-foot">추천 채널 · Instagram / Qoo10 / 라쿠텐 / 드럭스토어</div>
+          </div>
+          <div class="card">
+            <div>
+              <span class="tag">30-39</span>
+              <span class="tag">칙칙함</span><span class="tag">건조</span>
+            </div>
+            <span class="p-label">칙칙함·이너드라이가 신경 쓰이는 30대</span>
+            <div class="p-desc">복합성 · 성분 중시 · 리뷰 비교 검토</div>
+            <p class="copy">“보습으로 피부를 정돈하고 투명감 있는 인상으로. 비타민C 배합 매끈 세럼.”</p>
+            <div><span class="badge-pass">validate_copy.py PASS</span></div>
+            <div class="p-foot">파생 근거 · concerns/jp.json 30-39 × 칙칙함</div>
+            <div class="p-foot">추천 채널 · Instagram / @cosme / 라쿠텐</div>
+          </div>
+          <div class="card">
+            <div>
+              <span class="tag">40-49</span>
+              <span class="tag">기미예방</span><span class="tag">잔주름</span>
+            </div>
+            <span class="p-label">기미 예방·에이징케어 지향 40대</span>
+            <div class="p-desc">근거 중시 · 약기법 준수 신뢰 소구 선호</div>
+            <p class="copy">“햇볕에 의한 기미·주근깨를 방지하고, 건조에 의한 잔주름을 눈에 띄지 않게. 보습으로 탄력 있는 피부 인상으로.”</p>
+            <div><span class="badge-pass">validate_copy.py PASS</span></div>
+            <div class="p-foot">파생 근거 · concerns/jp.json 40-49 × 기미</div>
+            <div class="p-foot">추천 채널 · @cosme / 백화점 / 라쿠텐 / 드럭스토어</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <span class="eyebrow">05 — 액션 아이템</span>
+        <h2 class="section-title">액션 아이템</h2>
+        <ul class="action">
+          <li><span class="pill-req">필수</span><span>원본 카피의 「기미를 완벽하게 지워」(JP-001)·「미백」(JP-002)·「재생/되살」(JP-003)은 그대로 사용 불가 — 승인 카피로 교체.</span></li>
+          <li><span class="pill-rec">권장</span><span>「판매 1위」(JP-004) 사용 시 제3자 조사 출처·기간·대상을 명기하거나 삭제.</span></li>
+          <li><span class="pill-rec">권장</span><span>의약부외품 승인이 있으면 작용기전 병기로 「美白」 사용 여지 검토.</span></li>
+        </ul>
+        <div class="subhead">참고 공개 자료</div>
+        <ul class="sources">
+          <li><a href="https://www.jcia.org/user/common/download/business/advertising/JCIA20200615_ADguide.pdf">화장품 등의 적정광고 가이드라인 2020(일본화장품공업회)</a></li>
+          <li><a href="https://www.89ji.com/guide/cosmetic-p2.html">약기법 표방 가능/금지 표현 해설(약사법광고연구소)</a></li>
+          <li><a href="https://www.yakujihou.com/rule/bihaku/">약용화장품(의약부외품) 미백 표현의 범위</a></li>
+          <li><a href="https://www.excrie.co.jp/report/skincare-2025">스킨케어에 관한 조사 2025(엑스크리에)</a></li>
+        </ul>
+      </section>
+
+    </div><!-- /panel-ko -->
+
+    <!-- ================= 日本語 패널 ================= -->
+    <div class="panel-orig">
+
+      <section class="panel">
+        <span class="eyebrow">01 — Summary</span>
+        <h2 class="section-title">サマリー</h2>
+        <div class="lead">
+          <p>元の韓国語コピーは薬機法・景表法違反5件(違反4・警告1)が検出され、そのままでは発売不可でした。</p>
+          <p>自己検証ループで3ペルソナ別の現地語コピーを再生成し、validate_copy.py 全件PASSを確保しました。</p>
+          <p>承認コピー基準で規制リスクを解消 — 下記アクション反映で発売準備完了(READY)。</p>
+        </div>
+        <div class="counts">要対応 <strong>4</strong>件 · 条件付き <strong>1</strong>件</div>
+      </section>
+
+      <section class="panel">
+        <span class="eyebrow">02 — Market Scan</span>
+        <h2 class="section-title">現地市場スキャン</h2>
+        <p><strong>トレンドキーワード</strong> ビタミンC美容液 · 高濃度 · プチプラ韓国コスメ · 毛穴/くすみケア · グルタチオン</p>
+        <div class="scroll">
+          <table>
+            <thead><tr><th>競合製品</th><th>価格帯</th><th>訴求ポイント</th></tr></thead>
+            <tbody>
+              <tr><td>COSRX ザ・ビタミンC23セラム</td><td>約2,000〜2,800円</td><td>高濃度ピュアビタミンC23%</td></tr>
+              <tr><td>numbuzin 5番 白玉グルタチオンC美容液</td><td>約1,950円(30ml)</td><td>透明感・トーンケア</td></tr>
+              <tr><td>Anua VCセラム10</td><td>約2,000〜3,000円</td><td>ビタミンC誘導体6種配合</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="subhead">年代別 肌悩みグリッド · マッチセル強調</div>
+        <div class="scroll">
+          <table>
+            <thead><tr><th>年代</th><th>上位の悩み</th><th>マッチ</th></tr></thead>
+            <tbody>
+              <tr><td>20-29</td><td>ニキビ / 毛穴 / 皮脂</td><td>● マッチ (毛穴・皮脂)</td></tr>
+              <tr><td>30-39</td><td>毛穴 / 乾燥 / くすみ</td><td>● マッチ (くすみ)</td></tr>
+              <tr><td>40-49</td><td>シミ / ハリ / 小じわ</td><td>● マッチ (シミ予防)</td></tr>
+              <tr><td>50-59</td><td>たるみ / シワ / 乾燥</td><td>—</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="panel">
+        <span class="eyebrow">03 — Regulatory Check</span>
+        <h2 class="section-title">規制チェック結果 <span class="star">★</span></h2>
+        <div class="subhead">元コピー(参考訳) · 違反表現ハイライト</div>
+        <p class="copy-orig"><span class="hl">シミを完全に消す</span><span class="hl">美白</span>美容液です。<span class="hl">再生</span>成分が肌を<span class="hl">蘇らせ</span>ます。日本販売<span class="hl">1位</span>製品!</p>
+        <div class="scroll" style="margin-top:20px;">
+          <table>
+            <thead><tr><th>ルールID</th><th>検出</th><th>深刻度</th><th>根拠</th><th>代替表現</th></tr></thead>
+            <tbody>
+              <tr>
+                <td>JP-001</td>
+                <td><span class="hl">シミを消す</span></td>
+                <td class="sev-VIOLATION">VIOLATION</td>
+                <td>既にできたシミを消す治療的表現。薬機法66条違反。</td>
+                <td>日焼けによるシミ・そばかすを防ぐ</td>
+              </tr>
+              <tr>
+                <td>JP-002</td>
+                <td><span class="hl">美白</span></td>
+                <td class="sev-VIOLATION">VIOLATION</td>
+                <td>一般化粧品で肌が白くなる「美白」表現は不可。</td>
+                <td>透明感のある印象へ / うるおいで肌を整える</td>
+              </tr>
+              <tr>
+                <td>JP-003</td>
+                <td><span class="hl">再生</span></td>
+                <td class="sev-VIOLATION">VIOLATION</td>
+                <td>肌の再生は化粧品の効能範囲を逸脱する治療的表現。</td>
+                <td>キメを整える / ハリのある肌印象へ</td>
+              </tr>
+              <tr>
+                <td>JP-003</td>
+                <td><span class="hl">蘇らせ</span></td>
+                <td class="sev-VIOLATION">VIOLATION</td>
+                <td>肌を蘇らせる表現は効能範囲逸脱。</td>
+                <td>うるおいのあるすこやかな肌へ</td>
+              </tr>
+              <tr>
+                <td>JP-004</td>
+                <td><span class="hl">1位</span></td>
+                <td class="sev-WARNING">WARNING</td>
+                <td>「販売1位」は客観的根拠・出典の明記が必須(景表法)。</td>
+                <td>満足度調査で高評価(出典明記)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="gauge-label"><strong>検証通過率</strong> 元 0/3 文通過 → 承認コピー 6/6 文通過</p>
+        <div class="gauge"><span style="width: 100%;"></span></div>
+      </section>
+
+      <section class="panel">
+        <span class="eyebrow">04 — Approved Copy</span>
+        <h2 class="section-title">ペルソナ別 承認コピー</h2>
+        <div class="cards">
+          <div class="card">
+            <div>
+              <span class="tag">20-29</span>
+              <span class="tag">毛穴</span><span class="tag">皮脂</span>
+            </div>
+            <span class="p-label">毛穴・皮脂が気になる20代Kビューティー好き</span>
+            <div class="p-desc">SNSで韓国コスメ収集・プチプラ志向・リピート型</div>
+            <p class="copy">“毛穴の目立たないなめらかな肌印象へ。ビタミンCでキメを整えるうるおい美容液。”</p>
+            <div><span class="badge-pass">validate_copy.py PASS</span></div>
+            <div class="p-foot">派生根拠 · concerns/jp.json 20-29 × 毛穴・皮脂</div>
+            <div class="p-foot">推奨チャネル · Instagram / Qoo10 / 楽天市場 / ドラッグストア</div>
+          </div>
+          <div class="card">
+            <div>
+              <span class="tag">30-39</span>
+              <span class="tag">くすみ</span><span class="tag">乾燥</span>
+            </div>
+            <span class="p-label">くすみ・インナードライが気になる30代</span>
+            <div class="p-desc">混合肌・成分重視・口コミ比較検討</div>
+            <p class="copy">“うるおいで肌を整え、透明感のある印象へ。ビタミンC配合のなめらか美容液。”</p>
+            <div><span class="badge-pass">validate_copy.py PASS</span></div>
+            <div class="p-foot">派生根拠 · concerns/jp.json 30-39 × くすみ</div>
+            <div class="p-foot">推奨チャネル · Instagram / @cosme / 楽天市場</div>
+          </div>
+          <div class="card">
+            <div>
+              <span class="tag">40-49</span>
+              <span class="tag">シミ予防</span><span class="tag">小じわ</span>
+            </div>
+            <span class="p-label">シミ予防・エイジングケア志向の40代</span>
+            <div class="p-desc">根拠重視・薬機法に沿った信頼訴求を好む</div>
+            <p class="copy">“日焼けによるシミ・そばかすを防ぎ、乾燥による小じわを目立たなくする。うるおいでハリのある肌印象へ。”</p>
+            <div><span class="badge-pass">validate_copy.py PASS</span></div>
+            <div class="p-foot">派生根拠 · concerns/jp.json 40-49 × シミ</div>
+            <div class="p-foot">推奨チャネル · @cosme / 百貨店 / 楽天市場 / ドラッグストア</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <span class="eyebrow">05 — Action Items</span>
+        <h2 class="section-title">アクションアイテム</h2>
+        <ul class="action">
+          <li><span class="pill-req">必須</span><span>元コピーの「シミを完全に消す」(JP-001)・「美白」(JP-002)・「再生/蘇らせ」(JP-003)はそのまま使用不可 — 承認コピーへ差し替え。</span></li>
+          <li><span class="pill-rec">推奨</span><span>「販売1位」(JP-004)使用時は第三者調査の出典・期間・対象を明記するか削除。</span></li>
+          <li><span class="pill-rec">推奨</span><span>医薬部外品の承認があれば作用機序併記で「美白」使用の余地を検討。</span></li>
+        </ul>
+        <div class="subhead">参考公開資料</div>
+        <ul class="sources">
+          <li><a href="https://www.jcia.org/user/common/download/business/advertising/JCIA20200615_ADguide.pdf">化粧品等の適正広告ガイドライン 2020(日本化粧品工業会)</a></li>
+          <li><a href="https://www.89ji.com/guide/cosmetic-p2.html">薬機法 標ぼう可能/禁止表現 解説(薬事法広告研究所)</a></li>
+          <li><a href="https://www.yakujihou.com/rule/bihaku/">薬用化粧品(医薬部外品)における美白表現の範囲</a></li>
+          <li><a href="https://www.excrie.co.jp/report/skincare-2025">「スキンケア」に関する調査 2025(エクスクリエ)</a></li>
+        </ul>
+      </section>
+
+    </div><!-- /panel-orig -->
+
+  </div><!-- /tabs -->
 
   <footer class="report-foot">
     LaunchPass · 규제 판정은 scripts/validate_copy.py(룰셋 기반 코드)가 수행합니다.

@@ -5,19 +5,25 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LaunchPass 레디니스 리포트 — {{PRODUCT_NAME}}</title>
 <!--
-  LaunchPass 레디니스 보고서 템플릿 — editorial-voice 디자인 시스템 적용 (strategies/DESIGN.md).
+  LaunchPass 레디니스 보고서 템플릿 — editorial-voice 디자인 + 다국어 2탭 (strategies/DESIGN.md, dev-plan 5-1).
   STAGE 4가 이 파일을 기반으로 {{플레이스홀더}}를 채우고 반복 블록을 복제해
   output/launchpass_report_{제품명}_{YYYY-MM-DD}.html (실제 경로 src/output/) 로 저장한다.
+
+  다국어 규칙:
+  - 리포트는 [한국어] / [타겟국가어] 두 탭으로 완전 병행한다.
+  - 헤더(제품명·신호등·버전·수치)는 공유 — 1회만 채운다.
+  - 1~5 섹션은 KO 패널(한국어 토큰)과 ORIG 패널(O_ 접두 토큰)에 각 언어로 완역해 채운다.
+  - {{TARGET_LANG}}: 타겟국가어 탭 이름 (예: 日本語 / English / Tiếng Việt).
+  - 탭 전환은 CSS 라디오만 사용(무JS·자립형).
 
   플레이스홀더 규칙:
   - {{TOKEN}}          단일 치환
   - <!-- BEGIN xxx --> ~ <!-- END xxx -->  반복/조건 블록 (필요 수만큼 복제 또는 제거)
   - 신호등: VERDICT_CLASS 를 ready|conditional|notready 중 하나로 설정
-    (ready→mint orb·green label / conditional→peach orb·amber / notready→rose orb·red)
+    (색상은 CSS가 자동 적용, VERDICT_LABEL 은 이모지 없는 순수 텍스트 READY/CONDITIONAL/NOT READY)
 -->
 <style>
   :root {
-    /* editorial palette (DESIGN.md) */
     --canvas: #f5f5f5; --canvas-soft: #fafafa; --card: #ffffff;
     --surface-strong: #f0efed;
     --ink: #0c0a09; --body: #4e4e4e; --body-strong: #292524;
@@ -40,7 +46,6 @@
     font-family: var(--sans); font-size: 16px; line-height: 1.5;
     letter-spacing: 0.15px; position: relative; overflow-x: hidden;
   }
-  /* atmospheric gradient orbs — pure decoration */
   body::before, body::after {
     content: ""; position: fixed; z-index: 0; pointer-events: none;
     border-radius: 9999px; filter: blur(70px); opacity: 0.35;
@@ -58,10 +63,8 @@
 
   .eyebrow { font-size: 12px; font-weight: 600; letter-spacing: 0.96px;
              text-transform: uppercase; color: var(--muted); }
-  .display { font-family: var(--serif); font-weight: 300; color: var(--ink); }
 
-  /* ---- hero ---- */
-  .hero { text-align: center; padding: 8px 0 48px; position: relative; }
+  .hero { text-align: center; padding: 8px 0 40px; position: relative; }
   .hero .brand { display: inline-block; margin-bottom: 22px; }
   .hero h1 {
     font-family: var(--serif); font-weight: 300; color: var(--ink);
@@ -72,7 +75,6 @@
     font-weight: 500; margin: 0 auto 6px; max-width: 720px; }
   .hero-meta { font-size: 14px; color: var(--muted); margin: 0 0 30px; }
 
-  /* verdict — clear status banner, minimal decoration */
   .verdict { display: inline-flex; align-items: center; gap: 14px;
     text-align: left; margin: 0 auto; padding: 16px 24px;
     background: var(--card); border: 1px solid var(--hairline);
@@ -98,7 +100,21 @@
     border-radius: 9999px; background: rgba(180,83,9,0.08);
     border: 1px solid rgba(180,83,9,0.2); color: var(--warning); font-size: 13px; }
 
-  /* ---- panels ---- */
+  /* ---- language tabs (CSS only, no JS) ---- */
+  .tabs { position: relative; }
+  .tabs > input[type=radio] { position: absolute; opacity: 0; pointer-events: none; }
+  .tablabels { display: flex; gap: 8px; justify-content: center; margin-bottom: 26px; }
+  .tablabels label { cursor: pointer; padding: 9px 22px; border-radius: 9999px;
+    font-size: 14px; font-weight: 600; letter-spacing: 0.3px; color: var(--muted);
+    background: var(--surface-strong); border: 1px solid var(--hairline); user-select: none; }
+  #tab-ko:checked ~ .tablabels label[for="tab-ko"],
+  #tab-orig:checked ~ .tablabels label[for="tab-orig"] {
+    background: var(--ink); color: #fff; border-color: var(--ink); }
+  .panel-ko, .panel-orig { display: none; }
+  #tab-ko:checked ~ .panel-ko { display: block; }
+  #tab-orig:checked ~ .panel-orig { display: block; }
+
+  /* ---- panels (sections) ---- */
   .panel { background: var(--card); border: 1px solid var(--hairline);
            border-radius: 16px; box-shadow: var(--shadow);
            padding: 36px 40px; margin-bottom: 24px; }
@@ -115,7 +131,6 @@
   .counts { margin-top: 16px; font-size: 14px; color: var(--muted); }
   .counts strong { color: var(--ink); }
 
-  /* ---- tables ---- */
   table { width: 100%; border-collapse: collapse; font-size: 14.5px; }
   .scroll { overflow-x: auto; }
   th { text-align: left; padding: 10px 12px; color: var(--muted);
@@ -125,7 +140,6 @@
        border-bottom: 1px solid var(--hairline); vertical-align: top; }
   tbody tr:last-child td { border-bottom: none; }
 
-  /* ---- inline marks ---- */
   .tag { display: inline-block; padding: 4px 10px; border-radius: 9999px;
     font-size: 11px; font-weight: 600; letter-spacing: 0.6px; text-transform: uppercase;
     background: var(--surface-strong); color: var(--body-strong); margin: 0 5px 5px 0; }
@@ -142,13 +156,11 @@
     padding: 18px 20px; background: var(--canvas-soft);
     border: 1px solid var(--hairline); border-radius: 12px; }
 
-  /* ---- gauge ---- */
   .gauge-label { margin: 22px 0 8px; font-size: 14px; }
   .gauge { height: 8px; border-radius: 9999px; background: var(--surface-strong); overflow: hidden; }
   .gauge > span { display: block; height: 100%; border-radius: 9999px;
     background: linear-gradient(90deg, var(--g-mint), var(--success)); }
 
-  /* ---- persona cards ---- */
   .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 18px; }
   .card { border: 1px solid var(--hairline); border-radius: 16px; padding: 22px;
           background: var(--card); }
@@ -159,7 +171,6 @@
     font-family: var(--serif); font-weight: 300; margin: 0 0 14px; }
   .card .p-foot { font-size: 12.5px; color: var(--muted); margin-top: 8px; }
 
-  /* ---- action list ---- */
   .action { list-style: none; padding: 0; margin: 0; }
   .action li { display: flex; gap: 12px; align-items: baseline;
     padding: 12px 0; border-bottom: 1px solid var(--hairline-soft); color: var(--body); }
@@ -190,11 +201,10 @@
   <header class="hero">
     <span class="eyebrow brand">LaunchPass · Launch Readiness Report</span>
     <h1>런칭 레디니스 리포트</h1>
-    <!-- 자세한 소제목: 제품명 -->
+    <!-- 자세한 소제목: 제품명 (언어 공통) -->
     <p class="subtitle">{{PRODUCT_NAME}}</p>
     <p class="hero-meta">{{MARKET}} · {{ANALYZED_AT}}</p>
-    <!-- 신호등 판정: VERDICT_LABEL 은 이모지 없는 순수 텍스트(READY / CONDITIONAL / NOT READY)로 채운다.
-         색상은 VERDICT_CLASS(ready|conditional|notready)가 좌측 바·점·라벨에 자동 적용한다. -->
+    <!-- 신호등: VERDICT_LABEL 은 이모지 없는 순수 텍스트. 색상은 VERDICT_CLASS 가 자동 적용. -->
     <div class="verdict {{VERDICT_CLASS}}">
       <span class="dot" aria-hidden="true"></span>
       <div class="verdict-text">
@@ -208,109 +218,232 @@
     <!-- END freshness_warning -->
   </header>
 
-  <section class="panel">
-    <span class="eyebrow">01 — Summary</span>
-    <h2 class="section-title">요약</h2>
-    <div class="lead">
-      <p>{{SUMMARY_LINE_1}}</p>
-      <p>{{SUMMARY_LINE_2}}</p>
-      <p>{{SUMMARY_LINE_3}}</p>
+  <div class="tabs">
+    <input type="radio" name="lang" id="tab-ko" checked>
+    <input type="radio" name="lang" id="tab-orig">
+    <div class="tablabels">
+      <label for="tab-ko">한국어</label>
+      <label for="tab-orig">{{TARGET_LANG}}</label>
     </div>
-    <div class="counts">즉시 조치 필요 <strong>{{VIOLATION_COUNT}}</strong>건 ·
-      조건부 <strong>{{WARNING_COUNT}}</strong>건</div>
-  </section>
 
-  <section class="panel">
-    <span class="eyebrow">02 — Market Scan</span>
-    <h2 class="section-title">현지 시장 스캔</h2>
-    <p><strong>트렌드 키워드</strong> {{TREND_KEYWORDS}}</p>
-    <div class="scroll">
-      <table>
-        <thead><tr><th>경쟁 제품</th><th>가격대</th><th>핵심 소구점</th></tr></thead>
-        <tbody>
-          <!-- BEGIN competitor_row -->
-          <tr><td>{{COMP_NAME}}</td><td>{{COMP_PRICE}}</td><td>{{COMP_POINT}}</td></tr>
-          <!-- END competitor_row -->
-        </tbody>
-      </table>
-    </div>
-    <div class="subhead">나이대별 피부 고민 격자 · 매칭 셀 강조</div>
-    <div class="scroll">
-      <table>
-        <thead><tr><th>나이대</th><th>상위 고민</th><th>매칭</th></tr></thead>
-        <tbody>
-          <!-- BEGIN concern_row -->
-          <tr><td>{{AGE_BAND}}</td><td>{{TOP_CONCERNS}}</td><td>{{MATCH_MARK}}</td></tr>
-          <!-- END concern_row -->
-        </tbody>
-      </table>
-    </div>
-  </section>
+    <!-- ================= 한국어 패널 ================= -->
+    <div class="panel-ko">
 
-  <section class="panel">
-    <span class="eyebrow">03 — Regulatory Check</span>
-    <h2 class="section-title">규제 검증 결과 <span class="star">★</span></h2>
-    <div class="subhead">원본 카피 · 위반 표현 강조</div>
-    <p class="copy-orig">{{HIGHLIGHTED_COPY}}</p>
-    <div class="scroll" style="margin-top:20px;">
-      <table>
-        <thead><tr><th>룰 ID</th><th>탐지</th><th>심각도</th><th>근거</th><th>대체 표현</th></tr></thead>
-        <tbody>
-          <!-- BEGIN violation_row -->
-          <tr>
-            <td>{{RULE_ID}}</td>
-            <td><span class="hl">{{MATCHED}}</span></td>
-            <td class="sev-{{SEVERITY}}">{{SEVERITY}}</td>
-            <td>{{REASON}}</td>
-            <td>{{ALTERNATIVES}}</td>
-          </tr>
-          <!-- END violation_row -->
-        </tbody>
-      </table>
-    </div>
-    <p class="gauge-label"><strong>검증 통과율</strong> {{PASS_RATE_LABEL}}</p>
-    <div class="gauge"><span style="width: {{PASS_RATE_PCT}}%;"></span></div>
-  </section>
-
-  <section class="panel">
-    <span class="eyebrow">04 — Approved Copy</span>
-    <h2 class="section-title">페르소나별 승인 카피</h2>
-    <div class="cards">
-      <!-- BEGIN persona_card -->
-      <div class="card">
-        <div>
-          <span class="tag">{{P_AGE_BAND}}</span>
-          <!-- BEGIN p_concern_tag --><span class="tag">{{P_CONCERN}}</span><!-- END p_concern_tag -->
+      <section class="panel">
+        <span class="eyebrow">01 — 요약</span>
+        <h2 class="section-title">요약</h2>
+        <div class="lead">
+          <p>{{SUMMARY_LINE_1}}</p>
+          <p>{{SUMMARY_LINE_2}}</p>
+          <p>{{SUMMARY_LINE_3}}</p>
         </div>
-        <span class="p-label">{{P_LABEL}}</span>
-        <div class="p-desc">{{P_DESCRIPTION}}</div>
-        <p class="copy">“{{P_COPY}}”</p>
-        <div><span class="badge-pass">validate_copy.py PASS</span></div>
-        <div class="p-foot">파생 근거 · {{P_DERIVED_FROM_CELL}}</div>
-        <div class="p-foot">추천 채널 · {{P_CHANNELS}}</div>
-      </div>
-      <!-- END persona_card -->
-    </div>
-  </section>
+        <div class="counts">즉시 조치 필요 <strong>{{VIOLATION_COUNT}}</strong>건 ·
+          조건부 <strong>{{WARNING_COUNT}}</strong>건</div>
+      </section>
 
-  <section class="panel">
-    <span class="eyebrow">05 — Action Items</span>
-    <h2 class="section-title">액션 아이템</h2>
-    <ul class="action">
-      <!-- BEGIN action_required -->
-      <li><span class="pill-req">필수</span><span>{{ACTION_REQUIRED}}</span></li>
-      <!-- END action_required -->
-      <!-- BEGIN action_recommended -->
-      <li><span class="pill-rec">권장</span><span>{{ACTION_RECOMMENDED}}</span></li>
-      <!-- END action_recommended -->
-    </ul>
-    <div class="subhead">참고 공개 자료</div>
-    <ul class="sources">
-      <!-- BEGIN source_link -->
-      <li><a href="{{SOURCE_URL}}">{{SOURCE_TITLE}}</a></li>
-      <!-- END source_link -->
-    </ul>
-  </section>
+      <section class="panel">
+        <span class="eyebrow">02 — 현지 시장 스캔</span>
+        <h2 class="section-title">현지 시장 스캔</h2>
+        <p><strong>트렌드 키워드</strong> {{TREND_KEYWORDS}}</p>
+        <div class="scroll">
+          <table>
+            <thead><tr><th>경쟁 제품</th><th>가격대</th><th>핵심 소구점</th></tr></thead>
+            <tbody>
+              <!-- BEGIN competitor_row -->
+              <tr><td>{{COMP_NAME}}</td><td>{{COMP_PRICE}}</td><td>{{COMP_POINT}}</td></tr>
+              <!-- END competitor_row -->
+            </tbody>
+          </table>
+        </div>
+        <div class="subhead">나이대별 피부 고민 격자 · 매칭 셀 강조</div>
+        <div class="scroll">
+          <table>
+            <thead><tr><th>나이대</th><th>상위 고민</th><th>매칭</th></tr></thead>
+            <tbody>
+              <!-- BEGIN concern_row -->
+              <tr><td>{{AGE_BAND}}</td><td>{{TOP_CONCERNS}}</td><td>{{MATCH_MARK}}</td></tr>
+              <!-- END concern_row -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="panel">
+        <span class="eyebrow">03 — 규제 검증 결과</span>
+        <h2 class="section-title">규제 검증 결과 <span class="star">★</span></h2>
+        <div class="subhead">원본 카피 · 위반 표현 강조</div>
+        <p class="copy-orig">{{HIGHLIGHTED_COPY}}</p>
+        <div class="scroll" style="margin-top:20px;">
+          <table>
+            <thead><tr><th>룰 ID</th><th>탐지</th><th>심각도</th><th>근거</th><th>대체 표현</th></tr></thead>
+            <tbody>
+              <!-- BEGIN violation_row -->
+              <tr>
+                <td>{{RULE_ID}}</td>
+                <td><span class="hl">{{MATCHED}}</span></td>
+                <td class="sev-{{SEVERITY}}">{{SEVERITY}}</td>
+                <td>{{REASON}}</td>
+                <td>{{ALTERNATIVES}}</td>
+              </tr>
+              <!-- END violation_row -->
+            </tbody>
+          </table>
+        </div>
+        <p class="gauge-label"><strong>검증 통과율</strong> {{PASS_RATE_LABEL}}</p>
+        <div class="gauge"><span style="width: {{PASS_RATE_PCT}}%;"></span></div>
+      </section>
+
+      <section class="panel">
+        <span class="eyebrow">04 — 페르소나별 승인 카피</span>
+        <h2 class="section-title">페르소나별 승인 카피</h2>
+        <div class="cards">
+          <!-- BEGIN persona_card -->
+          <div class="card">
+            <div>
+              <span class="tag">{{P_AGE_BAND}}</span>
+              <!-- BEGIN p_concern_tag --><span class="tag">{{P_CONCERN}}</span><!-- END p_concern_tag -->
+            </div>
+            <span class="p-label">{{P_LABEL}}</span>
+            <div class="p-desc">{{P_DESCRIPTION}}</div>
+            <p class="copy">“{{P_COPY}}”</p>
+            <div><span class="badge-pass">validate_copy.py PASS</span></div>
+            <div class="p-foot">파생 근거 · {{P_DERIVED_FROM_CELL}}</div>
+            <div class="p-foot">추천 채널 · {{P_CHANNELS}}</div>
+          </div>
+          <!-- END persona_card -->
+        </div>
+      </section>
+
+      <section class="panel">
+        <span class="eyebrow">05 — 액션 아이템</span>
+        <h2 class="section-title">액션 아이템</h2>
+        <ul class="action">
+          <!-- BEGIN action_required -->
+          <li><span class="pill-req">필수</span><span>{{ACTION_REQUIRED}}</span></li>
+          <!-- END action_required -->
+          <!-- BEGIN action_recommended -->
+          <li><span class="pill-rec">권장</span><span>{{ACTION_RECOMMENDED}}</span></li>
+          <!-- END action_recommended -->
+        </ul>
+        <div class="subhead">참고 공개 자료</div>
+        <ul class="sources">
+          <!-- BEGIN source_link -->
+          <li><a href="{{SOURCE_URL}}">{{SOURCE_TITLE}}</a></li>
+          <!-- END source_link -->
+        </ul>
+      </section>
+
+    </div><!-- /panel-ko -->
+
+    <!-- ================= 타겟국가어 패널 ================= -->
+    <div class="panel-orig">
+
+      <section class="panel">
+        <span class="eyebrow">01 — Summary</span>
+        <h2 class="section-title">{{O_TITLE_SUMMARY}}</h2>
+        <div class="lead">
+          <p>{{O_SUMMARY_LINE_1}}</p>
+          <p>{{O_SUMMARY_LINE_2}}</p>
+          <p>{{O_SUMMARY_LINE_3}}</p>
+        </div>
+        <div class="counts">{{O_COUNTS_LABEL}}</div>
+      </section>
+
+      <section class="panel">
+        <span class="eyebrow">02 — Market Scan</span>
+        <h2 class="section-title">{{O_TITLE_MARKET}}</h2>
+        <p><strong>{{O_TREND_LABEL}}</strong> {{O_TREND_KEYWORDS}}</p>
+        <div class="scroll">
+          <table>
+            <thead><tr><th>{{O_TH_COMP}}</th><th>{{O_TH_PRICE}}</th><th>{{O_TH_POINT}}</th></tr></thead>
+            <tbody>
+              <!-- BEGIN o_competitor_row -->
+              <tr><td>{{O_COMP_NAME}}</td><td>{{O_COMP_PRICE}}</td><td>{{O_COMP_POINT}}</td></tr>
+              <!-- END o_competitor_row -->
+            </tbody>
+          </table>
+        </div>
+        <div class="subhead">{{O_GRID_SUBHEAD}}</div>
+        <div class="scroll">
+          <table>
+            <thead><tr><th>{{O_TH_AGE}}</th><th>{{O_TH_CONCERNS}}</th><th>{{O_TH_MATCH}}</th></tr></thead>
+            <tbody>
+              <!-- BEGIN o_concern_row -->
+              <tr><td>{{O_AGE_BAND}}</td><td>{{O_TOP_CONCERNS}}</td><td>{{O_MATCH_MARK}}</td></tr>
+              <!-- END o_concern_row -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="panel">
+        <span class="eyebrow">03 — Regulatory Check</span>
+        <h2 class="section-title">{{O_TITLE_REG}} <span class="star">★</span></h2>
+        <div class="subhead">{{O_ORIG_COPY_SUBHEAD}}</div>
+        <p class="copy-orig">{{O_HIGHLIGHTED_COPY}}</p>
+        <div class="scroll" style="margin-top:20px;">
+          <table>
+            <thead><tr><th>{{O_TH_RULE}}</th><th>{{O_TH_MATCHED}}</th><th>{{O_TH_SEV}}</th><th>{{O_TH_REASON}}</th><th>{{O_TH_ALT}}</th></tr></thead>
+            <tbody>
+              <!-- BEGIN o_violation_row -->
+              <tr>
+                <td>{{O_RULE_ID}}</td>
+                <td><span class="hl">{{O_MATCHED}}</span></td>
+                <td class="sev-{{O_SEVERITY}}">{{O_SEVERITY}}</td>
+                <td>{{O_REASON}}</td>
+                <td>{{O_ALTERNATIVES}}</td>
+              </tr>
+              <!-- END o_violation_row -->
+            </tbody>
+          </table>
+        </div>
+        <p class="gauge-label"><strong>{{O_PASS_RATE_TITLE}}</strong> {{O_PASS_RATE_LABEL}}</p>
+        <div class="gauge"><span style="width: {{PASS_RATE_PCT}}%;"></span></div>
+      </section>
+
+      <section class="panel">
+        <span class="eyebrow">04 — Approved Copy</span>
+        <h2 class="section-title">{{O_TITLE_PERSONA}}</h2>
+        <div class="cards">
+          <!-- BEGIN o_persona_card -->
+          <div class="card">
+            <div>
+              <span class="tag">{{O_P_AGE_BAND}}</span>
+              <!-- BEGIN o_p_concern_tag --><span class="tag">{{O_P_CONCERN}}</span><!-- END o_p_concern_tag -->
+            </div>
+            <span class="p-label">{{O_P_LABEL}}</span>
+            <div class="p-desc">{{O_P_DESCRIPTION}}</div>
+            <p class="copy">“{{O_P_COPY}}”</p>
+            <div><span class="badge-pass">validate_copy.py PASS</span></div>
+            <div class="p-foot">{{O_P_DERIVED_LABEL}} · {{O_P_DERIVED_FROM_CELL}}</div>
+            <div class="p-foot">{{O_P_CHANNELS_LABEL}} · {{O_P_CHANNELS}}</div>
+          </div>
+          <!-- END o_persona_card -->
+        </div>
+      </section>
+
+      <section class="panel">
+        <span class="eyebrow">05 — Action Items</span>
+        <h2 class="section-title">{{O_TITLE_ACTION}}</h2>
+        <ul class="action">
+          <!-- BEGIN o_action_required -->
+          <li><span class="pill-req">{{O_REQ_LABEL}}</span><span>{{O_ACTION_REQUIRED}}</span></li>
+          <!-- END o_action_required -->
+          <!-- BEGIN o_action_recommended -->
+          <li><span class="pill-rec">{{O_REC_LABEL}}</span><span>{{O_ACTION_RECOMMENDED}}</span></li>
+          <!-- END o_action_recommended -->
+        </ul>
+        <div class="subhead">{{O_SOURCES_SUBHEAD}}</div>
+        <ul class="sources">
+          <!-- BEGIN o_source_link -->
+          <li><a href="{{O_SOURCE_URL}}">{{O_SOURCE_TITLE}}</a></li>
+          <!-- END o_source_link -->
+        </ul>
+      </section>
+
+    </div><!-- /panel-orig -->
+
+  </div><!-- /tabs -->
 
   <footer class="report-foot">
     LaunchPass · 규제 판정은 scripts/validate_copy.py(룰셋 기반 코드)가 수행합니다.

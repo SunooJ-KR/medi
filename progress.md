@@ -19,11 +19,11 @@ Active LLM: Claude Code
 
 ## 현재 진행 중
 
-- (없음) — **전 Phase 완료. 제출 직전 `python build_submission.py` 재실행으로 최신 로그 반영.**
+- (없음)
 
 ## 다음 단계
 
-- [ ] **5-1** 리포트 다국어 표기 — 리포트 내용은 전부 한국어로 표기하고, 원문은 별도 탭으로 분리해 타겟 국가 언어로 표시
+- (없음)
 
 ## 완료사항
 
@@ -54,10 +54,33 @@ Active LLM: Claude Code
 - [x] **4-4** 예제 입력 작성 — 2026-07-07
 - [x] **4-5** README.md 작성 — 2026-07-07
 - [x] **4-6** 로그 정리 + submission.zip 패키징 — 2026-07-07 **(Phase 4 완료 · 전체 개발 완료)**
+- [x] **5-1** 리포트 다국어 표기 (한국어/타겟국가어 2탭 완전 병행) — 2026-07-08
 
 ---
 
 ## Task Log
+
+### 2026-07-08 — [5-1] 리포트 다국어 표기 (한국어/타겟국가어 2탭 완전 병행)
+
+- **Task**: 리포트를 한국어/타겟국가어 두 탭으로 완전 병행 표기 (dev-plan 5-1, 사용자 선택=완전 병행)
+- **LLM**: Claude Code
+- **Summary**: `templates/readiness_report.html`에 **CSS 라디오 탭(무JS·자립형)** 추가 — `[한국어]/[{{TARGET_LANG}}]` 두 패널이 1~5 전 섹션을 각 언어로 완역 병행. 헤더(제품명·신호등·버전·건수)는 공유 1회. ORIG 패널은 `O_` 접두 토큰·`o_` 접두 반복 블록으로 KO와 분리(섹션 제목·표 헤더·라벨까지 토큰화해 임의 언어 대응). `dev-plan.md`에 Phase 5/5-1 정의 추가. SKILL.md STAGE 4를 2탭 채우기 절차로 갱신(판정·수치 양 패널 일치 강제). GlowC 샘플을 한국어 전면/日本語 전면으로 재생성 — 페르소나 승인 카피·NG/대체는 현지어 원문 유지, 한국어 탭은 번역 제시
+- **Files changed**: `src/templates/readiness_report.html`, `src/output/launchpass_report_GlowC_2026-07-07.html`, `src/skills/launchpass/SKILL.md`, `strategies/dev-plan.md`, `progress.md`
+- **Checks run**: HTMLParser 태그 균형(템플릿·샘플 unclosed 0/stray 0) · 신호등 이모지 0 · 샘플 미치환 토큰 0 · BEGIN==END(18블록) · 샘플 panel-ko/panel-orig 각 1·라디오 2 · `python build_submission.py` → 36 files OK
+- **Result**: 완료
+- **Open issues**: 없음
+- **Next**: 없음
+
+### 2026-07-08 — submit.md 제출용 5문항 답변 작성
+
+- **Task**: `strategies/submit_format.txt` 양식에 맞춰 README 질문지 5문항 + strategies 문서(plan/research) + progress 내용을 반영한 `submit.md` 생성 (사용자 요청)
+- **LLM**: Claude Code
+- **Summary**: submit_format 5문항 구조(Q1 800/Q2 800/Q3 1000/Q4 800/Q5 800자)로 `submit.md` 작성. README 5문항 골격에 plan.md 3단 논증·부트스트랩 절차·자가 루프, research.md 메디테라피 글로벌 확장 사실, progress의 링클핏 커버리지 공백→JP-005/006 근본 수정·14 unittest·E2E·신선도 `--today`·`--no-concept` 검증을 살로 붙임. Q3에 정보 부족/미해결 시 동작(되묻기·부트스트랩 사람승인·신선도 경고·3회 초과 🔴 강등) 포함, Q4에 받아들이지 않은 AI 제안(페르소나 16개 고정·프롬프트 래퍼) 명시
+- **Files changed**: `submit.md`(신규), `progress.md`
+- **Checks run**: 없음 (문서). 원본은 README·plan.md·research.md·progress 실측 반영
+- **Result**: 완료
+- **Open issues**: 없음
+- **Next**: (선택) 5-1 리포트 다국어 표기
 
 ### 2026-07-08 — 리포트 hero 레이아웃 재구성 (범용 제목·직관적 verdict·이모지 최소화)
 
