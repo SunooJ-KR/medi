@@ -19,12 +19,11 @@ Active LLM: Claude Code
 
 ## 현재 진행 중
 
-- [ ] **3-4** SKILL.md STAGE 3 (파생 + 자가 루프)
+- [ ] **3-5** SKILL.md STAGE 4 (리포트 생성)
 
 ## 다음 단계
 
 ### Phase 3 — 파이프라인 통합
-- [ ] **3-5** SKILL.md STAGE 4 (리포트 생성)
 - [ ] **3-6** 신선도 체크·업데이트 절차 SKILL.md 반영
 - [ ] **3-7** `readiness_report.html` 템플릿 구현 _(3-1~3-6과 병렬 가능)_
 - [ ] **3-8** `.mcp.json` web_search 설정 _(병렬 가능)_
@@ -55,10 +54,21 @@ Active LLM: Claude Code
 - [x] **3-1** SKILL.md STAGE 0 (국가 리졸브) — 2026-07-07
 - [x] **3-2** SKILL.md STAGE 1 (시장 스캔) — 2026-07-07
 - [x] **3-3** SKILL.md STAGE 2 (규제 검증) — 2026-07-07
+- [x] **3-4** SKILL.md STAGE 3 (파생 + 자가 루프) — 2026-07-07
 
 ---
 
 ## Task Log
+
+### 2026-07-07 — [3-4] SKILL.md STAGE 3 (파생 + 자가 루프)
+
+- **Task**: STAGE 3 고민→페르소나→카피 파생 + 자가 검증 루프 (dev-plan 3-4)
+- **LLM**: Claude Code
+- **Summary**: SKILL.md STAGE 2 뒤에 STAGE 3 삽입. concerns 로드 → 제품 효능×top_concerns 셀 매칭(STAGE 1 신호 참고) → 페르소나 동적 파생(**개수 고정 금지**, 매칭 셀 수만큼) → copy_direction 입력 카피 생성(NG 회피) → validate_copy.py 재투입 자가 루프(VIOLATION 시 alternatives 참고 재생성, **최대 3회**, 미해결 시 🔴 강등) → 전건 PASS/WARNING만일 때 승인 카피 확정. "생성(AI)→검증(코드)→재생성(AI)" 핵심 구조 명시
+- **Files changed**: `src/skills/launchpass/SKILL.md`, `progress.md`
+- **Checks run**: 없음 (절차 문서). 완료 기준(셀 매칭·동적 파생·재검증 루프·3회 제한·전건 PASS 게이트) 충족
+- **Result**: 완료
+- **Next**: 3-5 SKILL.md STAGE 4 (리포트 생성)
 
 ### 2026-07-07 — [3-3] SKILL.md STAGE 2 (규제 검증)
 
