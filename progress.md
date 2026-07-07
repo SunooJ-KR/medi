@@ -24,7 +24,6 @@ Active LLM: Claude Code
 ## 다음 단계
 
 ### Phase 4 — E2E 검증 및 제출 _(Phase 3 완료 후 착수)_
-- [ ] **4-2** 실제 사례 검증 (링클핏) _(4-1 후)_
 - [ ] **4-3** 자가 루프 검증 _(4-2 후)_
 - [ ] **4-4** 예제 입력 작성 _(병렬 가능)_
 - [ ] **4-5** README.md 작성 _(병렬 가능)_
@@ -54,10 +53,22 @@ Active LLM: Claude Code
 - [x] **3-7** `readiness_report.html` 템플릿 구현 — 2026-07-07
 - [x] **3-8** `.mcp.json` web_search 설정 — 2026-07-07 **(Phase 3 완료)**
 - [x] **4-1** E2E 실행 (부트스트랩→리포트, 로그 기록) — 2026-07-07
+- [x] **4-2** 실제 사례 검증 (링클핏) — 2026-07-07
 
 ---
 
 ## Task Log
+
+### 2026-07-07 — [4-2] 실제 사례 검증 (링클핏)
+
+- **Task**: 링클핏 실제 한국어 카피 → 위반 탐지 → 수정 → PASS 전환 기록 (dev-plan 4-2)
+- **LLM**: Claude Code
+- **Summary**: 링클핏(JP) 실제 카피로 위반→수정→PASS 루프 검증. 검증 중 커버리지 공백 발견 — 링클핏(주름 라인)인데 "주름 완벽하게 지워"·"10년 젊어진다"가 미탐지됨. 근본 수정으로 `rules/jp.json`에 JP-005(若返り·연령역행)·JP-006(シワ除去·개선, 효능범위 초과) 추가(현지어+한국어 병기 패턴), version 1.0.0→1.1.0. 개념맵의 기존 "주름 개선"·"안티에이징(若返り)" 브리지가 이제 활성화. 결과: 원본 🔴 VIOLATION 0/3(JP-003/004/005/006 전건 탐지) → 수정 🟢 PASS 3/3. `src/examples/sample_case_wrinklefit.md` 신규
+- **Files changed**: `src/rules/jp.json`(JP-005/006 추가, v1.1.0), `src/examples/sample_case_wrinklefit.md`(신규), `progress.md`
+- **Checks run**: 원본 실행 → 0/3 VIOLATION 전건 탐지 확인 / 수정 카피 → 3/3 PASS 확인 / `python -m unittest discover -s src/tests` → 14 tests OK(무회귀) (완료 기준: 위반탐지→수정→PASS 전환 로그 충족)
+- **Result**: 완료
+- **Open issues**: 없음
+- **Next**: 4-3 자가 루프 검증
 
 ### 2026-07-07 — [4-1] E2E 실행 (부트스트랩→리포트, 로그 기록)
 
