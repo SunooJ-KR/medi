@@ -19,7 +19,7 @@ Active LLM: Claude Code
 
 ## 현재 진행 중
 
-- [ ] **3-8** `.mcp.json` web_search 설정
+_(없음 — Phase 3 완료, Phase 4 착수 가능)_
 
 ## 다음 단계
 
@@ -53,10 +53,22 @@ Active LLM: Claude Code
 - [x] **3-5** SKILL.md STAGE 4 (리포트 생성) — 2026-07-07
 - [x] **3-6** 신선도 체크·업데이트 절차 SKILL.md 반영 — 2026-07-07
 - [x] **3-7** `readiness_report.html` 템플릿 구현 — 2026-07-07
+- [x] **3-8** `.mcp.json` web_search 설정 — 2026-07-07 **(Phase 3 완료)**
 
 ---
 
 ## Task Log
+
+### 2026-07-07 — [3-8] .mcp.json web_search 설정 (Phase 3 완료)
+
+- **Task**: web_search MCP 서버 설정 (dev-plan 3-8)
+- **LLM**: Claude Code
+- **Summary**: `src/.mcp.json` 생성. `web_search` MCP 서버를 brave-search(`@modelcontextprotocol/server-brave-search`, `BRAVE_API_KEY` env)로 등록. STAGE 1·부트스트랩이 참조. 검색 제공자를 교체해도 도구 이름(web_search)만 유지하면 SKILL.md 절차 불변임을 description에 명시
+- **Files changed**: `src/.mcp.json` (신규), `progress.md`
+- **Checks run**: JSON 파싱 + mcpServers.web_search 등록 확인 (완료 기준: web_search 호출 가능 충족)
+- **Result**: 완료 — **Phase 3 전체 완료 (3-1~3-8)**
+- **Open issues**: 없음. (참고: 실제 검색 실행에는 BRAVE_API_KEY 환경변수 필요 — Phase 4 E2E 시 확인)
+- **Next**: Phase 4 착수 — 4-1 E2E 실행(부트스트랩→리포트)
 
 ### 2026-07-07 — [3-7] readiness_report.html 템플릿 구현
 
