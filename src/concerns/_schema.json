@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "launchpass/concerns/_schema.json",
+  "title": "LaunchPass Concerns Grid",
+  "description": "국가 × 나이대 × 피부고민 격자. 페르소나 파생의 상위 데이터. 저장소에는 이 스키마만 존재하고 {국가코드}.json은 실행 시 부트스트랩으로 생성된다.",
+  "type": "object",
+  "required": ["market", "version", "last_verified", "verified_by", "age_bands", "grid"],
+  "additionalProperties": false,
+  "properties": {
+    "market": {
+      "type": "string",
+      "description": "ISO 3166-1 alpha-2 국가코드 (대문자). 예: JP, US, SG",
+      "pattern": "^[A-Z]{2}$"
+    },
+    "version": {
+      "type": "string",
+      "description": "시맨틱 버전 (concerns 갱신 시 증가)",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "last_verified": {
+      "type": "string",
+      "description": "마지막 검증일 (ISO 8601, YYYY-MM-DD). 신선도 체크(90일) 기준",
+      "format": "date"
+    },
+    "verified_by": {
+      "type": "string",
+      "description": "검증 주체. 부트스트랩 초안은 'ai', 사람 승인 후 'human'",
+      "enum": ["ai", "human"]
+    },
+    "age_bands": {
+      "type": "array",
+      "description": "이 국가에서 사용하는 나이대 구간 정의. grid의 age_band는 반드시 이 목록의 값이어야 한다",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "pattern": "^[0-9]{2}-[0-9]{2}$|^[0-9]{2}\\+$"
+      }
+    },
+    "grid": {
+      "type": "array",
+      "description": "나이대별 피부고민 우선순위 셀. 페르소나는 이 셀에서 파생된다",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["age_band", "top_concerns", "evidence"],
+        "additionalProperties": false,
+        "properties": {
+          "age_band": {
+            "type": "string",
+            "description": "age_bands 목록 중 하나"
+          },
+          "top_concerns": {
+            "type": "array",
+            "description": "우선순위 순서의 피부고민. 현지어(한국어 병기 권장)",
+            "minItems": 1,
+            "items": { "type": "string" }
+          },
+          "evidence": {
+            "type": "string",
+            "description": "공개 출처 (URL 또는 리포트명). 근거 없는 셀은 생성 금지 — 필수",
+            "minLength": 1
+          },
+          "kbeauty_affinity": {
+            "type": "string",
+            "description": "해당 셀의 K-뷰티 우호도",
+            "enum": ["low", "medium", "high"]
+          }
+        }
+      }
+    }
+  }
+}
