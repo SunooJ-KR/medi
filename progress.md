@@ -19,12 +19,11 @@ Active LLM: Claude Code
 
 ## 현재 진행 중
 
-- [ ] **2-2** 한국어 개념 매핑 탐지
+- [ ] **2-3** 출력 JSON 포맷 구현
 
 ## 다음 단계
 
 ### Phase 2 — 규제 검증 엔진
-- [ ] **2-3** 출력 JSON 포맷 구현 _(2-1 후)_
 - [ ] **2-4** 신선도 체크 구현 _(2-1 후)_
 - [ ] **2-5** 단위 테스트 _(2-2~2-4 후)_
 
@@ -57,10 +56,22 @@ Active LLM: Claude Code
 - [x] **1-4** `personas/_schema.json` 설계 — 2026-07-07
 - [x] **1-5** 부트스트랩 절차 SKILL.md 초안 작성 — 2026-07-07 **(Phase 1 완료)**
 - [x] **2-1** `validate_copy.py` 코어 구현 — 2026-07-07
+- [x] **2-2** 한국어 개념 매핑 탐지 — 2026-07-07
 
 ---
 
 ## Task Log
+
+### 2026-07-07 — [2-2] 한국어 개념 매핑 탐지
+
+- **Task**: 한국어 카피의 NG 개념을 타겟 국가 현지어 룰에 사전 탐지 (기획서 §4-3, dev-plan 2-2)
+- **LLM**: Claude Code
+- **Summary**: `src/scripts/ko_concept_map.json` 신규 — 한국어 개념 표현→키워드(현지어/영어) 브리지 테이블(재생/치료/미백/주름 개선/안티에이징 등 10개). `validate_copy.py`에 `load_concept_map`, `find_concept_matches`(한국어 개념어가 카피에 있고 룰의 ng_patterns가 해당 키워드를 포함하면 '위반 예정' 경고, source="concept"), `_dedupe`(직접 패턴 우선 보존), `detect`(직접+개념 통합) 추가. CLI `--concept-map`/`--no-concept` 인자 추가. 개념 테이블은 한국어→개념 브리지일 뿐 특정 국가 규제 비포함(국가 무종속 유지)
+- **Files changed**: `src/scripts/ko_concept_map.json` (신규), `src/scripts/validate_copy.py`, `progress.md`
+- **Checks run**: ng_patterns가 일본어(`再生`/`美白`)뿐인 룰에 한국어 카피("피부 재생과 미백")를 입력 → 개념 매핑으로 JP-001/JP-002 탐지 확인. `--no-concept` 시 0건(교차언어 탐지가 개념 계층 덕분임을 입증) (완료 기준 충족)
+- **Result**: 완료
+- **Open issues**: 없음
+- **Next**: 2-3 출력 JSON 포맷 구현 (verdict/pass_rate 확정)
 
 ### 2026-07-07 — [2-1] validate_copy.py 코어 구현
 
