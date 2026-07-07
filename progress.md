@@ -19,7 +19,7 @@ Active LLM: Claude Code
 
 ## 현재 진행 중
 
-- [ ] **1-5** 부트스트랩 절차 SKILL.md 초안 작성
+_(없음 — Phase 1 완료, Phase 2 착수 가능)_
 
 ## 다음 단계
 
@@ -57,10 +57,22 @@ Active LLM: Claude Code
 - [x] **1-2** `concerns/_schema.json` 설계 — 2026-07-07
 - [x] **1-3** `rules/_schema.json` 설계 — 2026-07-07
 - [x] **1-4** `personas/_schema.json` 설계 — 2026-07-07
+- [x] **1-5** 부트스트랩 절차 SKILL.md 초안 작성 — 2026-07-07 **(Phase 1 완료)**
 
 ---
 
 ## Task Log
+
+### 2026-07-07 — [1-5] 부트스트랩 절차 SKILL.md 초안 작성 (Phase 1 완료)
+
+- **Task**: SKILL.md에 STAGE 0(국가 리졸브)과 부트스트랩 섹션 작성 (기획서 §4-6, §4-8 A)
+- **LLM**: Claude Code
+- **Summary**: `src/skills/launchpass/SKILL.md` 생성. 핵심 원칙, 트리거, STAGE 0(국가명→alpha-2 코드 변환, 3개 파일 존재 확인, 미존재 시 부트스트랩 분기, 스키마·90일 신선도 체크) 작성. 부트스트랩은 **concerns→rules→personas 순서**와 각 단계의 evidence/source_urls 필수·`verified_by:ai` 초안 규칙, **draft→사람 승인→승격(verified_by:human)** 절차 명문화. 신선도·업데이트(diff 승인) 절차 포함. STAGE 1~4는 Phase 3에서 작성 예정임을 문서에 명시
+- **Files changed**: `src/skills/launchpass/SKILL.md` (신규), `progress.md`
+- **Checks run**: 없음 (절차 문서). 완료 기준(생성 순서·승격 절차 명문화) 충족 확인
+- **Result**: 완료 — **Phase 1 전체 완료 (1-1~1-5)**
+- **Open issues**: `jsonschema` 로컬 설치 상태 (requirements 명시는 Phase 2에서 반영 예정)
+- **Next**: Phase 2 착수 — 2-1 validate_copy.py 코어 구현
 
 ### 2026-07-07 — [1-4] personas/_schema.json 설계
 
