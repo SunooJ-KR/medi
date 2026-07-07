@@ -1,40 +1,6 @@
 {
   "hooks": {
-    "SessionStart": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "for i in python3 python py; do if \"$i\" -c \"\" </dev/null >/dev/null 2>&1; then exec \"$i\" \"${CLAUDE_PROJECT_DIR}/.codex/hooks/progress_hook.py\" session_start --tool claude-code; fi; done"
-          }
-        ]
-      }
-    ],
-    "UserPromptSubmit": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "for i in python3 python py; do if \"$i\" -c \"\" </dev/null >/dev/null 2>&1; then exec \"$i\" \"${CLAUDE_PROJECT_DIR}/.codex/hooks/progress_hook.py\" user_prompt_submit --tool claude-code; fi; done"
-          }
-        ]
-      }
-    ],
     "Stop": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "for i in python3 python py; do if \"$i\" -c \"\" </dev/null >/dev/null 2>&1; then exec \"$i\" \"${CLAUDE_PROJECT_DIR}/.codex/hooks/progress_hook.py\" stop --tool claude-code; fi; done"
-          },
-          {
-            "type": "command",
-            "command": "for i in python3 python py; do if \"$i\" -c \"\" </dev/null >/dev/null 2>&1; then exec \"$i\" \"${CLAUDE_PROJECT_DIR}/tools/save_log.py\" --tool claude-code; fi; done"
-          }
-        ]
-      }
-    ],
-    "SessionEnd": [
       {
         "hooks": [
           {

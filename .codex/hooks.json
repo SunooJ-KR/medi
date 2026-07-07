@@ -1,38 +1,8 @@
 {
   "hooks": {
-    "SessionStart": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "python C:/Users/sunoo/Documents/ax/medi/.codex/hooks/progress_hook.py session_start --tool codex",
-            "commandWindows": "py -3 C:\\Users\\sunoo\\Documents\\ax\\medi\\.codex\\hooks\\progress_hook.py session_start --tool codex",
-            "timeout": 30
-          }
-        ]
-      }
-    ],
-    "UserPromptSubmit": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "python C:/Users/sunoo/Documents/ax/medi/.codex/hooks/progress_hook.py user_prompt_submit --tool codex",
-            "commandWindows": "py -3 C:\\Users\\sunoo\\Documents\\ax\\medi\\.codex\\hooks\\progress_hook.py user_prompt_submit --tool codex",
-            "timeout": 30
-          }
-        ]
-      }
-    ],
     "Stop": [
       {
         "hooks": [
-          {
-            "type": "command",
-            "command": "python C:/Users/sunoo/Documents/ax/medi/.codex/hooks/progress_hook.py stop --tool codex",
-            "commandWindows": "py -3 C:\\Users\\sunoo\\Documents\\ax\\medi\\.codex\\hooks\\progress_hook.py stop --tool codex",
-            "timeout": 30
-          },
           {
             "type": "command",
             "command": "python C:/Users/sunoo/Documents/ax/medi/tools/save_log.py --tool codex",

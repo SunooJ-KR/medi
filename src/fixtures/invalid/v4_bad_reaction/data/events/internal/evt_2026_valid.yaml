@@ -1,9 +1,0 @@
-id: evt_2026_valid
-kind: internal
-type: promotion
-title: "검증용 이벤트"
-date_occurred: 2026-07-01
-market: KR
-affected_concerns: [pigmentation]
-summary: "검증용 이벤트"
-status: occurred
