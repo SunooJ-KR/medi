@@ -19,13 +19,11 @@ Active LLM: Claude Code
 
 ## 현재 진행 중
 
-_(없음 — Phase 1 완료, Phase 2 착수 가능)_
+- [ ] **2-2** 한국어 개념 매핑 탐지
 
 ## 다음 단계
 
-### Phase 2 — 규제 검증 엔진 _(1-3 완료 후 착수)_
-- [ ] **2-1** `validate_copy.py` 코어 구현
-- [ ] **2-2** 한국어 개념 매핑 탐지 _(2-1 후)_
+### Phase 2 — 규제 검증 엔진
 - [ ] **2-3** 출력 JSON 포맷 구현 _(2-1 후)_
 - [ ] **2-4** 신선도 체크 구현 _(2-1 후)_
 - [ ] **2-5** 단위 테스트 _(2-2~2-4 후)_
@@ -58,10 +56,22 @@ _(없음 — Phase 1 완료, Phase 2 착수 가능)_
 - [x] **1-3** `rules/_schema.json` 설계 — 2026-07-07
 - [x] **1-4** `personas/_schema.json` 설계 — 2026-07-07
 - [x] **1-5** 부트스트랩 절차 SKILL.md 초안 작성 — 2026-07-07 **(Phase 1 완료)**
+- [x] **2-1** `validate_copy.py` 코어 구현 — 2026-07-07
 
 ---
 
 ## Task Log
+
+### 2026-07-07 — [2-1] validate_copy.py 코어 구현
+
+- **Task**: 룰셋 기반 카피 위반 탐지 코어 구현 (기획서 §4-3, dev-plan 2-1)
+- **LLM**: Claude Code
+- **Summary**: `src/scripts/validate_copy.py` 생성. 표준 라이브러리만 사용. `load_ruleset`(디스크에서 룰셋 직접 로드), `split_sentences`(한/일/영 공통 종결부호 분리, 형태소 분석기 비의존), `find_violations`(각 룰 ng_patterns를 정규식 우선→부분문자열 폴백으로 매칭, 위치 인덱스 기록) 구현. `Match` dataclass로 rule_id/matched/pattern/position/severity/alternatives/source 보관. CLI `--input`|`--input-file` + `--rules` 상호배타 인자. 후속 확장 지점 명시(2-2 개념매핑용 source 필드, 2-3 verdict/pass_rate, 2-4 신선도)
+- **Files changed**: `src/scripts/validate_copy.py` (신규), `progress.md`
+- **Checks run**: 임시 룰셋(스크래치패드)으로 실행 → 리터럴 패턴("재생" VIOLATION, "최고" WARNING)과 정규식 패턴(`No\.?1`→"No1") 모두 탐지, position/문장수 정확 확인 (완료 기준: CLI·패턴매칭·언어비종속 충족)
+- **Result**: 완료
+- **Open issues**: 현재 출력은 코어 매칭 결과(matches)만 반환. verdict/pass_rate 최종 포맷은 2-3에서 확정
+- **Next**: 2-2 한국어 개념 매핑 탐지
 
 ### 2026-07-07 — [1-5] 부트스트랩 절차 SKILL.md 초안 작성 (Phase 1 완료)
 
