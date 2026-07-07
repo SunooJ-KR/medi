@@ -19,12 +19,11 @@ Active LLM: Claude Code
 
 ## 현재 진행 중
 
-- [ ] **3-6** 신선도 체크·업데이트 절차 SKILL.md 반영
+- [ ] **3-7** `readiness_report.html` 템플릿 구현
 
 ## 다음 단계
 
 ### Phase 3 — 파이프라인 통합
-- [ ] **3-7** `readiness_report.html` 템플릿 구현 _(3-1~3-6과 병렬 가능)_
 - [ ] **3-8** `.mcp.json` web_search 설정 _(병렬 가능)_
 
 ### Phase 4 — E2E 검증 및 제출 _(Phase 3 완료 후 착수)_
@@ -55,10 +54,21 @@ Active LLM: Claude Code
 - [x] **3-3** SKILL.md STAGE 2 (규제 검증) — 2026-07-07
 - [x] **3-4** SKILL.md STAGE 3 (파생 + 자가 루프) — 2026-07-07
 - [x] **3-5** SKILL.md STAGE 4 (리포트 생성) — 2026-07-07
+- [x] **3-6** 신선도 체크·업데이트 절차 SKILL.md 반영 — 2026-07-07
 
 ---
 
 ## Task Log
+
+### 2026-07-07 — [3-6] 신선도 체크·업데이트 절차 SKILL.md 반영
+
+- **Task**: 신선도·업데이트 절차를 STAGE 2 freshness 출력과 연결해 정련 (기획서 §4-8 B, dev-plan 3-6)
+- **LLM**: Claude Code
+- **Summary**: SKILL.md 신선도 섹션 정련. 신선도 체크를 validate_copy.py의 실제 `freshness`(stale/days_since/warning) 반환과 연결하고 concerns·personas도 동일 기준 적용. 업데이트 절차를 web_fetch 재조회 → diff만 생성(토큰 절감) → 사람 승인 → 버전 증가+last_verified 갱신으로 구체화. concerns 갱신 시 personas의 derived_from 버전 불일치 → 재검토/재파생 표시 규칙 명시
+- **Files changed**: `src/skills/launchpass/SKILL.md`, `progress.md`
+- **Checks run**: 없음 (절차 문서). 완료 기준(재조회·diff·승인·버전증가·personas 재검토) 충족
+- **Result**: 완료
+- **Next**: 3-7 readiness_report.html 템플릿 구현
 
 ### 2026-07-07 — [3-5] SKILL.md STAGE 4 (리포트 생성)
 

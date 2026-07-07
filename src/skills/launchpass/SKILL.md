@@ -190,10 +190,22 @@ market_scan:
 
 ## 신선도 체크 · 업데이트 (규제·트렌드 변경 대응)
 
-1. 매 실행 시 `validate_copy.py`가 각 데이터셋의 `last_verified`를 확인한다 → 90일 초과 시 보고서 헤더에 경고.
-2. 사용자가 "업데이트" 요청 시 (rules/concerns 공통):
-   - `source_urls`의 공식 문서를 재조회한다.
-   - 현행 파일과 비교하여 **변경점 diff만** 생성한다 (신설/개정/폐지).
-   - diff를 사람에게 제시 → 승인 시 버전 증가(1.0.0 → 1.1.0) + `last_verified` 갱신.
-   - concerns가 갱신되면 파생된 personas도 재검토 대상으로 표시한다.
-3. 모든 보고서에 "데이터 버전 · 기준일"을 명시하여 판정의 시효를 투명화한다.
+### 신선도 체크 (매 실행, 자동)
+
+- STAGE 2에서 `validate_copy.py`가 룰셋 `last_verified`를 확인해 결과 JSON의 `freshness`
+  (`stale`, `days_since`, `warning`)로 반환한다. `stale`이 true면 STAGE 4 보고서 헤더에 그
+  `warning` 문구를 표시한다. 임계값은 90일(`FRESHNESS_THRESHOLD_DAYS`).
+- concerns·personas도 각 파일의 `last_verified`를 같은 기준으로 확인해, 경과 시 헤더에 함께 경고한다.
+
+### 업데이트 (사용자가 "업데이트" 요청 시)
+
+rules·concerns 공통 절차:
+
+1. 해당 파일 `source_urls`의 공식 문서를 `web_fetch`로 재조회한다.
+2. 현행 파일과 비교하여 **변경점 diff만** 생성한다 (신설/개정/폐지). 전체 재생성하지 않는다 — 토큰 절감.
+3. diff를 사람에게 제시하고 승인을 받는다.
+4. 승인 시: 버전 증가(예: 1.0.0 → 1.1.0) + `last_verified`를 오늘로 갱신 + `verified_by: "human"` 유지.
+5. **concerns가 갱신되면**, 그 격자에서 파생된 `personas/{국가코드}.json`의 `derived_from` 버전이
+   구버전을 가리키게 되므로 해당 personas를 **재검토 대상으로 표시**하고, 필요 시 재파생한다.
+
+모든 보고서에 "데이터 버전 · 기준일"을 명시하여 판정의 시효를 투명화한다.
