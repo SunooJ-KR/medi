@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "launchpass/rules/_schema.json",
+  "title": "LaunchPass Regulation Ruleset",
+  "description": "국가별 화장품 광고 표현 규제 룰셋. validate_copy.py가 디스크에서 직접 읽어 카피를 검증한다. 저장소에는 이 스키마만 존재하고 {국가코드}.json은 실행 시 부트스트랩으로 생성된다.",
+  "type": "object",
+  "required": ["market", "version", "last_verified", "verified_by", "legal_basis", "source_urls", "rules"],
+  "additionalProperties": false,
+  "properties": {
+    "market": {
+      "type": "string",
+      "description": "ISO 3166-1 alpha-2 국가코드 (대문자)",
+      "pattern": "^[A-Z]{2}$"
+    },
+    "version": {
+      "type": "string",
+      "description": "시맨틱 버전 (룰셋 개정 시 증가)",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "last_verified": {
+      "type": "string",
+      "description": "마지막 검증일 (ISO 8601). 신선도 체크(90일) 기준",
+      "format": "date"
+    },
+    "verified_by": {
+      "type": "string",
+      "description": "검증 주체. 부트스트랩 초안은 'ai', 사람 승인 후 'human'",
+      "enum": ["ai", "human"]
+    },
+    "legal_basis": {
+      "type": "string",
+      "description": "규제의 법적 근거 요약 (예: 医薬品医療機器等法 66조)",
+      "minLength": 1
+    },
+    "source_urls": {
+      "type": "array",
+      "description": "규제 공식 문서 출처 URL. 신선도 갱신 시 재조회 대상",
+      "minItems": 1,
+      "items": { "type": "string" }
+    },
+    "rules": {
+      "type": "array",
+      "description": "개별 규제 룰. validate_copy.py가 ng_patterns로 카피를 매칭한다",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "category", "ng_patterns", "severity"],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "룰 식별자. {국가코드}-{일련번호} 형식 권장 (예: JP-001)",
+            "pattern": "^[A-Z]{2}-[0-9]{3,}$"
+          },
+          "category": {
+            "type": "string",
+            "description": "위반 유형 분류 (예: 치료적 효능 표현 금지)",
+            "minLength": 1
+          },
+          "ng_patterns": {
+            "type": "array",
+            "description": "탐지할 NG 표현. 현지어/한국어 혼용 가능. validate_copy.py가 매칭",
+            "minItems": 1,
+            "items": { "type": "string" }
+          },
+          "severity": {
+            "type": "string",
+            "description": "심각도. VIOLATION은 런칭 차단, WARNING은 조건부",
+            "enum": ["VIOLATION", "WARNING"]
+          },
+          "reason": {
+            "type": "string",
+            "description": "위반 사유 및 법적 근거 (보고서 표시용)"
+          },
+          "condition": {
+            "type": "string",
+            "description": "조건부 허용 요건 (예: 의약부외품 승인 시에만 허용)"
+          },
+          "alternatives": {
+            "type": "array",
+            "description": "대체 표현 제안. 검증 실패 시 재생성 힌트로 사용",
+            "items": { "type": "string" }
+          },
+          "unverified": {
+            "type": "boolean",
+            "description": "부트스트랩 시 출처를 확정하지 못한 룰 플래그. 기본 false",
+            "default": false
+          }
+        }
+      }
+    }
+  }
+}

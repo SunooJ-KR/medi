@@ -19,12 +19,11 @@ Active LLM: Claude Code
 
 ## 현재 진행 중
 
-- [ ] **1-3** `rules/_schema.json` 설계
+- [ ] **1-4** `personas/_schema.json` 설계
 
 ## 다음 단계
 
 ### Phase 1 — 스키마 + 프로젝트 골격
-- [ ] **1-4** `personas/_schema.json` 설계 _(1-2 완료 후)_
 - [ ] **1-5** 부트스트랩 절차 SKILL.md 초안 작성
 
 ### Phase 2 — 규제 검증 엔진 _(1-3 완료 후 착수)_
@@ -59,10 +58,22 @@ Active LLM: Claude Code
 - [x] **P0-3** `progress.md` 작업 보드 구성 및 지침 문서 업데이트 — 2026-07-07
 - [x] **1-1** 디렉토리 구조 및 `plugin.json` 셋업 — 2026-07-07
 - [x] **1-2** `concerns/_schema.json` 설계 — 2026-07-07
+- [x] **1-3** `rules/_schema.json` 설계 — 2026-07-07
 
 ---
 
 ## Task Log
+
+### 2026-07-07 — [1-3] rules/_schema.json 설계
+
+- **Task**: 국가별 화장품 광고 규제 룰셋 스키마 정의 (기획서 §4-2)
+- **LLM**: Claude Code
+- **Summary**: JSON Schema draft 2020-12로 `market`, `version`, `last_verified`, `verified_by`, `legal_basis`, `source_urls`(최소 1), `rules[]`(id 패턴 `XX-000`, category, ng_patterns 최소 1, severity `VIOLATION|WARNING`, reason, condition, alternatives, unverified 플래그) 정의. `additionalProperties:false`로 스키마 고정. validate_copy.py가 소비할 계약을 확정
+- **Files changed**: `src/rules/_schema.json` (신규), `progress.md`
+- **Checks run**: `check_schema` 통과 / 유효 인스턴스 PASS / 잘못된 severity 거부 / ng_patterns 누락 거부 확인 (완료 기준 충족)
+- **Result**: 완료
+- **Open issues**: 없음
+- **Next**: 1-4 personas/_schema.json 설계
 
 ### 2026-07-07 — [1-2] concerns/_schema.json 설계
 
