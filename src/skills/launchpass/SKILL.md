@@ -142,9 +142,9 @@ market_scan:
    - Section 3 규제 검증(★): 원본 카피 vs 위반 하이라이트 + 위반 룰 ID·근거·심각도·대체표현 표 + 통과율 게이지
    - Section 4 페르소나별 승인 카피: 파생 페르소나 카드(N개) + 검증 PASS 배지 + 파생 근거(어느 셀) + 추천 채널
    - Section 5 액션 아이템: 🔴 필수 / 🟡 권장 + 참고 공개 자료 링크
-3. **저장**: `launchpass_report_{제품명}_{YYYY-MM-DD}.html`
+3. **저장**: `output/launchpass_report_{제품명}_{YYYY-MM-DD}.html` (플러그인 루트 `src/` 기준 → 실제 경로 `src/output/`). 폴더가 없으면 생성한다.
 
-산출물: 완성된 HTML 보고서 파일 1건.
+산출물: `src/output/`에 저장된 완성 HTML 보고서 파일 1건.
 
 ---
 

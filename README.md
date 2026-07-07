@@ -70,8 +70,11 @@ src/
 ├── personas/_schema.json          # 페르소나 스키마
 ├── scripts/validate_copy.py       # 규제 검증 엔진 (stdlib only)
 ├── templates/readiness_report.html
-└── examples/                      # 예제 입력 + 실행 로그
+├── examples/                      # 예제 입력 + 실행 로그
+└── output/                        # 최종 결과물(생성된 레디니스 리포트) 저장 위치
 ```
+
+> 실행하면 최종 HTML 리포트는 `src/output/launchpass_report_{제품명}_{YYYY-MM-DD}.html`로 저장된다.
 
 > `rules/jp.json` 등 국가 데이터가 저장소에 보이면, 그것은 사전 내장이 아니라 **부트스트랩으로 생성 후 승격된 결과물**이다(`*.draft.json` 잔존이 그 경로의 증거).
 

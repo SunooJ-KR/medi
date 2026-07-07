@@ -1,7 +1,7 @@
 # E2E 실행 로그 — GlowC 세럼 / 일본(JP)
 
 > 작업 4-1 산출물. 입력 → 부트스트랩(draft 생성→승인→승격) → 규제 검증 → 자가 루프 → HTML 리포트까지 전 과정 기록.
-> 생성 리포트: `launchpass_report_GlowC_2026-07-07.html`
+> 생성 리포트: `src/output/launchpass_report_GlowC_2026-07-07.html`
 
 ## 입력
 
@@ -64,7 +64,7 @@ JP-004  1위                   WARNING
 
 ## STAGE 4 — 리포트
 
-- `templates/readiness_report.html` 채워 `launchpass_report_GlowC_2026-07-07.html` 생성.
+- `templates/readiness_report.html` 채워 `src/output/launchpass_report_GlowC_2026-07-07.html` 생성.
 - 미해결 VIOLATION 존재(원본) → 신호등 판정 반영. 원본 🔴 / 승인 카피 🟢.
 
 ## 검증 요약

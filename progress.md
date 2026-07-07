@@ -59,6 +59,16 @@ Active LLM: Claude Code
 
 ## Task Log
 
+### 2026-07-08 — 최종 결과물 저장 위치를 src/output/로 변경
+
+- **Task**: 생성 리포트를 `src/output/`에 저장하도록 코드·문서 수정 (사용자 요청)
+- **LLM**: Claude Code
+- **Summary**: STAGE 4 저장 규칙을 `output/launchpass_report_{제품명}_{YYYY-MM-DD}.html`(실제 `src/output/`, 없으면 생성)로 변경. `src/output/` 폴더 신설(.gitkeep). 데모 리포트를 `src/examples/`→`src/output/`로 이동. SKILL.md·`templates/readiness_report.html` 주석·`sample_run_log.md`·README(디렉토리 트리+저장 위치 안내) 참조 갱신. 루트 잔존 리포트 제거. build_submission.py는 src/ 전체를 담으므로 output 자동 포함
+- **Files changed**: `src/skills/launchpass/SKILL.md`, `src/templates/readiness_report.html`, `src/examples/sample_run_log.md`, `README.md`, `src/output/`(이동+.gitkeep), 루트 리포트 삭제, `progress.md`
+- **Checks run**: `python build_submission.py` → 34 files, zip 내 `src/output/launchpass_report_*.html` 포함 확인
+- **Result**: 완료
+- **Next**: 없음 — 제출 준비 완료
+
 ### 2026-07-07 — [4-6] 로그 정리 + submission.zip 패키징 (Phase 4 완료)
 
 - **Task**: 로그 무편집 포함 + 기획서 §3 구조 submission.zip 패키징 (dev-plan 4-6)
