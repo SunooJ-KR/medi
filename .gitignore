@@ -1,0 +1,7 @@
+# 플러그인 캐시 (caveman/ponytail 등 로컬 설치물 — 이 저장소 산출물 아님)
+.agents/skills/
+skills-lock.json
+
+# 파이썬
+__pycache__/
+*.pyc

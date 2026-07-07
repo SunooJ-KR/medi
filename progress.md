@@ -19,7 +19,7 @@ Active LLM: Claude Code
 
 ## 현재 진행 중
 
-- [ ] **4-1** E2E 실행 (부트스트랩→리포트, 로그 기록)
+- (없음)
 
 ## 다음 단계
 
@@ -53,10 +53,22 @@ Active LLM: Claude Code
 - [x] **3-6** 신선도 체크·업데이트 절차 SKILL.md 반영 — 2026-07-07
 - [x] **3-7** `readiness_report.html` 템플릿 구현 — 2026-07-07
 - [x] **3-8** `.mcp.json` web_search 설정 — 2026-07-07 **(Phase 3 완료)**
+- [x] **4-1** E2E 실행 (부트스트랩→리포트, 로그 기록) — 2026-07-07
 
 ---
 
 ## Task Log
+
+### 2026-07-07 — [4-1] E2E 실행 (부트스트랩→리포트, 로그 기록)
+
+- **Task**: 일본(JP) 전 과정 E2E — 입력→부트스트랩→규제검증→자가루프→HTML 리포트 로그화 (dev-plan 4-1)
+- **LLM**: Claude Code
+- **Summary**: GlowC 세럼(JP) 시나리오로 E2E 완주. 생성 리포트 `launchpass_report_GlowC_2026-07-07.html`가 실제 엔진 출력과 정확히 일치함을 재검증 — 원본 카피 `validate_copy.py` 실행 결과 verdict=VIOLATION, 0/3, JP-001(기미 지워)·JP-002(미백)·JP-003(재생/되살) VIOLATION, JP-004(1위) WARNING로 리포트와 동일. 승인 카피 3종 각각 PASS(2/2) 재검증 → 원본 0/3 → 승인 6/6. `src/examples/sample_run_log.md` 신규 작성(국가무종속·룰셋 컨텍스트 미진입·자가루프 입증 포함). 저장소 위생: 직전 WIP 커밋에 딸려온 플러그인 캐시(`.agents/skills/`, `skills-lock.json`)와 `__pycache__` 추적 해제, `.gitignore` 추가. (로그 캡처 `logs/*.jsonl`은 제출용으로 유지)
+- **Files changed**: `src/examples/sample_run_log.md` (신규), `.gitignore` (신규), `.agents/skills/**`·`skills-lock.json`·`__pycache__` 추적 해제, `progress.md`
+- **Checks run**: 원본 카피 엔진 실행 → 리포트와 일치 확인 / 승인 카피 3종 각 PASS(2/2) 확인 (완료 기준: 부트스트랩→리포트 전 과정 로그·국가 데이터 실행 중 생성 입증 충족)
+- **Result**: 완료
+- **Open issues**: 없음
+- **Next**: 4-2 실제 사례 검증 (링클핏 라인)
 
 ### 2026-07-07 — [3-8] .mcp.json web_search 설정 (Phase 3 완료)
 
