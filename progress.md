@@ -59,6 +59,17 @@ Active LLM: Claude Code
 
 ## Task Log
 
+### 2026-07-08 — README.md를 trip-persona 샘플 구조로 재작성
+
+- **Task**: `strategies/README-sample.md`(trip-persona) 포맷 참고해 루트 `README.md` 재구성 (사용자 요청)
+- **LLM**: Claude Code
+- **Summary**: 샘플 구조(제목+부제 → 이용대상/입력/출력 → 설치+제거+일반세션 → 사용법(대화형 TUI + one-shot `codex exec`) → 동작 구조 표 → 핵심 원칙 → 검증 → 디렉토리 트리)를 적용. LaunchPass 실제 사실만 반영 — Codex 전용(Claude 마켓플레이스/commands 없음), MCP는 `.mcp.json` web_search(brave, `BRAVE_API_KEY` 필요) 명시, `validate_copy.py`는 서브커맨드 도구 아님(엔진). STAGE 0~4 표로 정리, 입력 계약 표·질문지 5문항 보존. 없는 파일/커맨드 지어내지 않음
+- **Files changed**: `README.md`, `progress.md`
+- **Checks run**: `src/` 트리·`.agents/plugins/marketplace.json`(launchpass-marketplace) 실측 후 반영
+- **Result**: 완료
+- **Open issues**: 없음
+- **Next**: (선택) 5-1 리포트 다국어 표기
+
 ### 2026-07-08 — 리포트 디자인 전면 개편 (editorial-voice 적용)
 
 - **Task**: `strategies/DESIGN.md`(editorial-voice) 기반으로 최종 결과물 디자인 전면 수정 + 기존 output 샘플 재적용 (사용자 요청)
